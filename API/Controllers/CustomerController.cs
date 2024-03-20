@@ -39,4 +39,10 @@ public class CustomerController : ControllerBase
         ? Ok(response)
         : Ok("Error");
     }
+
+    [HttpGet]
+    public async Task<ActionResult<string>> Test()
+    {
+        return Ok("Test");
+    }
 }

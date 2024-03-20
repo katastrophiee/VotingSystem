@@ -11,7 +11,7 @@
 
 @* button that runs an async c# method on click and passes a value*@
  @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
-@* <button class="button-styled-nav-link centered" @onclick="async () => await GetCustomerInfo(CustomerDetails.UserId)">Get Account Details</button> *@
+<button class="button-styled-nav-link centered" @onclick="async () => await Test()">Get Account Details</button>
 
 @if (CustomerDetails.NewUser)
 {
@@ -79,7 +79,7 @@
                 // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization
                 if (data is not null)
                     accountDetailsResult = JsonSerializer.Deserialize<GetCustomerAccountDetailsResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                
+
                 return accountDetailsResult ?? new();
             }
         }
@@ -88,6 +88,35 @@
             Console.WriteLine(ex.Message);
             //return ex.Message;
             return null;
+            //returning null for now until i sort the response object
+        }
+    }
+
+    public async Task<bool> Test()
+    {
+        try
+        {
+            var accountDetailsResult = new GetCustomerAccountDetailsResponse();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ControllerUrl);
+                var response = await client.GetAsync($"Customer/Test");
+
+                response.EnsureSuccessStatusCode();
+
+                var data = await response.Content.ReadAsStringAsync();
+
+                CustomerDetails.FirstName = data;
+
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            //return ex.Message;
+            return false;
             //returning null for now until i sort the response object
         }
     }
