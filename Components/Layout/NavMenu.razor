@@ -1,0 +1,56 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Voting System</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="nav-bar-formatting" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        @*         <div class="nav-item px-3">
+        <NavLink class="nav-link" href="counter">
+        <span class="nav-bar-item-icon bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+        </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+        <NavLink class="nav-link" href="weather">
+        <span class="nav-bar-item-icon bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+        </NavLink>
+        </div> *@
+
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="cast-a-vote">
+                <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Cast A Vote
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="view-candidates">
+                <span class="nav-bar-formatting bi-list-nested-nav-menu" aria-hidden="true"></span> View Candidates
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="become-a-candidate">
+                <span class="nav-bar-formatting bi-list-nested-nav-menu" aria-hidden="true"></span> Become A Candidate
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="settings">
+                <span class="nav-bar-formatting bi-list-nested-nav-menu" aria-hidden="true"></span> Settings
+            </NavLink>
+        </div>
+    </nav>
+</div>
+

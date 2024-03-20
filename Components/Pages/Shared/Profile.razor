@@ -1,0 +1,14 @@
+﻿@page "/profile/userId={userId:int}"
+
+<h1>Profile</h1>
+<div class="content-container">
+    <h2>User ID: @UserId</h2>
+</div>
+
+@code {
+    [Parameter]
+    public int UserId { get; set; }
+}
+
+
+@* https://stackoverflow.com/questions/51226405/net-core-blazor-app-how-to-pass-data-between-pages *@

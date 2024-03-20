@@ -1,0 +1,94 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@attribute [StreamRendering]
+@using System.Text.Json
+@using VotingSystem.API.DTO
+@using VotingSystem.API.Enums
+
+<PageTitle>Home</PageTitle>
+
+<h1>Welcome @CustomerDetails.FirstName!</h1>
+
+@* button that runs an async c# method on click and passes a value*@
+ @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
+@* <button class="button-styled-nav-link centered" @onclick="async () => await GetCustomerInfo(CustomerDetails.UserId)">Get Account Details</button> *@
+
+@if (CustomerDetails.NewUser)
+{
+    <div class="content-container">
+        Here's how to use the voting system:
+        <ul>
+            <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your recomended elections.</li>
+            <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
+            <li>That's all for setup, you're ready to vote!</li>
+        </ul>
+        <NavLink class="button-styled-nav-link centered" href="@($"profile/userId={loginResult.UserId}")">
+            <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Get Started
+        </NavLink>
+    </div>
+
+}
+
+@if (!CustomerDetails.NewUser)
+{
+    <div>
+    </div>
+    <h2>Ongoing Elections in @CustomerDetails.Country</h2>
+    <div class="content-container"></div>
+
+    <h2>Your Votes</h2>
+    <div class="content-container"></div>
+}
+
+
+@code {
+    private static string ControllerUrl = "https://localhost:44389/api/";
+    public GetCustomerAccountDetailsResponse CustomerDetails = new()
+    {
+        Country = CustomerCountry.Unknown
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        CustomerDetails = await GetCustomerInfo(loginResult.UserId) ?? new();
+    }
+
+    public LoginResponse loginResult = new()
+    {
+        UserId = 1
+    };
+}
+
+@functions {
+    public async Task<GetCustomerAccountDetailsResponse> GetCustomerInfo(int id)
+    {
+        try
+        {
+            var accountDetailsResult = new GetCustomerAccountDetailsResponse();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ControllerUrl);
+                var response = await client.GetAsync($"Customer/GetCustomerDetails?id={id}");
+
+                response.EnsureSuccessStatusCode();
+
+                var data = await response.Content.ReadAsStringAsync();
+
+
+                // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization
+                if (data is not null)
+                    accountDetailsResult = JsonSerializer.Deserialize<GetCustomerAccountDetailsResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                
+                return accountDetailsResult ?? new();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            //return ex.Message;
+            return null;
+            //returning null for now until i sort the response object
+        }
+    }
+}

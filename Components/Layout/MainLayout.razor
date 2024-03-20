@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <NavLink class="button-styled-nav-link" href="@($"profile/userId={UserId}")">
+                <span>Profile</span>
+            </NavLink>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    public int UserId = 2;
+}

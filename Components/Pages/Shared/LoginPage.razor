@@ -1,0 +1,19 @@
+﻿@page "/login"
+@using VotingSystem.API.DTO
+
+<PageTitle>Login</PageTitle>
+
+@code {
+    public LoginResponse AccountLogin(string username, string password)
+    {
+        // change to config value
+        string connectionString = "Your Connection String Here";
+
+        return new LoginResponse()
+        {
+            UserId = 1,
+            AccessToken = "what",
+            ExpiresIn = 23,
+        };
+    }
+}
