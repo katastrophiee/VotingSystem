@@ -1,3 +1,7 @@
+using VotingSystem.API.Interfaces.Provider;
+using VotingSystem.API.Interfaces.Repository;
+using VotingSystem.API.Providers;
+using VotingSystem.API.Repository;
 using VotingSystem.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddControllers();
+
+//Provider dependency injection
+builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
+
+//Repository dependency injection
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
@@ -27,6 +37,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

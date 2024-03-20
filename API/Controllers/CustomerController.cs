@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO;
-using VotingSystem.API.Enums;
+using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
 
@@ -9,21 +9,34 @@ namespace VotingSystem.API.Controllers;
 [ApiController]
 public class CustomerController : ControllerBase
 {
+    private readonly ICustomerProvider _customerProvider;
+
+    public CustomerController(
+        ICustomerProvider customerProvider)
+    {
+        _customerProvider = customerProvider;
+    }
+
     //https://localhost:44389/api/Customer/GetCustomerDetails?id=1
     [HttpGet]
     //[Authorize("Voter", "Candidate")]
-    public ActionResult GetCustomerDetails(int id)
+    public async Task<ActionResult<GetCustomerAccountDetailsResponse>> GetCustomerDetails(int id)
     {
-        //db call
-
-        var result = new GetCustomerAccountDetailsResponse()
+        if (id == 0)
         {
-            UserId = 1,
-            FirstName = "Kat",
-          //  Country = CustomerCountry.UnitedKingdom,
-            NewUser = true,
-        };
+            //var errorResponse = ExceptionHelper.CreateMovexErrorResponse(MovexErrorCode.AdminPrices_NoModelPassedIn);
+            //return BadRequest(errorResponse);
+            return BadRequest("error");
+        }
 
-        return Ok(result);
+        var response = await _customerProvider.GetCustomerAccountDetails(id);
+
+        //return response.ErrorResponse is null
+        //    ? Ok(response)
+        //    : StatusCode(response.ErrorResponse.DefaultHttpResponse, response.ErrorResponse);
+
+        return response is not null
+        ? Ok(response)
+        : Ok("Error");
     }
 }

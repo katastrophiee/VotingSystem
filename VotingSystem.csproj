@@ -11,8 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="API\Repository\DBContext\" />
+    <Folder Include="API\Repository\EntityTypeConfiguration\" />
     <Folder Include="Components\Pages\Admin\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>
