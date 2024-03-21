@@ -1,13 +1,11 @@
 ﻿@page "/login"
-@using VotingSystem.API.DTO
+@using VotingSystem.API.DTO.Responses
 
 <PageTitle>Login</PageTitle>
 
 @code {
     public LoginResponse AccountLogin(string username, string password)
     {
-        // change to config value
-        string connectionString = "Your Connection String Here";
 
         return new LoginResponse()
         {

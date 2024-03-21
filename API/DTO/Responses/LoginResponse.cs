@@ -1,4 +1,4 @@
-﻿namespace VotingSystem.API.DTO;
+﻿namespace VotingSystem.API.DTO.Responses;
 
 public class LoginResponse
 {

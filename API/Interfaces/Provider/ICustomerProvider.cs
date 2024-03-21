@@ -1,8 +1,8 @@
-﻿using VotingSystem.API.DTO;
+﻿using VotingSystem.API.DTO.Responses;
 
 namespace VotingSystem.API.Interfaces.Provider;
 
 public interface ICustomerProvider
 {
-    Task<GetCustomerAccountDetailsResponse> GetCustomerAccountDetails(int customerId);
+    Task<Response<GetCustomerAccountDetailsResponse>> GetCustomerAccountDetails(int customerId);
 }

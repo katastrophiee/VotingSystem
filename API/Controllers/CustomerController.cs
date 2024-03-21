@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VotingSystem.API.DTO;
+using VotingSystem.API.DTO.ErrorHandling;
+using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
@@ -20,24 +21,18 @@ public class CustomerController : ControllerBase
     //https://localhost:44389/api/Customer/GetCustomerDetails?id=1
     [HttpGet]
     //[Authorize("Voter", "Candidate")]
-    public async Task<ActionResult<GetCustomerAccountDetailsResponse>> GetCustomerDetails(int id)
+    public async Task<ActionResult> GetCustomerDetails(int id)
     {
-        if (id == 0)
-        {
-            //var errorResponse = ExceptionHelper.CreateMovexErrorResponse(MovexErrorCode.AdminPrices_NoModelPassedIn);
-            //return BadRequest(errorResponse);
-            return BadRequest("error");
-        }
+        // not needed here as the check for if customer exists in provider will handle null/0
+        // keeping for future reference
+        //if (id == 0)
+        //    return BadRequest(new ErrorResponse(ErrorCode.NoModelPassedIn));
 
         var response = await _customerProvider.GetCustomerAccountDetails(id);
 
-        //return response.ErrorResponse is null
-        //    ? Ok(response)
-        //    : StatusCode(response.ErrorResponse.DefaultHttpResponse, response.ErrorResponse);
-
-        return response is not null
-        ? Ok(response)
-        : Ok("Error");
+        return response.Error is null
+            ? Ok(response.Data)
+            : StatusCode(response.Error.StatusCode, response.Error);
     }
 
     [HttpGet]

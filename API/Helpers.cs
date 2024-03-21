@@ -20,4 +20,22 @@ public static class Helpers
 
         return attrib.Name;
     }
+
+    public static string EnumDescription(this Enum enumObj)
+    {
+        var description = enumObj.ToString();
+
+        var fieldInfo = enumObj.GetType().GetField(description);
+        if (fieldInfo == null)
+            return description;
+
+        var attribArray = fieldInfo.GetCustomAttributes(false);
+        if (attribArray.Length == 0)
+            return description;
+
+        if (attribArray[0] is not DisplayAttribute attrib)
+            return description;
+
+        return attrib.Description;
+    }
 }
