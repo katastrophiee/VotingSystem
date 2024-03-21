@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="API\DTO\Responses\" />
     <Folder Include="API\Repository\DBContext\" />
-    <Folder Include="API\Repository\EntityTypeConfiguration\" />
     <Folder Include="Components\Pages\Admin\" />
   </ItemGroup>
 

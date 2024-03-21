@@ -1,7 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Interfaces.Repository;
 using VotingSystem.API.Providers;
 using VotingSystem.API.Repository;
+using VotingSystem.API.Repository.DBContext;
 using VotingSystem.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddControllers();
+
+builder.Services.AddDbContextFactory<DBContext>(options => options.UseSqlServer(@"Server=DESKTOP-TI4LR7A\VotingSystem;"));
 
 //Provider dependency injection
 builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();

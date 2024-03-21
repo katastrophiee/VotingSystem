@@ -1,23 +1,24 @@
-﻿using VotingSystem.API.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using VotingSystem.API.DTO;
 using VotingSystem.API.Enums;
 using VotingSystem.API.Interfaces.Provider;
+using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers;
 
-public class CustomerProvider : ICustomerProvider
+public class CustomerProvider(IDbContextFactory<DBContext> dbContext) : ICustomerProvider
 {
-    //private readonly ICustomerRepository _customerRepository;
-
-    //public CustomerProvider(ICustomerRepository customerRepository)
-    //{
-    //    _customerRepository = customerRepository;
-    //}
+    private readonly IDbContextFactory<DBContext> _dbContext = dbContext;
 
     public async Task<GetCustomerAccountDetailsResponse> GetCustomerAccountDetails(int customerId)
     {
         try
         {
             //db call
+            using (var context = _dbContext.CreateDbContext())
+            {
+                var customer = context.Customer.Find(customerId);
+            }
 
             var result = new GetCustomerAccountDetailsResponse()
             {
