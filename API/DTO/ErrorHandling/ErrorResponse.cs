@@ -24,7 +24,12 @@
                 case ErrorCode.InternalServerError:
                     StatusCode = StatusCodes.Status500InternalServerError;
                     break;
-
+                case ErrorCode.CustomerNotFound:
+                    StatusCode = StatusCodes.Status404NotFound;
+                    break;
+                case ErrorCode.NoModelPassedIn:
+                    StatusCode = StatusCodes.Status400BadRequest;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(errorCode), errorCode, null);
             }

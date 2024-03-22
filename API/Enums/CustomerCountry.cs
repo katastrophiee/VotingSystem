@@ -1,8 +1,11 @@
-﻿namespace VotingSystem.API.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VotingSystem.API.Enums;
 
 public enum CustomerCountry
 {
-    UnitedKingdom,
+    [Display(Name = "United Kingdom")]
+    UnitedKingdom = 1,
 
     Unknown = 255
 }

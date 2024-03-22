@@ -2,97 +2,125 @@
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @using System.Text.Json
+@using VotingSystem.API.DTO.ErrorHandling
 @using VotingSystem.API.DTO.Responses
 @using VotingSystem.API.Enums
 
 <PageTitle>Home</PageTitle>
 
-<h1>Welcome @CustomerDetails.FirstName!</h1>
-
 @* button that runs an async c# method on click and passes a value*@
  @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
-<button class="button-styled-nav-link centered" @onclick="async () => await Test()">Get Account Details</button>
+@* <button class="button-styled-nav-link " @onclick="async () => await GetCustomerVotingHistory()">Get Account Details</button> *@
 
-@if (CustomerDetails.NewUser)
-{
-    <div class="content-container">
-        Here's how to use the voting system:
-        <ul>
-            <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your recomended elections.</li>
-            <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
-            <li>That's all for setup, you're ready to vote!</li>
-        </ul>
-        <NavLink class="button-styled-nav-link centered" href="@($"profile/userId={loginResult.UserId}")">
-            <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Get Started
-        </NavLink>
-    </div>
-
+@if (CustomerDetails == null || CustomerDetails.UserId == 0) {
+    <h1><em>Loading...</em></h1>
 }
+else {
+    <h1>Welcome @CustomerDetails.FirstName!</h1>
 
-@if (!CustomerDetails.NewUser)
-{
-    <div>
-    </div>
-    <h2>Ongoing Elections in @CustomerDetails.Country</h2>
-    <div class="content-container"></div>
+    @if (CustomerDetails.NewUser)
+    {
+        <div class="content-container">
+            Here's how to use the voting system:
+            <ul>
+                <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your recomended elections.</li>
+                <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
+                <li>That's all for setup, you're ready to vote!</li>
+            </ul>
+            <NavLink class="button-styled-nav-link" href="@($"profile/userId={loginResult.UserId}")"> @* needs centering *@
+                <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Get Started
+            </NavLink>
+        </div>
 
-    <h2>Your Votes</h2>
-    <div class="content-container"></div>
+    }
+    else
+    {
+        <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+        <div class="content-container"></div>
+
+        <h2>Your Votes</h2>
+        <div class="content-container"></div>
+    }
 }
-
 
 @code {
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
     private static string ControllerUrl = "https://localhost:44389/api/";
-    public GetCustomerAccountDetailsResponse CustomerDetails = new()
+    public GetCustomerAccountDetailsResponse? CustomerDetails = new()
     {
         Country = CustomerCountry.Unknown
     };
-
-    protected override async Task OnInitializedAsync()
-    {
-        CustomerDetails = await GetCustomerInfo(loginResult.UserId) ?? new();
-    }
 
     public LoginResponse loginResult = new()
     {
         UserId = 1
     };
-}
 
-@functions {
-    public async Task<GetCustomerAccountDetailsResponse> GetCustomerInfo(int id)
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            var accountDetailsResult = new GetCustomerAccountDetailsResponse();
+            var customerDetails = await UseGetCustomerInfo(loginResult.UserId);
+            if (customerDetails is null || customerDetails.Error is not null)
+            {
+                ErrorComponent.ShowError(customerDetails.Error.Title, customerDetails.Error.Description);
+            }
+            else
+            {
+                CustomerDetails = customerDetails.Data;
+            }
+        }
+        catch (Exception e)
+        {
+            ErrorComponent.ShowError(e.Message, e.StackTrace ?? "An unknown error occured");
+        }
+    }
+}
 
+@functions {
+    public async Task<Response<GetCustomerAccountDetailsResponse>> UseGetCustomerInfo(int customerId)
+    {
+        try
+        {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ControllerUrl);
-                var response = await client.GetAsync($"Customer/GetCustomerDetails?id={id}");
+                var accountDetailsResult = new GetCustomerAccountDetailsResponse();
 
-                response.EnsureSuccessStatusCode();
+                client.BaseAddress = new Uri(ControllerUrl);
+                var response = await client.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
 
                 var data = await response.Content.ReadAsStringAsync();
 
+                if (response.IsSuccessStatusCode)
+                {
+                    // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization
+                    if (data is not null)
+                        accountDetailsResult = JsonSerializer.Deserialize<GetCustomerAccountDetailsResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization
-                if (data is not null)
-                    accountDetailsResult = JsonSerializer.Deserialize<GetCustomerAccountDetailsResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    return new(accountDetailsResult ?? new());
+                }
+                else
+                {
+                    if (data is not null)
+                    {
+                        var error = JsonSerializer.Deserialize<ErrorResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        return error != null 
+                            ? new(error) 
+                            : new(new ErrorResponse(ErrorCode.InternalServerError));
+                    }
 
-                return accountDetailsResult ?? new();
+                    return new(accountDetailsResult);
+                }
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            //return ex.Message;
-            return null;
-            //returning null for now until i sort the response object
+            return new(new ErrorResponse(ErrorCode.InternalServerError, exception: ex));
         }
     }
 
-    public async Task<bool> Test()
+    public async Task<bool> GetCustomerVotingHistory()
     {
         try
         {

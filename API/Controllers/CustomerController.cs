@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VotingSystem.API.DTO.ErrorHandling;
-using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;

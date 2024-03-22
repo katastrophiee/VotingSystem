@@ -12,7 +12,7 @@ public class DBContext : DbContext
     }
 
     public DbSet<Customer> Customer { get; set; }
-    public DbSet<IEnumerable<Vote>> Votes { get; set; }
+    public DbSet<Vote> Vote { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

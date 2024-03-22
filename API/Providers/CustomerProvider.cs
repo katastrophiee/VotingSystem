@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.DTO.DbResults;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Responses;
@@ -7,19 +8,22 @@ using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers
 {
-    public class CustomerProvider(IDbContextFactory<DBContext> dbContext) : ICustomerProvider
+    public class CustomerProvider : ICustomerProvider
     {
-        private readonly IDbContextFactory<DBContext> _dbContext = dbContext;
+        private readonly DBContext _dbContext;
+
+        public CustomerProvider(DBContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         public async Task<Response<GetCustomerAccountDetailsResponse>> GetCustomerAccountDetails(int customerId)
         {
             try
             {
-                await using var context = _dbContext.CreateDbContext();
+                var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
 
-                var customer = await context.Customer.FindAsync(customerId);
-
-                if (customer is null)
+                if (customer is null || customer.Id == 0)
                     return new(new ErrorResponse(ErrorCode.CustomerNotFound));
 
                 var response = new GetCustomerAccountDetailsResponse(customer);
@@ -29,7 +33,7 @@ namespace VotingSystem.API.Providers
             catch (Exception ex)
             {
                 //_logger.LogError(ex, "Error getting Price List");
-                return new(new ErrorResponse(ErrorCode.InternalServerError, "Unknown error occurred when retrieveing the customer account details", ex));
+                return new(new ErrorResponse(ErrorCode.InternalServerError, "Unknown error occurred when retrieving the customer account details", ex));
             }
         }
 
@@ -37,13 +41,13 @@ namespace VotingSystem.API.Providers
         {
             try
             {
-                await using var context = _dbContext.CreateDbContext();
-
-                var customer = await context.Customer.FindAsync(customerId);
-                if (customer is null)
+                var customer = await _dbContext.Customer.FindAsync(customerId);
+                if (customer is null || customer.Id == 0)
                     return new(new ErrorResponse(ErrorCode.CustomerNotFound));
 
-                var votes = await context.Votes.FindAsync(customerId);
+                var votes = await _dbContext.Vote
+                    .Where(v => v.CustomerId == customerId)
+                    .ToListAsync();
 
                 if (votes is null)
                     return new([]);
@@ -56,6 +60,5 @@ namespace VotingSystem.API.Providers
                 return new(new ErrorResponse(ErrorCode.InternalServerError, "Unknown error occurred when retrieveing the customer account details", ex));
             }
         }
-
     }
 }

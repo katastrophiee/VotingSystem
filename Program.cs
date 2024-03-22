@@ -11,9 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-builder.Services.AddControllers();
 
-builder.Services.AddDbContextFactory<DBContext>(options => options.UseSqlServer(@"Server=DESKTOP-TI4LR7A\VotingSystem;"));
+builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
+
+//Controller dependency injection
+builder.Services.AddControllers();
 
 //Provider dependency injection
 builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
