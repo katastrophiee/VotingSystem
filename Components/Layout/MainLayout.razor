@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
-@implements IErrorComponent
 
 <div class="page">
     <div class="sidebar">
@@ -9,45 +8,16 @@
 
     <main>
         <div class="top-row px-4">
-            <NavLink class="button-styled-nav-link" href="@($"profile/userId={UserId}")">
+            <NavLink class="button-styled-nav-link" href="@($"profile/userId={1}")">
                 <span>Profile</span>
             </NavLink>
         </div>
 
         <article class="content px-4">
-            @if (isErrorActive)
-            {
-                <div class="alert alert-danger" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @onclick="HideError">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3>@title</h3>
-                    <p>@message</p>
-                </div>
-            }
-            <CascadingValue Value="this" Name="ErrorComponent">
-                @Body
-            </CascadingValue>
+            @Body
         </article>
     </main>
 </div>
 
 @code {
-    public int UserId = 2;
-    bool isErrorActive = false;
-    string title;
-    string message;
-
-    public void ShowError(string title, string message)
-    {
-        this.isErrorActive = true;
-        this.title = title;
-        this.message = message;
-        StateHasChanged();
-    }
-
-    private void HideError()
-    {
-        isErrorActive = false;
-    }
 }

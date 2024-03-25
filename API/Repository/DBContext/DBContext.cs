@@ -17,5 +17,6 @@ public class DBContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new VoteEntityTypeConfiguration());
     }
 }

@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @using System.Text.Json
+@using VotingSystem.API.DTO.DbResults
 @using VotingSystem.API.DTO.ErrorHandling
 @using VotingSystem.API.DTO.Responses
 @using VotingSystem.API.Enums
@@ -10,12 +11,19 @@
 
 @* button that runs an async c# method on click and passes a value*@
  @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
-@* <button class="button-styled-nav-link " @onclick="async () => await GetCustomerVotingHistory()">Get Account Details</button> *@
 
-@if (CustomerDetails == null || CustomerDetails.UserId == 0) {
+@* Test button to ensure dependency injections have not broken interactive server *@
+@* <button class="button-styled-nav-link " @onclick="async () => await GetCustomerVotingHistory()">Get Account Details</button>  *@
+
+@if ((CustomerDetails == null || CustomerDetails.UserId == 0) && Error is null) {
     <h1><em>Loading...</em></h1>
 }
+else if (Error is not null)
+{
+    <ErrorPopup Error=@Error/>
+}
 else {
+
     <h1>Welcome @CustomerDetails.FirstName!</h1>
 
     @if (CustomerDetails.NewUser)
@@ -39,113 +47,102 @@ else {
         <div class="content-container"></div>
 
         <h2>Your Votes</h2>
-        <div class="content-container"></div>
+        <div class="content-container">
+            <table class="customTable">
+                @foreach (var vote in VotingHistory)
+                {
+                    <tr>
+                        <td>@vote.ElectionId</td>
+                        <td>@vote.ElectionName</td>
+                        <td>@vote.VoteCast</td>
+                    </tr>
+                }
+            </table>
+        </div>
+
     }
 }
 
 @code {
-    [CascadingParameter(Name = "ErrorComponent")]
-    protected IErrorComponent ErrorComponent { get; set; }
     private static string ControllerUrl = "https://localhost:44389/api/";
-    public GetCustomerAccountDetailsResponse? CustomerDetails = new()
-    {
-        Country = CustomerCountry.Unknown
-    };
 
-    public LoginResponse loginResult = new()
-    {
-        UserId = 1
-    };
+    public ErrorResponse? Error;
+    public LoginResponse? loginResult = new() { UserId = 1 };
+    public GetCustomerAccountDetailsResponse? CustomerDetails;
+    public List<GetVotingHistoryResponse> VotingHistory;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            var customerDetails = await UseGetCustomerInfo(loginResult.UserId);
-            if (customerDetails is null || customerDetails.Error is not null)
-            {
-                ErrorComponent.ShowError(customerDetails.Error.Title, customerDetails.Error.Description);
-            }
-            else
-            {
-                CustomerDetails = customerDetails.Data;
-            }
-        }
-        catch (Exception e)
-        {
-            ErrorComponent.ShowError(e.Message, e.StackTrace ?? "An unknown error occured");
-        }
+        await UseGetCustomerInfo(loginResult?.UserId ?? 0);
+        await UseGetCustomerVotingHistory(loginResult?.UserId ?? 0);
     }
 }
 
 @functions {
-    public async Task<Response<GetCustomerAccountDetailsResponse>> UseGetCustomerInfo(int customerId)
+    public async Task UseGetCustomerInfo(int customerId)
     {
         try
         {
-            using (var client = new HttpClient())
+            var client = new HttpClient { BaseAddress = new Uri(ControllerUrl) };
+
+            var response = await client.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
+
+            if (response.IsSuccessStatusCode)
             {
-                var accountDetailsResult = new GetCustomerAccountDetailsResponse();
-
-                client.BaseAddress = new Uri(ControllerUrl);
-                var response = await client.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
-
-                var data = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization
-                    if (data is not null)
-                        accountDetailsResult = JsonSerializer.Deserialize<GetCustomerAccountDetailsResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                    return new(accountDetailsResult ?? new());
-                }
-                else
-                {
-                    if (data is not null)
-                    {
-                        var error = JsonSerializer.Deserialize<ErrorResponse>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                        return error != null 
-                            ? new(error) 
-                            : new(new ErrorResponse(ErrorCode.InternalServerError));
-                    }
-
-                    return new(accountDetailsResult);
-                }
+                var accountDetailsResult = await response.Content.ReadFromJsonAsync<GetCustomerAccountDetailsResponse>();
+                if (accountDetailsResult is not null)
+                    CustomerDetails = accountDetailsResult;
             }
+            else
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                if (errorResponse is not null)
+                    Error = errorResponse;
+            }
+
         }
         catch (Exception ex)
         {
-            return new(new ErrorResponse(ErrorCode.InternalServerError, exception: ex));
+            Error = new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to retrieve customer details for customer {customerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            };
         }
     }
 
-    public async Task<bool> GetCustomerVotingHistory()
-    {
+    public async Task UseGetCustomerVotingHistory(int customerId)
+    {   
         try
         {
-            var accountDetailsResult = new GetCustomerAccountDetailsResponse();
+            var client = new HttpClient { BaseAddress = new Uri(ControllerUrl) };
 
-            using (var client = new HttpClient())
+            var response = await client.GetAsync($"Customer/GetCustomerVotingHistory?id={customerId}");
+
+            if (response.IsSuccessStatusCode)
             {
-                client.BaseAddress = new Uri(ControllerUrl);
-                var response = await client.GetAsync($"Customer/Test");
-
-                response.EnsureSuccessStatusCode();
-
-                var data = await response.Content.ReadAsStringAsync();
-
-                CustomerDetails.FirstName = data;
-
-                return true;
+                var votingHistoryResult = await response.Content.ReadFromJsonAsync<List<GetVotingHistoryResponse>>();
+                if (votingHistoryResult is not null)
+                    VotingHistory = votingHistoryResult ?? [];
+            }
+            else
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                if (errorResponse is not null)
+                    Error = errorResponse;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            //return ex.Message;
-            return false;
-            //returning null for now until i sort the response object
+            Error = new ErrorResponse()
+                {
+                    Title = "Internal Server Error",
+                    Description = $"An unknown error occured when trying to retrieve voting history for customer {customerId}",
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    AdditionalDetails = ex.Message
+                };
         }
     }
 }

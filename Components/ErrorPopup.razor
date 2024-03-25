@@ -1,0 +1,37 @@
+﻿@using VotingSystem.API.DTO.ErrorHandling
+
+<div class="error-popup">
+    <span>@Error.Title</span>
+    <div>@Error.Description</div>
+    @if (!string.IsNullOrEmpty(Error.AdditionalDetails))
+    {
+        <div>@Error.AdditionalDetails</div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public ErrorResponse Error { get; set; }
+}
+
+<style>
+    .error-popup {
+        background-color: #f8d7da;
+        color: #721c24;
+        margin: 10px;
+        padding: 20px;
+        border: 1px solid #f5c6cb;
+        border-radius: 4px;
+        position: relative;
+    }
+
+        .error-popup span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .error-popup div {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+</style>

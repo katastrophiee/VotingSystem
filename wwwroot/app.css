@@ -47,3 +47,33 @@ button, .button-styled-nav-link {
 li {
     padding: .25rem;
 }
+
+/* CSS for the table */
+.customTable {
+    width: 100%; /* Full-width */
+    border-collapse: collapse; /* Collapse borders */
+    border: 1px solid #ddd; /* Table border */
+    background-color: white; /* White background */
+}
+
+    /* CSS for the table headers */
+    .customTable th, .customTable td {
+        border: 1px solid #ddd; /* Cell border */
+        padding: 15px; /* Cell padding */
+        text-align: left; /* Left-aligned text */
+    }
+
+    /* CSS for the table rows */
+    .customTable tr {
+        border-bottom: 1px solid #ddd; /* Bottom border */
+    }
+
+        /* CSS for the table rows on hover */
+        .customTable tr:hover {
+            background-color: #f2f2f2; /* Change background color on hover */
+        }
+
+        /* Add your custom colours here. For example: */
+        .customTable tr:hover {
+            background-color: #YOUR-COLOR-HERE; /* Change background color on hover */
+        }

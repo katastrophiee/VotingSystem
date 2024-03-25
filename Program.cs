@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.Interfaces.Provider;
-using VotingSystem.API.Interfaces.Repository;
 using VotingSystem.API.Providers;
-using VotingSystem.API.Repository;
 using VotingSystem.API.Repository.DBContext;
 using VotingSystem.Components;
 
@@ -12,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
-
 //Controller dependency injection
 builder.Services.AddControllers();
 
@@ -21,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
 
 //Repository dependency injection
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
 
 var app = builder.Build();
 
