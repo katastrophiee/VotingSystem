@@ -1,5 +1,4 @@
 ﻿using VotingSystem.API.Enums;
-using VotingSystem.API.Repository.EntityTypeConfiguration;
 
 namespace VotingSystem.API.DTO.DbResults
 {
