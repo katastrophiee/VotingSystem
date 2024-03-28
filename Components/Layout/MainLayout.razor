@@ -1,23 +1,59 @@
-﻿@inherits LayoutComponentBase
+﻿@using VotingSystem.API.DTO.ErrorHandling
+@using VotingSystem.API.DTO.Responses
+@inherits LayoutComponentBase
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@attribute [StreamRendering]
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <NavLink class="button-styled-nav-link" href="@($"profile/userId={1}")">
-                <span>Profile</span>
-            </NavLink>
+@* https://www.youtube.com/watch?v=LBByZRhyZ8U *@
+@* @if (!LoggedIn)
+{
+    <LoginPage />
+}
+else
+{ *@
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        <main>
+            <div class="top-row px-4">
+                <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResponse.UserId}")">
+                    <span>Profile</span>
+                </NavLink>
+            </div>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>   
+@* } *@
 
 @code {
+    public bool LoggedIn { get; set; } = false;
+    public LoginResponse? LoginResponse { get; set; } = new()
+    {
+        UserId = 1
+    };
+    public ErrorResponse Error { get; set; }
+
+    public void HandleOnLogin(bool isLoginSuccessful)
+    {
+        LoggedIn = isLoginSuccessful;
+    }
+
+    // private void HandleOnLogin(LoginResponse loginResponse)
+    // {
+    //     if (!string.IsNullOrEmpty(loginResponse.AccessToken))
+    //     { 
+    //         LoggedIn = true;
+    //         LoginResponse = loginResponse;
+    //     }
+    //     else
+    //     {
+    //         //change later
+    //         Error = new();
+    //     }
+    // }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Providers;
@@ -10,10 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.SignIn.RequireConfirmedEmail = false;
+})
+    .AddEntityFrameworkStores<DBContext>();
+
 //Controller dependency injection
 builder.Services.AddControllers();
 
 //Provider dependency injection
+builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
 
 //Repository dependency injection
@@ -34,6 +47,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAntiforgery();
 app.UseEndpoints(endpoints =>
 {

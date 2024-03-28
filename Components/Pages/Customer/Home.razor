@@ -1,29 +1,32 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @attribute [StreamRendering]
-@using System.Text.Json
+@using System.Net.Http.Json
+@using System.Net.Http.Headers
 @using VotingSystem.API.DTO.DbResults
 @using VotingSystem.API.DTO.ErrorHandling
 @using VotingSystem.API.DTO.Responses
 @using VotingSystem.API.Enums
 
-<PageTitle>Home</PageTitle>
-
 @* button that runs an async c# method on click and passes a value*@
- @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
+@* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
 
 @* Test button to ensure dependency injections have not broken interactive server *@
 @* <button class="button-styled-nav-link " @onclick="async () => await GetCustomerVotingHistory()">Get Account Details</button>  *@
 
-@if ((CustomerDetails == null || CustomerDetails.UserId == 0) && Error is null) {
+
+<PageTitle>Home</PageTitle>
+
+@if (Error != null)
+{
+    <ErrorPopup Error="@Error" />
+}
+else if (CustomerDetails == null)
+{
     <h1><em>Loading...</em></h1>
 }
-else if (Error is not null)
+else
 {
-    <ErrorPopup Error=@Error/>
-}
-else {
-
     <h1>Welcome @CustomerDetails.FirstName!</h1>
 
     @if (CustomerDetails.NewUser)
@@ -31,118 +34,118 @@ else {
         <div class="content-container">
             Here's how to use the voting system:
             <ul>
-                <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your recomended elections.</li>
+                <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your recommended elections.</li>
                 <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
                 <li>That's all for setup, you're ready to vote!</li>
             </ul>
-            <NavLink class="button-styled-nav-link" href="@($"profile/userId={loginResult.UserId}")"> @* needs centering *@
+            <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResult.UserId}")">
                 <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Get Started
             </NavLink>
         </div>
-
     }
     else
     {
         <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
-        <div class="content-container"></div>
+        <div class="content-container">
+            None
+        </div>
 
         <h2>Your Votes</h2>
-        <div class="content-container">
-            <table class="customTable">
+        <table>
+            <tr>
+                <th>Election ID</th>
+                <th>Election</th>
+                <th>Date You Voted</th>
+            </tr>
+            @if (VotingHistory != null && VotingHistory.Any())
+            {
                 @foreach (var vote in VotingHistory)
                 {
                     <tr>
                         <td>@vote.ElectionId</td>
                         <td>@vote.ElectionName</td>
-                        <td>@vote.VoteCast</td>
+                        <td>@vote.VoteDate</td>
                     </tr>
                 }
-            </table>
-        </div>
-
+            }
+            else
+            {
+                <tr>You have no previous voting history!</tr>
+            }
+        </table>
     }
 }
 
 @code {
-    private static string ControllerUrl = "https://localhost:44389/api/";
+    private static readonly string ControllerUrl = "https://localhost:44389/api/";
+    private readonly HttpClient _httpClient = new HttpClient 
+    {
+        BaseAddress = new Uri(ControllerUrl),
+        DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", LoginResult.AccessToken) }
+    };
 
-    public ErrorResponse? Error;
-    public LoginResponse? loginResult = new() { UserId = 1 };
-    public GetCustomerAccountDetailsResponse? CustomerDetails;
-    public List<GetVotingHistoryResponse> VotingHistory;
+    public ErrorResponse? Error { get; set; }
+    public static LoginResponse LoginResult { get; } = new LoginResponse { UserId = 1 };
+    public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; }
+    public List<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
-        await UseGetCustomerInfo(loginResult?.UserId ?? 0);
-        await UseGetCustomerVotingHistory(loginResult?.UserId ?? 0);
+        await GetCustomerInfo(LoginResult.UserId);
+        await GetCustomerVotingHistory(LoginResult.UserId);
     }
-}
 
-@functions {
-    public async Task UseGetCustomerInfo(int customerId)
+    private async Task GetCustomerInfo(int customerId)
     {
         try
         {
-            var client = new HttpClient { BaseAddress = new Uri(ControllerUrl) };
-
-            var response = await client.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
+            var response = await _httpClient.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
-                var accountDetailsResult = await response.Content.ReadFromJsonAsync<GetCustomerAccountDetailsResponse>();
-                if (accountDetailsResult is not null)
-                    CustomerDetails = accountDetailsResult;
+                CustomerDetails = await response.Content.ReadFromJsonAsync<GetCustomerAccountDetailsResponse>();
             }
             else
             {
-                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
-                if (errorResponse is not null)
-                    Error = errorResponse;
+                Error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             }
-
         }
         catch (Exception ex)
         {
-            Error = new ErrorResponse()
+            Error = new ErrorResponse
             {
                 Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve customer details for customer {customerId}",
-                StatusCode = StatusCodes.Status500InternalServerError,
+                Description = $"An unknown error occurred when trying to retrieve customer details for customer {customerId}",
+                StatusCode = 500,
                 AdditionalDetails = ex.Message
             };
         }
     }
 
-    public async Task UseGetCustomerVotingHistory(int customerId)
-    {   
+    private async Task GetCustomerVotingHistory(int customerId)
+    {
         try
         {
-            var client = new HttpClient { BaseAddress = new Uri(ControllerUrl) };
-
-            var response = await client.GetAsync($"Customer/GetCustomerVotingHistory?id={customerId}");
+            var response = await _httpClient.GetAsync($"Customer/GetCustomerVotingHistory?id={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
-                var votingHistoryResult = await response.Content.ReadFromJsonAsync<List<GetVotingHistoryResponse>>();
-                if (votingHistoryResult is not null)
-                    VotingHistory = votingHistoryResult ?? [];
+                VotingHistory = await response.Content.ReadFromJsonAsync<List<GetVotingHistoryResponse>>() ?? [];
             }
             else
             {
-                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
-                if (errorResponse is not null)
-                    Error = errorResponse;
+                Error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
             }
         }
         catch (Exception ex)
         {
-            Error = new ErrorResponse()
-                {
-                    Title = "Internal Server Error",
-                    Description = $"An unknown error occured when trying to retrieve voting history for customer {customerId}",
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    AdditionalDetails = ex.Message
-                };
+            Error = new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to retrieve voting history for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            };
         }
     }
 }

@@ -10,13 +10,14 @@ public class GetVotingHistoryResponse
 
     public string ElectionName { get; set; }
 
-    public DateTime VoteCast { get; set; }
+    public DateTime VoteDate { get; set; }
 
     public GetVotingHistoryResponse(Vote vote)
     {
         Id = vote.Id;
         ElectionId = vote.ElectionId;
         ElectionName = vote.ElectionName;
+        VoteDate = vote.VoteDate;
     }
 
     public GetVotingHistoryResponse()
