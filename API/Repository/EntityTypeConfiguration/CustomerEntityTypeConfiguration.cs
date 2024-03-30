@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VotingSystem.API.DTO.DbResults;
+using VotingSystem.API.DTO.DbModels;
 
 namespace VotingSystem.API.Repository.EntityTypeConfiguration;
 

@@ -19,4 +19,14 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [HttpPost]
+    public async Task<ActionResult> PostCreateAccount(CreateAccountRequest request)
+    {
+        var response = await _authProvider.CreateAccount(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

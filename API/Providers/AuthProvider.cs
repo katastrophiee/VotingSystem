@@ -5,20 +5,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using VotingSystem.API.DTO.DbResults;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Repository.DBContext;
-using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 namespace VotingSystem.API.Providers;
 
 //https://learn.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
 //https://learn.microsoft.com/en-us/aspnet/aspnet/overview/owin-and-katana/an-overview-of-project-katana
 
-public class AuthProvider(DBContext dbContext) : IAuthProvider
+public class AuthProvider(
+    DBContext dbContext) : IAuthProvider
 {
     private readonly DBContext _dbContext = dbContext;
 
@@ -26,6 +26,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
     private readonly string SecretKey = "Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=";
     private readonly string Issuer = "LocalVotingSystemApp_v1.0";
     private readonly string Audience = "LocalVotingSystem";
+    //private readonly SignInManager<IdentityUser> _signInManager = signInManager;
+    //private readonly UserManager<IdentityUser> _userManager = userManager;
 
     public async Task<Response<LoginResponse>> CustomerLogin(LoginRequest request)
     {
@@ -60,15 +62,15 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         var passwordSalt = customer.PasswordSalt;
         var pbkdf2HashedPassword = Pbkdf2HashString(password, ref passwordSalt);
 
-        if (!string.Equals(pbkdf2HashedPassword, customer.Password))
-        {
-            return new(new ErrorResponse()
-            {
-                Title = "Invalid Login Credentials",
-                Description = $"The username or password is incorrect.",
-                StatusCode = StatusCodes.Status400BadRequest,
-            });
-        }
+        //if (!string.Equals(pbkdf2HashedPassword, customer.Password))
+        //{
+        //    return new(new ErrorResponse()
+        //    {
+        //        Title = "Invalid Login Credentials",
+        //        Description = $"The username or password is incorrect.",
+        //        StatusCode = StatusCodes.Status400BadRequest,
+        //    });
+        //}
 
         if (!customer.IsActive)
             return new(new ErrorResponse()
@@ -90,12 +92,28 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
 
         var accessToken = GenerateAccessToken(customer);
 
-        return new(new LoginResponse()
-        {
-            UserId = customer.Id,
-            AccessToken = accessToken,
-            ExpiresIn = 30,
-        });
+        //var result = await _signInManager.PasswordSignInAsync(customer.Username, pbkdf2HashedPassword, false, false);
+
+        //if (result.Succeeded)
+        //{
+            //localStorage.setItem("authToken", yourToken);
+            //LocalRedirect("~/");
+            return new(new LoginResponse()
+            {
+                UserId = customer.Id,
+                //AccessToken = accessToken,
+                //ExpiresIn = 30,
+            });
+        //}
+        //else
+        //{
+        //    return new(new ErrorResponse()
+        //    {
+        //        Title = "Invalid Login Credentials",
+        //        Description = $"The username or password is incorrect.",
+        //        StatusCode = StatusCodes.Status400BadRequest,
+        //    });
+        //}
     }
 
     private static string Pbkdf2HashString(string password, ref string salt)
@@ -137,7 +155,7 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
     }
 
 
-    public async Task CreateAccount()
+    public async Task<Response<LoginResponse>> CreateAccount(CreateAccountRequest request)
     {
         //Make salt
         //passwordSalt = string.Empty;
@@ -147,5 +165,9 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         //member.PasswordSalt = passwordSalt;
         //_memberRepository.Update(member);
         //await _memberRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
+        //var identity = new IdentityUser { UserName = request.Username, Email = request.Email };
+
+        return null;
     }
 }

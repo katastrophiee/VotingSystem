@@ -57,8 +57,6 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
                .Where(v => v.CustomerId == customerId)
                .ToListAsync();
 
-            votes.Add(new DTO.DbResults.Vote());
-
 
             var response = new List<GetVotingHistoryResponse>();
             votes?.ForEach(vote => response.Add(new(vote)));

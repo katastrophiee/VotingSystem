@@ -1,17 +1,20 @@
 ﻿@using VotingSystem.API.DTO.ErrorHandling
 
-<div class="error-popup">
-    <span>@Error.Title</span>
-    <div>@Error.Description</div>
-    @if (!string.IsNullOrEmpty(Error.AdditionalDetails))
-    {
-        <div>@Error.AdditionalDetails</div>
-    }
-</div>
+@foreach (var error in Errors)
+{
+    <div class="error-popup">
+        <span>@error.Title</span>
+        <div>@error.Description</div>
+        @if (!string.IsNullOrEmpty(error.AdditionalDetails))
+        {
+            <div>@error.AdditionalDetails</div>
+        }
+    </div>
+}
 
 @code {
     [Parameter]
-    public ErrorResponse Error { get; set; }
+    public List<ErrorResponse> Errors { get; set; }
 }
 
 <style>

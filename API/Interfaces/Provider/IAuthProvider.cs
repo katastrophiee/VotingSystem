@@ -6,4 +6,6 @@ namespace VotingSystem.API.Interfaces.Provider;
 public interface IAuthProvider
 {
     Task<Response<LoginResponse>> CustomerLogin(LoginRequest request);
+
+    Task<Response<LoginResponse>> CreateAccount(CreateAccountRequest request);
 }

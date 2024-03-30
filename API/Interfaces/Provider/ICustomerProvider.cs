@@ -1,4 +1,4 @@
-﻿using VotingSystem.API.DTO.DbResults;
+﻿using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.Responses;
 
 namespace VotingSystem.API.Interfaces.Provider;

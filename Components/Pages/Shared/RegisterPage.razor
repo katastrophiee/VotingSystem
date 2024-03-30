@@ -1,6 +1,7 @@
 ﻿@page "/register"
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Mvc.RazorPages
+@using VotingSystem.API.DTO.Requests
 @inject NavigationManager NavigationManager
 
 <h3>Registration</h3>
@@ -28,7 +29,7 @@
 </EditForm>
 
 @code {
-    private UserModel userModel = new UserModel();
+    private CreateAccountRequest userModel = new CreateAccountRequest();
 
     private void HandleValidSubmit()
     {
@@ -58,19 +59,6 @@
             await _signInManager.SignInAsync(identity, isPersistent: false);
             NavigationManager.NavigateTo(returnUrl);
         }
-    }
-
-    public class UserModel
-    {
-        [Required]
-        public string Username { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
     }
 }
 

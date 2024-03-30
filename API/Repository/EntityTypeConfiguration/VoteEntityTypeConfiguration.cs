@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using VotingSystem.API.DTO.DbResults;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.Enums;
 using System.Text.Json;
 

@@ -1,12 +1,6 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @attribute [StreamRendering]
-@using System.Net.Http.Json
-@using System.Net.Http.Headers
-@using VotingSystem.API.DTO.DbResults
-@using VotingSystem.API.DTO.ErrorHandling
-@using VotingSystem.API.DTO.Responses
-@using VotingSystem.API.Enums
 
 @* button that runs an async c# method on click and passes a value*@
 @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
@@ -14,12 +8,11 @@
 @* Test button to ensure dependency injections have not broken interactive server *@
 @* <button class="button-styled-nav-link " @onclick="async () => await GetCustomerVotingHistory()">Get Account Details</button>  *@
 
-
 <PageTitle>Home</PageTitle>
 
-@if (Error != null)
+@if (Errors.Count() != 0)
 {
-    <ErrorPopup Error="@Error" />
+    <ErrorPopup Errors="@Errors" />
 }
 else if (CustomerDetails == null)
 {
@@ -73,79 +66,5 @@ else
                 <tr>You have no previous voting history!</tr>
             }
         </table>
-    }
-}
-
-@code {
-    private static readonly string ControllerUrl = "https://localhost:44389/api/";
-    private readonly HttpClient _httpClient = new HttpClient 
-    {
-        BaseAddress = new Uri(ControllerUrl),
-        DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", LoginResult.AccessToken) }
-    };
-
-    public ErrorResponse? Error { get; set; }
-    public static LoginResponse LoginResult { get; } = new LoginResponse { UserId = 1 };
-    public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; }
-    public List<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
-
-    protected override async Task OnInitializedAsync()
-    {
-        await GetCustomerInfo(LoginResult.UserId);
-        await GetCustomerVotingHistory(LoginResult.UserId);
-    }
-
-    private async Task GetCustomerInfo(int customerId)
-    {
-        try
-        {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                CustomerDetails = await response.Content.ReadFromJsonAsync<GetCustomerAccountDetailsResponse>();
-            }
-            else
-            {
-                Error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
-            }
-        }
-        catch (Exception ex)
-        {
-            Error = new ErrorResponse
-            {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occurred when trying to retrieve customer details for customer {customerId}",
-                StatusCode = 500,
-                AdditionalDetails = ex.Message
-            };
-        }
-    }
-
-    private async Task GetCustomerVotingHistory(int customerId)
-    {
-        try
-        {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerVotingHistory?id={customerId}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                VotingHistory = await response.Content.ReadFromJsonAsync<List<GetVotingHistoryResponse>>() ?? [];
-            }
-            else
-            {
-                Error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
-            }
-        }
-        catch (Exception ex)
-        {
-            Error = new ErrorResponse
-            {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occurred when trying to retrieve voting history for customer {customerId}",
-                StatusCode = 500,
-                AdditionalDetails = ex.Message
-            };
-        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VotingSystem.API.DTO.DbResults;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.Repository.EntityTypeConfiguration;
 
 namespace VotingSystem.API.Repository.DBContext;
@@ -18,5 +18,6 @@ public class DBContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new VoteEntityTypeConfiguration());
+        //base.OnModelCreating(modelBuilder);
     }
 }

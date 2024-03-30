@@ -1,6 +1,6 @@
 ﻿using VotingSystem.API.Enums;
 
-namespace VotingSystem.API.DTO.DbResults
+namespace VotingSystem.API.DTO.DbModels
 {
     public class Vote
     {

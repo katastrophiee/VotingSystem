@@ -1,4 +1,6 @@
-﻿namespace VotingSystem.API.DTO.DbResults;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace VotingSystem.API.DTO.DbModels;
 
 public class Customer
 {
