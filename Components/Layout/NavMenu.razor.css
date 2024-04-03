@@ -42,12 +42,6 @@
         padding-top: 1rem;
     }
 
-    .nav-item:last-of-type {
-        bottom: 1rem;
-        position: fixed;
-        width: 15.5rem;
-    }
-
     .nav-item ::deep .nav-link {
         color: #d7d7d7;
         background: none;
@@ -88,4 +82,10 @@
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
     }
+}
+
+.nav-bottom-container {
+    position: fixed;
+    bottom: 1rem;
+    width: 15.5rem;
 }

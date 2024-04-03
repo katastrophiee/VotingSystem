@@ -1,16 +1,18 @@
 ﻿@using VotingSystem.API.DTO.ErrorHandling
 @using VotingSystem.API.DTO.Responses
+@using VotingSystem.Components.Pages.Shared
 @inherits LayoutComponentBase
-@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@inject NavigationManager navigationManager
 @attribute [StreamRendering]
+@inject ILocalStorageService _localStorage
 
 @* https://www.youtube.com/watch?v=LBByZRhyZ8U *@
-@* @if (!LoggedIn)
+@if (!LoggedIn)
 {
-    <LoginPage />
+    <LoginPage OnLogin="@HandleOnLogin"/>
 }
 else
-{ *@
+{
     <div class="page">
         <div class="sidebar">
             <NavMenu />
@@ -18,7 +20,7 @@ else
 
         <main>
             <div class="top-row px-4">
-                <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResponse.UserId}")">
+                <NavLink class="button-styled-nav-link" href="@($"profile/userId={UserId}")">
                     <span>Profile</span>
                 </NavLink>
             </div>
@@ -28,32 +30,33 @@ else
             </article>
         </main>
     </div>   
-@* } *@
+}
 
 @code {
-    public bool LoggedIn { get; set; } = false;
-    public LoginResponse? LoginResponse { get; set; } = new()
-    {
-        UserId = 1
-    };
-    public ErrorResponse Error { get; set; }
+    private bool LoggedIn { get; set; } = false;
+    private int UserId { get; set; }
 
-    public void HandleOnLogin(bool isLoginSuccessful)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        LoggedIn = isLoginSuccessful;
+        if (!firstRender)
+        {
+            var id = await _localStorage.GetItemAsync<int>("currentUserId");
+            if (id != 0)
+                LoggedIn = true;
+            else
+                LoggedIn = false;
+
+            StateHasChanged();
+        }
     }
 
-    // private void HandleOnLogin(LoginResponse loginResponse)
-    // {
-    //     if (!string.IsNullOrEmpty(loginResponse.AccessToken))
-    //     { 
-    //         LoggedIn = true;
-    //         LoginResponse = loginResponse;
-    //     }
-    //     else
-    //     {
-    //         //change later
-    //         Error = new();
-    //     }
-    // }
+    private async Task HandleOnLogin(int userId)
+    {
+        if (userId != 0)
+        {
+            LoggedIn = true;
+            UserId = userId;
+            navigationManager.NavigateTo("");
+        }
+    }
 }

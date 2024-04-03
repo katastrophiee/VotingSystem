@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Providers;
@@ -21,21 +22,12 @@ builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
 //Repository dependency injection
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
 
-builder.Services.AddHttpClient<ICustomerService, CustomerService>(client =>
+builder.Services.AddHttpClient<IApiRequestService, ApiRequestService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:44389/api/");
 });
 
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-//{
-//    options.Password.RequireDigit = false;
-//    options.Password.RequiredLength = 5;
-//    options.Password.RequireLowercase = false;
-//    options.Password.RequireUppercase = false;
-//    options.Password.RequireNonAlphanumeric = false;
-//    options.SignIn.RequireConfirmedEmail = false;
-//})
-//    .AddEntityFrameworkStores<DBContext>();
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 
@@ -52,8 +44,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseAntiforgery();
 app.MapControllers();
 

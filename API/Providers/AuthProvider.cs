@@ -26,8 +26,6 @@ public class AuthProvider(
     private readonly string SecretKey = "Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=";
     private readonly string Issuer = "LocalVotingSystemApp_v1.0";
     private readonly string Audience = "LocalVotingSystem";
-    //private readonly SignInManager<IdentityUser> _signInManager = signInManager;
-    //private readonly UserManager<IdentityUser> _userManager = userManager;
 
     public async Task<Response<LoginResponse>> CustomerLogin(LoginRequest request)
     {
@@ -62,15 +60,15 @@ public class AuthProvider(
         var passwordSalt = customer.PasswordSalt;
         var pbkdf2HashedPassword = Pbkdf2HashString(password, ref passwordSalt);
 
-        //if (!string.Equals(pbkdf2HashedPassword, customer.Password))
-        //{
-        //    return new(new ErrorResponse()
-        //    {
-        //        Title = "Invalid Login Credentials",
-        //        Description = $"The username or password is incorrect.",
-        //        StatusCode = StatusCodes.Status400BadRequest,
-        //    });
-        //}
+        if (!string.Equals(pbkdf2HashedPassword, customer.Password))
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Invalid Login Credentials",
+                Description = $"The username or password is incorrect.",
+                StatusCode = StatusCodes.Status400BadRequest,
+            });
+        }
 
         if (!customer.IsActive)
             return new(new ErrorResponse()
@@ -92,28 +90,12 @@ public class AuthProvider(
 
         var accessToken = GenerateAccessToken(customer);
 
-        //var result = await _signInManager.PasswordSignInAsync(customer.Username, pbkdf2HashedPassword, false, false);
-
-        //if (result.Succeeded)
-        //{
-            //localStorage.setItem("authToken", yourToken);
-            //LocalRedirect("~/");
-            return new(new LoginResponse()
-            {
-                UserId = customer.Id,
-                //AccessToken = accessToken,
-                //ExpiresIn = 30,
-            });
-        //}
-        //else
-        //{
-        //    return new(new ErrorResponse()
-        //    {
-        //        Title = "Invalid Login Credentials",
-        //        Description = $"The username or password is incorrect.",
-        //        StatusCode = StatusCodes.Status400BadRequest,
-        //    });
-        //}
+        return new(new LoginResponse()
+        {
+            UserId = customer.Id,
+            AccessToken = accessToken,
+            ExpiresIn = 30,
+        });
     }
 
     private static string Pbkdf2HashString(string password, ref string salt)

@@ -1,12 +1,16 @@
 ﻿@page "/register"
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Mvc.RazorPages
+@using VotingSystem.API.DTO.ErrorHandling
 @using VotingSystem.API.DTO.Requests
+@using VotingSystem.Services
 @inject NavigationManager NavigationManager
+@inject ApiRequestService ApiRequestService
+@inject ILocalStorageService _localStorage
 
 <h3>Registration</h3>
 
-<EditForm Model="@userModel" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@userModel" OnValidSubmit="async () => await HandleRegistration()">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -31,33 +35,24 @@
 @code {
     private CreateAccountRequest userModel = new CreateAccountRequest();
 
-    private void HandleValidSubmit()
+    private CreateAccountRequest RegisterModel = new CreateAccountRequest();
+    private bool ShowErrors;
+    private List<ErrorResponse> Errors;
+
+    private async Task HandleRegistration()
     {
-        // Handle the form submission here
-    }
+        var result = await ApiRequestService.PostCustomerCreateAccount(RegisterModel);
 
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
-
-    public RegisterPage(SignInManager<IdentityUser> signInManager,
-    UserManager<IdentityUser> userManager)
-    {
-        _signInManager = signInManager;
-        _userManager = userManager;
-
-    }
-
-    public async void OnCreateUser()
-    {
-        var returnUrl = "";
-
-        var identity = new IdentityUser { UserName = userModel.Username, Email = userModel.Email };
-        var result = await _userManager.CreateAsync(identity, userModel.Password);
-
-        if (result.Succeeded)
+        if (result.Data > 0)
         {
-            await _signInManager.SignInAsync(identity, isPersistent: false);
-            NavigationManager.NavigateTo(returnUrl);
+            // await _localStorage.SetItemAsStringAsync("authToken", loginResponse.Data.AccessToken);
+            await _localStorage.SetItemAsync("currentUserId", result.Data);
+            NavigationManager.NavigateTo("");
+        }
+        else
+        {
+            //fix later
+            Errors.Add(new());
         }
     }
 }
