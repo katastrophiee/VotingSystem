@@ -8,4 +8,8 @@ public interface ICustomerProvider
     Task<Response<GetCustomerAccountDetailsResponse>> GetCustomerAccountDetails(int customerId);
 
     Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetCustomerVotingHistory(int customerId);
+
+    Task<Response<bool>> PutUploadCustomerDocument(Document document);
+
+    Task<Response<List<Document>>> GetCustomerDocuments(int customerId);
 }

@@ -1,0 +1,18 @@
+﻿@using VotingSystem.API.DTO.DbModels
+@using VotingSystem.API.Enums
+
+@if (Document != null)
+{
+    @if (Document.MimeType.StartsWith("image/"))
+    {
+        <img src="@($"data:{Document.MimeType};base64,{Convert.ToBase64String(Document.FileContent)}")" alt="@Document.FileName" />
+    }
+    else if (Document.MimeType == "application/pdf")
+    {
+        <embed src="@($"data:{Document.MimeType};base64,{Convert.ToBase64String(Document.FileContent)}")" type="application/pdf" width="100%" height="600px" />
+    }
+}
+@code {
+    [Parameter]
+    public Document Document { get; set; }
+}

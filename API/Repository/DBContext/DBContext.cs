@@ -4,20 +4,16 @@ using VotingSystem.API.Repository.EntityTypeConfiguration;
 
 namespace VotingSystem.API.Repository.DBContext;
 
-public class DBContext : DbContext
+public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
 {
-    public DBContext(DbContextOptions<DBContext> options) : base(options)
-    {
-        
-    }
-
     public DbSet<Customer> Customer { get; set; }
     public DbSet<Vote> Vote { get; set; }
+    public DbSet<Document> Document { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new VoteEntityTypeConfiguration());
-        //base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfiguration(new DocumentEntityTypeConfiguration());
     }
 }

@@ -19,17 +19,36 @@ else
 {
     <h1>Welcome @CustomerDetails.FirstName</h1>
 
-    @if (CustomerDetails.NewUser && !CustomerDetails.IsVerified)
+    @if (!CustomerDetails.IsVerified)
     {
         <div class="content-container">
-            Here's how to use the voting system:
-            <ul>
-                <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your votes.</li>
-                <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
-                <li>Once verified, that's all for setup, you're ready to vote!</li>
-            </ul>
+            @if (CustomerDetails.NewUser)
+            {
+                <div>
+                    Here's how to use the voting system:
+                    <ul>
+                        <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your votes.</li>
+                        <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
+                        <li>Once verified, that's all for setup, you're ready to vote!</li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div>
+                    You have no valid ID! Don't worry though, just go to your profile page, upload one and wait!
+                    You can do that here:
+                </div>  
+            }
             <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResult.UserId}")">
-                <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Get Started
+                @if (CustomerDetails.NewUser)
+                {
+                    <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Get Started</span>
+                }
+                else
+                {
+                    <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Profile</span>
+                }
             </NavLink>
         </div>
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
@@ -23,9 +24,19 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerVotingHistory(int id)
+    public async Task<ActionResult> GetCustomerVotingHistory(int customerId)
     {
-        var response = await _customerProvider.GetCustomerVotingHistory(id);
+        var response = await _customerProvider.GetCustomerVotingHistory(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> PutUploadCustomerDocument(Document document)
+    {
+        var response = await _customerProvider.PutUploadCustomerDocument(document);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -33,8 +44,12 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<string>> Test()
+    public async Task<ActionResult> GetCustomerDocuments(int customerId)
     {
-        return Ok("Test");
+        var response = await _customerProvider.GetCustomerDocuments(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
     }
 }

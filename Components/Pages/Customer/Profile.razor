@@ -1,16 +1,43 @@
 ﻿@page "/profile/userId={userId:int}"
 
-@if (!Editable)
+@if (Errors.Any())
 {
-    <h1>Profile</h1>
-    <div class="content-container">
-        <h2>User ID: @UserId</h2>
-    </div>
-
-    <button @onclick="() => Editable = true">Change Details</button>
+    <ErrorPopup Errors="@Errors" />
+}
+@if (CustomerDetails == null)
+{
+    <h1><em>Loading...</em></h1>
 }
 else
 {
-    
-    <button type="submit" @onclick="async () => await Update()">Update</button>
+    @if (!Editable)
+    {
+        <h1>Profile</h1>
+        <div class="content-container">
+            <h2>User ID: @UserId</h2>
+            <div>Name: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
+            <div>Country: @CustomerDetails.Country.EnumDisplayName()</div>
+            @if (IdDocument is null)
+            {
+                <div>You're not verified! Upload verification here:</div>
+                <InputFile @ref="uploadedIdDocument" OnChange="UploadIdentification">Upload</InputFile>
+            }
+            else
+            {
+                @if (!CustomerDetails.IsVerified)
+                {
+                    <div>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.'</div>
+                }
+                <DocumentRenderer Document=@IdDocument></DocumentRenderer>
+                <div>Want to upload a new ID? Do it here:</div>
+                <InputFile @ref="uploadedIdDocument" OnChange="UploadIdentification">Upload</InputFile>
+            }
+        </div>
+
+        <button @onclick="() => Editable = true">Change Details</button>
+    }
+    else
+    {
+        <button type="submit" @onclick="async () => await Update()">Update</button>
+    }
 }
