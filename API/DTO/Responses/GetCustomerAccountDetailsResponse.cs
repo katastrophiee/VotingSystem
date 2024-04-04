@@ -17,6 +17,8 @@ public class GetCustomerAccountDetailsResponse
 
     public bool NewUser { get; set; }
 
+    public bool IsVerified { get; set; }
+
     public GetCustomerAccountDetailsResponse()
     {
     }
@@ -27,7 +29,8 @@ public class GetCustomerAccountDetailsResponse
         Email = customer.Email;
         FirstName = customer.FirstName;
         LastName = customer.LastName;
-        Country = CustomerCountry.UnitedKingdom;
+        Country = customer.Country;
         NewUser = customer.NewUser;
+        IsVerified = customer.IsVerified;
     }
 }

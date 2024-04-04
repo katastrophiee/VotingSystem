@@ -1,14 +1,16 @@
 ﻿@page "/profile/userId={userId:int}"
 
-<h1>Profile</h1>
-<div class="content-container">
-    <h2>User ID: @UserId</h2>
-</div>
+@if (!Editable)
+{
+    <h1>Profile</h1>
+    <div class="content-container">
+        <h2>User ID: @UserId</h2>
+    </div>
 
-@code {
-    [Parameter]
-    public int UserId { get; set; }
+    <button @onclick="() => Editable = true">Change Details</button>
 }
-
-
-@* https://stackoverflow.com/questions/51226405/net-core-blazor-app-how-to-pass-data-between-pages *@
+else
+{
+    
+    <button type="submit" @onclick="async () => await Update()">Update</button>
+}

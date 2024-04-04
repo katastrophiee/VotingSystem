@@ -1,6 +1,4 @@
-﻿@using VotingSystem.API.DTO.ErrorHandling
-@using VotingSystem.API.DTO.Responses
-@using VotingSystem.Components.Pages.Shared
+﻿@using VotingSystem.Components.Pages.Customer
 @inherits LayoutComponentBase
 @inject NavigationManager navigationManager
 @attribute [StreamRendering]
@@ -9,7 +7,7 @@
 @* https://www.youtube.com/watch?v=LBByZRhyZ8U *@
 @if (!LoggedIn)
 {
-    <LoginPage OnLogin="@HandleOnLogin"/>
+    <CustomerLoginPage OnLogin="@HandleOnLogin"/>
 }
 else
 {

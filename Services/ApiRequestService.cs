@@ -90,7 +90,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
         }
     }
 
-    public async Task<Response<int>> PostCustomerCreateAccount(CreateAccountRequest request)
+    public async Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateAccountRequest request)
     {
         try
         {
@@ -98,7 +98,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
 
             if (response.IsSuccessStatusCode)
             {
-                return new(await response.Content.ReadFromJsonAsync<int>());
+                return new(await response.Content.ReadFromJsonAsync<LoginResponse>());
             }
             else
             {

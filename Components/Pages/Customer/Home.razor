@@ -7,7 +7,7 @@
 
 <PageTitle>Home</PageTitle>
 
-@if (Errors.Count() != 0)
+@if (Errors.Any())
 {
     <ErrorPopup Errors="@Errors" />
 }
@@ -17,16 +17,16 @@ else if (CustomerDetails == null)
 }
 else
 {
-    <h1>Welcome @CustomerDetails.FirstName!</h1>
+    <h1>Welcome @CustomerDetails.FirstName</h1>
 
-    @if (CustomerDetails.NewUser)
+    @if (CustomerDetails.NewUser && !CustomerDetails.IsVerified)
     {
         <div class="content-container">
             Here's how to use the voting system:
             <ul>
-                <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your recommended elections.</li>
+                <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your votes.</li>
                 <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
-                <li>That's all for setup, you're ready to vote!</li>
+                <li>Once verified, that's all for setup, you're ready to vote!</li>
             </ul>
             <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResult.UserId}")">
                 <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Get Started

@@ -11,5 +11,5 @@ public interface IApiRequestService
 
     Task<Response<LoginResponse>> PostCustomerLogin(LoginRequest loginRequest);
 
-    Task<Response<int>> PostCustomerCreateAccount(CreateAccountRequest loginRequest);
+    Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateAccountRequest request);
 }

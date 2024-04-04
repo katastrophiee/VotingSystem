@@ -9,6 +9,7 @@ using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
+using VotingSystem.API.Enums;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Repository.DBContext;
 
@@ -48,7 +49,7 @@ public class AuthProvider(
             return new(new ErrorResponse()
             {
                 Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to login",
+                Description = $"An unknown error occured when trying to login for user {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -78,13 +79,6 @@ public class AuthProvider(
                 StatusCode = StatusCodes.Status401Unauthorized,
             });
 
-        //if (!customer.IsVerified)
-        //    return new(new ErrorResponse()
-        //    {
-        //        Title = "Account Not Verified",
-        //        Description = $"Your account has not been verified yet.",
-        //        StatusCode = StatusCodes.Status403Forbidden,
-        //    });
 
         customer.LastLoggedIn = DateTime.UtcNow;
 
@@ -96,6 +90,69 @@ public class AuthProvider(
             AccessToken = accessToken,
             ExpiresIn = 30,
         });
+    }
+
+    public async Task<Response<LoginResponse>> CreateAccount(CreateAccountRequest request)
+    {
+        try
+        {
+            var existingCustomers = await _dbContext.Customer
+              .Where(v => v.Username == request.Username || v.Email == request.Email)
+              .ToListAsync();
+            
+            if (existingCustomers.Count != 0)
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = "Credentials Already Used",
+                    Description = $"The email or username is already in use",
+                    StatusCode = StatusCodes.Status400BadRequest,
+                });
+            }
+
+            var passwordSalt = GenerateSalt();
+            var pbkdf2HashedPassword = Pbkdf2HashString(request.Password, ref passwordSalt);
+
+            var newCustomer = new Customer()
+            {
+                Username = request.Username,
+                Email = request.Email,
+                Password = pbkdf2HashedPassword,
+                PasswordSalt = passwordSalt,
+                FirstName = "",
+                LastName = "",
+                Country = CustomerCountry.Unknown,
+                NewUser = true,
+                IsCandidate = false,
+                IsActive = true,
+                IsVerified = false,
+                LastLoggedIn = DateTime.UtcNow,
+            };
+
+            _dbContext.Customer.Add(newCustomer);
+            await _dbContext.SaveChangesAsync();
+
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Username == request.Username);
+
+            var accessToken = GenerateAccessToken(customer);
+
+            return new(new LoginResponse()
+            {
+                UserId = customer.Id,
+                AccessToken = accessToken,
+                ExpiresIn = 30
+            });
+        }
+        catch (Exception ex) 
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to create account for user {request.Username}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
     }
 
     private static string Pbkdf2HashString(string password, ref string salt)
@@ -136,20 +193,12 @@ public class AuthProvider(
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-
-    public async Task<Response<LoginResponse>> CreateAccount(CreateAccountRequest request)
+    public static string GenerateSalt(int size = 32)
     {
-        //Make salt
-        //passwordSalt = string.Empty;
-        //pbkdf2HashedPassword = Pbkdf2HashString(password, ref passwordSalt);
+        var buff = new byte[size];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(buff);
 
-        //member.Password = pbkdf2HashedPassword;
-        //member.PasswordSalt = passwordSalt;
-        //_memberRepository.Update(member);
-        //await _memberRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-
-        //var identity = new IdentityUser { UserName = request.Username, Email = request.Email };
-
-        return null;
+        return Convert.ToBase64String(buff);
     }
 }

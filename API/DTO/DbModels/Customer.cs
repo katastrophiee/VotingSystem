@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.DbModels;
 
@@ -17,6 +17,8 @@ public class Customer
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
+
+    public CustomerCountry Country { get; set; }
 
     public bool NewUser { get; set; }
 
