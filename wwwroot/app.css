@@ -14,6 +14,8 @@ h1, h2 {
     background: #98c1d9;
     padding-top: 1rem;
     padding-left: 1rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
 }
 
 .content-container-centered {
@@ -26,7 +28,7 @@ h1, h2 {
 }
 
 button, .button-styled-nav-link {
-    background-color: #023047;
+    background-color: #293241;
     border-radius: 15px;
     border-style: none;
     padding: .75rem;
@@ -42,20 +44,26 @@ button, .button-styled-nav-link {
     outline: none;
     overflow: hidden;
     text-decoration: none;
+    transition: background-color 0.3s ease;
+    padding-top: 1rem;
 }
 
     button:hover, .button-styled-nav-link:hover {
-        opacity: .75;
+        background-color: #405c84;
     }
 
 .button-styled-nav-link {
     display: inline-block;
     max-width: fit-content;
+    text-decoration: none;
 }
+    .button-styled-nav-link:hover {
+        opacity: .75;
+    }
 
-li {
-    padding: .25rem;
-}
+    li {
+        padding: .25rem;
+    }
 
 table {
     background: #98c1d9;
@@ -89,3 +97,29 @@ th, tr, td {
     td:last-child {
         border-top-right-radius: 25px;
     }
+
+.file-uploader {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #293241;
+    color: white;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+
+    .file-uploader:hover {
+        background-color: #405c84;
+    }
+
+.profile-data div {
+    padding: .25rem;
+}
+
+.profile-data button {
+    margin: .25rem;
+}
+
+.seperated {
+    margin-top: 2rem;
+}

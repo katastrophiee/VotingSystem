@@ -10,10 +10,13 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<Vote> Vote { get; set; }
     public DbSet<Document> Document { get; set; }
 
+    public DbSet<Election> Election { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new VoteEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new DocumentEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ElectionEntityTypeConfiguration());
     }
 }

@@ -10,6 +10,8 @@ namespace VotingSystem.API.DTO.DbModels
 
         public string ElectionName { get; set; }
 
+        public string ElectionDescription { get; set; }
+
         public DateTime VoteDate { get; set; }
 
         public int CustomerId { get; set; }

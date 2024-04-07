@@ -55,32 +55,69 @@ else
     else
     {
         <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
-        <div class="content-container">
-            None
-        </div>
+        @if (OngoingElections.Count != 0)
+        {<table>
+                <tr>
+                    <th>Election ID</th>
+                    <th>Election</th>
+                    <th>Election Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Vote</th>
+                </tr>
+                @foreach (var election in OngoingElections)
+                {
+                    <tr>
+                        <td>@election.ElectionId</td>
+                        <td>@election.ElectionName</td>
+                        <td>@election.ElectionDescription</td>
+                        <td>@election.StartDate.FormatDateTime()</td>
+                        <td>@election.EndDate.FormatDateTime()</td>
+                        @if(!election.HasVoted)
+                        {
+                            <td><NavLink class="button-styled-nav-link" href="@($"cast-a-vote")">Vote Here!</NavLink></td>
+                        }
+                        else
+                        {
+                            <td>You have already voted in this election.</td>
+                        }
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div class="content-container">
+                There are no ongoing elections in your area.
+            </div>
+        }
 
         <h2>Your Votes</h2>
-        <table>
-            <tr>
-                <th>Election ID</th>
-                <th>Election</th>
-                <th>Date You Voted</th>
-            </tr>
-            @if (VotingHistory != null && VotingHistory.Any())
-            {
+        @if (VotingHistory.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th>Election ID</th>
+                    <th>Election</th>
+                    <th>Election Description</th>
+                    <th>Date You Voted</th>
+                </tr>
                 @foreach (var vote in VotingHistory)
                 {
                     <tr>
                         <td>@vote.ElectionId</td>
                         <td>@vote.ElectionName</td>
-                        <td>@vote.VoteDate</td>
+                        <td>@vote.ElectionDescription</td>
+                        <td>@vote.VoteDate.FormatDateTime()</td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>You have no previous voting history!</tr>
-            }
-        </table>
+            </table>
+        }
+        else
+        {
+            <div class="content-container">
+                You have no voting history!
+            </div>
+        }
     }
 }

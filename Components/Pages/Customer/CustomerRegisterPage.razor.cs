@@ -22,6 +22,9 @@ public partial class CustomerRegisterPage
     [Parameter]
     public EventCallback<CreateAccountRequest> OnCreation { get; set; }
 
+    [Parameter]
+    public EventCallback<bool> Return { get; set; }
+
     private async Task HandleRegistration()
     {
         await OnCreation.InvokeAsync(CreateAccountRequest);

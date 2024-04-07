@@ -51,3 +51,27 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+
+.register-form {
+    background-color: blue;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+    .register-form .form-group {
+        margin-bottom: 20px;
+    }
+
+        .register-form .form-group label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .register-form .form-group .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }

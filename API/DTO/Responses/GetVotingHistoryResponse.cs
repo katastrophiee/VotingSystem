@@ -10,6 +10,8 @@ public class GetVotingHistoryResponse
 
     public string ElectionName { get; set; }
 
+    public string ElectionDescription { get; set; }
+
     public DateTime VoteDate { get; set; }
 
     public GetVotingHistoryResponse(Vote vote)
@@ -17,6 +19,7 @@ public class GetVotingHistoryResponse
         Id = vote.Id;
         ElectionId = vote.ElectionId;
         ElectionName = vote.ElectionName;
+        ElectionDescription = vote.ElectionDescription;
         VoteDate = vote.VoteDate;
     }
 

@@ -1,4 +1,5 @@
 ﻿@page "/profile/userId={userId:int}"
+@using VotingSystem.API.Enums
 
 @if (Errors.Any())
 {
@@ -10,27 +11,43 @@
 }
 else
 {
+    <h1>Profile</h1>
+    <h2>User ID: @UserId</h2>
     @if (!Editable)
     {
-        <h1>Profile</h1>
-        <div class="content-container">
-            <h2>User ID: @UserId</h2>
+        <div class="content-container profile-data">
             <div>Name: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
+            <div>Email: @CustomerDetails.Email</div>
             <div>Country: @CustomerDetails.Country.EnumDisplayName()</div>
-            @if (IdDocument is null)
+            @if (CurrentIdDocument is null)
             {
                 <div>You're not verified! Upload verification here:</div>
-                <InputFile @ref="uploadedIdDocument" OnChange="UploadIdentification">Upload</InputFile>
+                <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
+                @if(ShowUpdateButton)
+                {
+                    <button @onclick="async () => await UploadIdentificationDocument()">Upload</button>
+                }
             }
             else
             {
                 @if (!CustomerDetails.IsVerified)
                 {
-                    <div>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.'</div>
+                    <div>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.</div>
                 }
-                <DocumentRenderer Document=@IdDocument></DocumentRenderer>
-                <div>Want to upload a new ID? Do it here:</div>
-                <InputFile @ref="uploadedIdDocument" OnChange="UploadIdentification">Upload</InputFile>
+                <DocumentRenderer Document=@CurrentIdDocument></DocumentRenderer>
+                @if (CurrentIdDocument.ExpireyDate is not null && CurrentIdDocument.ExpireyDate < DateTime.Now.AddMonths(3))
+                {
+                    <div class="seperated">Your ID expires in less than 3 months, upload a new one here:</div>
+                }
+                else
+                {
+                    <div class="seperated">Want to upload a new ID? Do it here:</div>
+                }
+                <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
+                @if (ShowUpdateButton)
+                {
+                    <button @onclick="async () => await UploadIdentificationDocument()">Upload</button>
+                }
             }
         </div>
 
@@ -38,6 +55,32 @@ else
     }
     else
     {
-        <button type="submit" @onclick="async () => await Update()">Update</button>
+         <div class="content-container profile-data">
+            <EditForm Model="@UpdateCustomerProfileRequest" OnValidSubmit="async () => await Update()">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <label for="firstName">First Name:</label>
+                <InputText id="firstName" @bind-Value="UpdateCustomerProfileRequest.FirstName" />
+
+                <label for="lastName">Last Name:</label>
+                <InputText id="lastName" @bind-Value="UpdateCustomerProfileRequest.LastName" />
+
+                <label for="email">Email:</label>
+                <InputText id="email" @bind-Value="UpdateCustomerProfileRequest.Email" />
+
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <InputSelect id="country" @bind-Value="UpdateCustomerProfileRequest.Country">
+                        @foreach (var country in Enum.GetValues(typeof(CustomerCountry)).Cast<CustomerCountry>().Where(c => c != CustomerCountry.Unknown))
+                        {
+                            <option value="@country">@country.EnumDisplayName()</option>
+                        }
+                    </InputSelect>
+                </div>
+                <button @onclick="() => Editable = false">Cancel</button>
+                <button type="submit">Update</button>
+            </EditForm>
+         </div>
     }
 }

@@ -14,7 +14,11 @@ public interface IApiRequestService
 
     Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateAccountRequest request);
 
-    Task<Response<bool>> PutUploadCustomerDocument(Document document);
+    Task<Response<bool>> PostUploadCustomerDocument(Document document);
 
     Task<Response<List<Document>>> GetCustomerDocuments(int customerId);
+
+    Task<Response<bool>> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request);
+
+    Task<Response<List<GetOngoingElectionsResponse>>> GetCustomerOngoingElections(int customerId);
 }

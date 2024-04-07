@@ -1,4 +1,5 @@
 ﻿using VotingSystem.API.DTO.DbModels;
+using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
 
 namespace VotingSystem.API.Interfaces.Provider;
@@ -9,7 +10,11 @@ public interface ICustomerProvider
 
     Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetCustomerVotingHistory(int customerId);
 
-    Task<Response<bool>> PutUploadCustomerDocument(Document document);
+    Task<Response<bool>> PostUploadCustomerDocument(Document document);
 
     Task<Response<List<Document>>> GetCustomerDocuments(int customerId);
+
+    Task<Response<bool>> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request);
+
+    Task<Response<List<GetOngoingElectionsResponse>>> GetCustomerOngoingElections(int customerId);
 }

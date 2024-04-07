@@ -1,6 +1,5 @@
 .navbar-toggler {
     appearance: none;
-    cursor: pointer;
     width: 3.5rem;
     height: 2.5rem;
     color: white;
@@ -52,6 +51,7 @@
         align-items: center;
         line-height: 3rem;
         width: 100%;
+        cursor: pointer;
     }
 
     .nav-item ::deep a.active {

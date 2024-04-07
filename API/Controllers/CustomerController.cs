@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.DbModels;
+using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
@@ -33,10 +34,10 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
             : BadRequest(response.Error);
     }
 
-    [HttpPut]
-    public async Task<ActionResult> PutUploadCustomerDocument(Document document)
+    [HttpPost]
+    public async Task<ActionResult> PostUploadCustomerDocument(Document document)
     {
-        var response = await _customerProvider.PutUploadCustomerDocument(document);
+        var response = await _customerProvider.PostUploadCustomerDocument(document);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -47,6 +48,26 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
     public async Task<ActionResult> GetCustomerDocuments(int customerId)
     {
         var response = await _customerProvider.GetCustomerDocuments(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request)
+    {
+        var response = await _customerProvider.PutUpdateCustomerProfile(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult> GetCustomerOngoingElections(int customerId)
+    {
+        var response = await _customerProvider.GetCustomerOngoingElections(customerId);
 
         return response.Error is null
             ? Ok(response.Data)

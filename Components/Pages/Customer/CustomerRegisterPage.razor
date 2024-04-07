@@ -1,6 +1,12 @@
-﻿<h3>Registration</h3>
+﻿<div>
+    <button @onclick="() => Return.InvokeAsync(true)">
+        <i class="arrow left"></i>
+        Return
+    </button>
+</div>
 
-<EditForm Model="@CreateAccountRequest" OnValidSubmit="async () => await HandleRegistration()">
+<EditForm Model="@CreateAccountRequest" OnValidSubmit="async () => await HandleRegistration()" class="register-form">
+    <h1>Registration</h1>
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -21,3 +27,43 @@
 
     <button type="submit">Register</button>
 </EditForm>
+
+<style>
+    h1 {
+        padding: .5rem;
+    }
+
+    .register-form {
+        margin: .75rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .form-group {
+        padding-top: .5rem;
+    }
+
+    button {
+        margin: .5rem;
+    }
+
+    input {
+        max-width: 50rem;
+    }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        border-color: white;
+        display: inline-block;
+        padding: 3px;
+        display: inline-block;
+    }
+
+    .left {
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+    }
+</style>

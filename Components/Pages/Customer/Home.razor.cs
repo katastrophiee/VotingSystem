@@ -18,6 +18,7 @@ public partial class Home
     public static LoginResponse LoginResult { get; set; } = new();
     public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; }
     public List<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
+    public List<GetOngoingElectionsResponse> OngoingElections { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,5 +36,11 @@ public partial class Home
             VotingHistory = votingHistory.Data;
         else
             Errors.Add(votingHistory.Error);
+
+        var ongoingElections = await ApiRequestService.GetCustomerOngoingElections(LoginResult.UserId);
+        if (ongoingElections.Error == null)
+            OngoingElections = ongoingElections.Data;
+        else
+            Errors.Add(ongoingElections.Error);
     }
 }

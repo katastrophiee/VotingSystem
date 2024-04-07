@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
+using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Enums;
 using VotingSystem.Services;
@@ -17,62 +18,97 @@ public partial class Profile
     [Inject]
     public IApiRequestService ApiRequestService { get; set; }
 
-    public bool Editable { get; set; } = false;
+    public bool Editable { get; set; } = false;    
+    public bool ShowUpdateButton { get; set; } = false;
 
     public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; }
+    public UpdateCustomerProfileRequest? UpdateCustomerProfileRequest { get; set; }
     public List<ErrorResponse> Errors { get; set; } = [];
-    
-    public InputFile uploadedIdDocument;
 
-    public Document? IdDocument { get; set; } = null;
+    public InputFile UploadedIdDocumentFile;
+
+    public Document? UploadedIdDocument { get; set; }
+
+    public Document? CurrentIdDocument { get; set; } = null;
 
     public async Task Update()
     {
-
+        if (UpdateCustomerProfileRequest.Email != CustomerDetails.Email ||
+            UpdateCustomerProfileRequest.FirstName != CustomerDetails.FirstName ||
+            UpdateCustomerProfileRequest.LastName != CustomerDetails.LastName ||
+            UpdateCustomerProfileRequest.Country != CustomerDetails.Country)
+        {
+            var response = await ApiRequestService.PutUpdateCustomerProfile(UpdateCustomerProfileRequest);
+            if (response.Error != null)
+            {
+                UpdateCustomerProfileRequest = new(CustomerDetails);
+                Errors.Add(response.Error);
+            }
+            else
+            {
+                await FetchCustomerDetails();
+            }
+        }
         Editable = false;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        var customerDetails = await ApiRequestService.GetCustomerInfo(UserId);
-        if (customerDetails.Error == null)
-            CustomerDetails = customerDetails.Data;
-        else
-            Errors.Add(customerDetails.Error);
-
-       await SetCurrentIdDocument();
+        await FetchCustomerDetails();
+        await SetCurrentIdDocument();
     }
 
-    private async Task UploadIdentification(InputFileChangeEventArgs uploaded)
+    private async Task FetchCustomerDetails()
+    {
+        var customerDetails = await ApiRequestService.GetCustomerInfo(UserId);
+        if (customerDetails.Error == null)
+        {
+            CustomerDetails = customerDetails.Data;
+            UpdateCustomerProfileRequest = new(CustomerDetails);
+        }
+        else
+        {
+            Errors.Add(customerDetails.Error);
+        }
+    }
+
+    private async Task ShowUploadButton(InputFileChangeEventArgs uploadedFile)
+    {
+        var file = uploadedFile.File;
+        if (file != null)
+        {
+            using var memoryStream = new MemoryStream();
+            await file.OpenReadStream().CopyToAsync(memoryStream);
+
+            var fileBytes = memoryStream.ToArray();
+
+            var document = new Document()
+            {
+                CustomerId = UserId,
+                FileContent = fileBytes,
+                FileName = file.Name,
+                MimeType = file.ContentType,
+                DocumentType = DocumentType.CustomerIdentification
+            };
+
+            UploadedIdDocument = document;
+
+            ShowUpdateButton = true;
+        }
+    }
+
+    private async Task UploadIdentificationDocument()
     {
         try
         {
-            // TO DO
-            //change to show a button to upload that then runs this code
-            var file = uploaded.File;
-            if (file != null)
-            {
-                using var memoryStream = new MemoryStream();
-                await file.OpenReadStream().CopyToAsync(memoryStream);
+            var successfulUpload = await ApiRequestService.PostUploadCustomerDocument(UploadedIdDocument);
 
-                var fileBytes = memoryStream.ToArray();
+            if (successfulUpload.Error != null)
+                Errors.Add(successfulUpload.Error);
 
-                var document = new Document()
-                {
-                    CustomerId = UserId,
-                    FileContent = fileBytes,
-                    FileName = file.Name,
-                    MimeType = file.ContentType,
-                    DocumentType = DocumentType.CustomerIdentification
-                };
+            ShowUpdateButton = false;
 
-                var successfulUpload = await ApiRequestService.PutUploadCustomerDocument(document);
-
-                if (successfulUpload.Error != null)
-                    Errors.Add(successfulUpload.Error);
-
-                await SetCurrentIdDocument();
-            }
+            await SetCurrentIdDocument();
         }
         catch (Exception ex)
         {
@@ -98,7 +134,7 @@ public partial class Profile
 
             if (currentIdDocument is not null)
             {
-                IdDocument = currentIdDocument;
+                CurrentIdDocument = currentIdDocument;
             }
 
             // TO DO
