@@ -6,9 +6,9 @@
     @if (Document.MimeType.StartsWith("image/"))
     {
         <img src="@($"data:{Document.MimeType};base64,{Convert.ToBase64String(Document.FileContent)}")" alt="@Document.FileName" />
-        @if (Document.ExpireyDate is not null)
+        @if (Document.ExpiryDate is not null)
         {
-            <div>Expirey date: @Document.ExpireyDate.Value.FormatDateTime()</div>
+            <div>Expiry date: @Document.ExpiryDate.Value.FormatDateTime()</div>
         }
     }
     else if (Document.MimeType == "application/pdf")

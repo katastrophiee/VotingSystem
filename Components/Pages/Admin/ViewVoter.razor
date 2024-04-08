@@ -1,0 +1,72 @@
+﻿@page "/view-voter/userId={userId:int}"
+@using VotingSystem.API.Enums
+@using VotingSystem.Components.Pages.Shared
+
+<h1>Voter</h1>
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (CustomerDetails is null)
+{
+    <h1><em>Loading...</em></h1>
+}
+else
+{
+    <div class="content-container profile-data">
+        <h2>Voter ID: @UserId</h2>
+        <div>Name: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
+        <div>Email: @CustomerDetails.Email</div>
+        <div>Country: @CustomerDetails.Country.EnumDisplayName()</div>
+        @if (CustomerDetails.CurrentIdDocument is null)
+        {
+            <div>This user has not uploaded ID yet.</div>
+        }
+        else
+        {
+            @if (!string.IsNullOrEmpty(CustomerDetails.FirstName)
+            && !string.IsNullOrEmpty(CustomerDetails.LastName)
+            && CustomerDetails.Country != CustomerCountry.Unknown)
+            {
+                @if (!CustomerDetails.IsVerified)
+                {
+                    <div>Unverified ID:</div>
+                }
+                <DocumentRenderer Document=@CustomerDetails.CurrentIdDocument></DocumentRenderer>
+                @if (CustomerDetails.CurrentIdDocument.IdRejected is null)
+                {
+                    <EditForm Model="VerifyIdRequest" OnValidSubmit="async () => await VerifyId()">
+                        @if (CustomerDetails.CurrentIdDocument.RejectedByAdminId is null)
+                        {
+                            <div class="separated">Is the ID valid?</div>
+                            <InputSelect @bind-Value="VerifyIdRequest.IsRejected">
+                                <option value="false">True</option>
+                                <option value="true">False</option>
+                            </InputSelect>
+                            @if (!VerifyIdRequest.IsRejected)
+                            {
+                                <div>
+                                    Select the visible ID expiry date:
+                                    <InputDate @bind-Value="VerifyIdRequest.DocumentExpiryDate" />
+                                </div>
+                            }
+                            else
+                            {
+                                <InputText @bind-Value="VerifyIdRequest.RejectionReason" />
+                            }
+                            <button type="submit">Submit</button>
+                        }
+                        else
+                        {
+                            <div class="separated">This ID has already been reviewed.</div>
+                        }
+                    </EditForm>
+                }
+            }
+            else
+            {
+                <div class="separated">This user needs to enter their details before you can verify their ID.</div>
+            }
+        }
+    </div>
+}

@@ -16,13 +16,19 @@ else
     <h2>User ID: @UserId</h2>
     @if (!Editable)
     {
+        @if (string.IsNullOrEmpty(CustomerDetails.FirstName)
+                || string.IsNullOrEmpty(CustomerDetails.LastName)
+                || CustomerDetails.Country == CustomerCountry.Unknown)
+        {
+            <div class="warning-container">You have missing details from your profile, these need to be entered before we can verify your ID.</div>
+        }
         <div class="content-container profile-data">
             <div>Name: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
             <div>Email: @CustomerDetails.Email</div>
             <div>Country: @CustomerDetails.Country.EnumDisplayName()</div>
             @if (CurrentIdDocument is null)
             {
-                <div>You're not verified! Upload verification here:</div>
+                <div>You're not verified! Upload a valid form of ID for our admins to verify here:</div>
                 <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
                 @if(ShowUpdateButton)
                 {
@@ -33,12 +39,25 @@ else
             {
                 @if (!CustomerDetails.IsVerified)
                 {
-                    <div>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.</div>
+                    @if (CurrentIdDocument.IdRejected is not null && CurrentIdDocument.IdRejected is true)
+                    {
+                        <div>Your most recent uploaded ID got reject by our admins.</div>
+                        <div>Rejection reason: @CurrentIdDocument.RejectionReason</div>
+                        <div>Try a different form of ID or try taking a better picture.</div>
+                    }
+                    else if (CurrentIdDocument.IdRejected is null)
+                    {
+                        <div>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.</div>
+                    }
                 }
                 <DocumentRenderer Document=@CurrentIdDocument></DocumentRenderer>
-                @if (CurrentIdDocument.ExpireyDate is not null && CurrentIdDocument.ExpireyDate < DateTime.Now.AddMonths(3))
+                @if (CurrentIdDocument.ExpiryDate is not null && CurrentIdDocument.ExpiryDate < DateTime.Now.AddMonths(3))
                 {
                     <div class="seperated">Your ID expires in less than 3 months, upload a new one here:</div>
+                }
+                else if (CurrentIdDocument.IdRejected is not null && CurrentIdDocument.IdRejected is true)
+                {
+                    <div class="seperated">Please submit another one here and we will review it:</div>
                 }
                 else
                 {

@@ -1,6 +1,8 @@
 ﻿using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.Requests;
+using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
+using VotingSystem.API.DTO.Responses.Admin;
 
 namespace VotingSystem.Services;
 
@@ -24,4 +26,9 @@ public interface IApiRequestService
 
     Task<Response<LoginResponse>> PostAdminLogin(LoginRequest loginRequest);
 
+    Task<Response<List<AdminGetVotersResponse>>> AdminGetCustomers(AdminGetCustomersRequest request);
+
+    Task<Response<AdminGetCustomerResponse>> AdminGetCustomerDetails(int customerId, int adminId);
+
+    Task<Response<bool>> AdminVerifyCustomerIdDocument(AdminVerifyIdRequest request);
 }

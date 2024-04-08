@@ -28,4 +28,15 @@ public static class Helpers
         else
             return "th";
     }
+    public static bool? StringToNullableBool(this string str)
+    {
+        if (string.IsNullOrEmpty(str))
+            return null;
+
+        if (bool.TryParse(str, out bool result))
+            return result;
+
+        return null;
+    }
+
 }

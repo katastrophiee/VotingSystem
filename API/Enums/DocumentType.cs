@@ -2,5 +2,5 @@
 
 public enum DocumentType
 {
-    CustomerIdentification = 0,
+    CustomerIdentification = 1,
 }

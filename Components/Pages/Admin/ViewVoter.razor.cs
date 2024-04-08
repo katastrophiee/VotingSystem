@@ -1,0 +1,54 @@
+﻿using Microsoft.AspNetCore.Components;
+using VotingSystem.API.DTO.Responses.Admin;
+using VotingSystem.Services;
+using Blazored.LocalStorage;
+using VotingSystem.API.DTO.ErrorHandling;
+using VotingSystem.API.DTO.Requests.Admin;
+
+namespace VotingSystem.Components.Pages.Admin;
+
+public partial class ViewVoter
+{
+    [Inject]
+    public IApiRequestService ApiRequestService { get; set; }
+
+    [Inject]
+    public ILocalStorageService _localStorage { get; set; }
+
+    public List<ErrorResponse> Errors { get; set; } = [];
+
+    [Parameter]
+    public int UserId { get; set; }
+
+    public int AdminId { get; set; }
+
+    public AdminGetCustomerResponse CustomerDetails { get; set; }
+
+    public AdminVerifyIdRequest VerifyIdRequest { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
+
+        var customerDetails = await ApiRequestService.AdminGetCustomerDetails(UserId, AdminId);
+
+        if (customerDetails.Error == null)
+            CustomerDetails = customerDetails.Data;
+        else
+            Errors.Add(customerDetails.Error);
+    }
+
+    private async Task VerifyId()
+    {
+        VerifyIdRequest.AdminId = AdminId;
+        VerifyIdRequest.DocumentId = CustomerDetails.CurrentIdDocument.Id;
+
+        var verifyIdResult = await ApiRequestService.AdminVerifyCustomerIdDocument(VerifyIdRequest);
+
+        if (verifyIdResult.Error != null)
+            Errors.Add(verifyIdResult.Error);
+
+        StateHasChanged();
+    }
+}
+

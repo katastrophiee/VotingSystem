@@ -1,0 +1,96 @@
+﻿@page "/view-voters"
+@using VotingSystem.API.Enums
+@using VotingSystem.Components.Pages.Shared
+<h1>Voters</h1>
+
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (VotersResult == null)
+{
+    <h1><em>Loading...</em></h1>
+}
+else
+{
+    <div class="content-container">
+        <EditForm Model="GetVotersRequest" OnValidSubmit="async () => await SearchCustomers()">
+            <div>
+                <label for="userId">User ID:</label>
+                <InputNumber @bind-Value="GetVotersRequest.UserId" id="userId" />
+            </div>
+
+            <div>
+                <label for="country">Country:</label>
+                <InputSelect @bind-Value="GetVotersRequest.Country" id="country">
+                    <option value="">-- Select --</option>
+                    @foreach (var country in Enum.GetValues(typeof(CustomerCountry)).Cast<CustomerCountry>().Where(c => c != CustomerCountry.Unknown))
+                    {
+                        <option value="@country">@country.EnumDisplayName()</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div>
+                <label for="isCandidate">Is Candidate:</label>
+                <InputSelect @bind-Value="IsCandidateString" id="isCandidate">
+                    <option value="">-- Select --</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </InputSelect>
+            </div>
+
+            <div>
+                <label for="isVerified">Is Verified:</label>
+                <InputSelect @bind-Value="IsVerifiedString" id="isVerified">
+                    <option value="">-- Select --</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </InputSelect>
+            </div>
+
+            <button type="submit">Search</button>
+        </EditForm>
+        <button @onclick=ClearSearch>Clear</button>
+    </div>
+    @if (VotersResult.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Country</th>
+                <th>Last Logged In</th>
+                <th>New User</th>
+                <th>Active</th>
+                <th>Candidate</th>
+                <th>Verified</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var voter in VotersResult)
+            {
+                <tr>
+                    <td>@voter.UserId</td>
+                    <td>@voter.FirstName</td>
+                    <td>@voter.LastName</td>
+                    <td>@voter.Country.EnumDisplayName()</td>
+                    <td>@voter.LastLoggedIn.FormatDateTime()</td>
+                    <td>@voter.NewUser</td>
+                    <td>@voter.IsActive</td>
+                    <td>@voter.IsCandidate</td>
+                    <td>@voter.IsVerified</td>
+                    <td>
+                        <NavLink class="button-styled-nav-link" href="@($"view-voter/userId={voter.UserId}")">
+                                <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">View</span>
+                        </NavLink>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container-centered">No voters found!</div>
+    }
+}

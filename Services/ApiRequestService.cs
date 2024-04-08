@@ -1,8 +1,10 @@
-﻿using VotingSystem.API.DTO.DbModels;
+﻿using System.Net.Http.Json;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
+using VotingSystem.API.DTO.Responses.Admin;
 
 namespace VotingSystem.Services;
 
@@ -275,6 +277,87 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occurred when trying to create an account for customer {request.Username}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<List<AdminGetVotersResponse>>> AdminGetCustomers(AdminGetCustomersRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Admin/GetCustomers", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<List<AdminGetVotersResponse>>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to retrieve customers for admin {request.AdminId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<AdminGetCustomerResponse>> AdminGetCustomerDetails(int customerId, int adminId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Admin/GetCustomerDetails?customerId={customerId}&adminId={adminId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<AdminGetCustomerResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to retrieve customer details for admin {adminId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> AdminVerifyCustomerIdDocument(AdminVerifyIdRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Admin/AdminVerifyId", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(true);
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to verify customer ID document for admin {request.AdminId}",
                 StatusCode = 500,
                 AdditionalDetails = ex.Message
             });

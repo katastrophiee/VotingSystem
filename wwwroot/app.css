@@ -22,9 +22,11 @@ h1, h2 {
     border-radius: 25px;
     background: #98c1d9;
     padding-top: 1rem;
-    padding-left: 1rem;
+    padding-bottom: 1rem;
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 button, .button-styled-nav-link {
@@ -70,6 +72,7 @@ table {
     border-radius: 25px;
     width: 100%;
     table-layout: fixed;
+    padding-top: 1rem;
     padding-left: 1rem;
 }
 
@@ -122,4 +125,15 @@ th, tr, td {
 
 .seperated {
     margin-top: 2rem;
+}
+
+.warning-container {
+    border-radius: 25px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
 }

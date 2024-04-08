@@ -18,9 +18,15 @@ public class Document
 
     public DateTime UploadedDate { get; set; }
 
-    public DateTime? ExpireyDate { get; set; }
+    public DateTime? ExpiryDate { get; set; }
 
     public bool IsVerified { get; set; }
 
     public bool MostRecentId { get; set; }
+
+    public bool? IdRejected { get; set; }
+
+    public string? RejectionReason { get; set; }
+
+    public int? RejectedByAdminId { get; set; }
 }
