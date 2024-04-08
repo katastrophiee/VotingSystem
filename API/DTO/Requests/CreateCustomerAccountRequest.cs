@@ -2,7 +2,7 @@
 
 namespace VotingSystem.API.DTO.Requests;
 
-public class CreateAccountRequest
+public class CreateCustomerAccountRequest
 {
     [Required]
     public string Username { get; set; }

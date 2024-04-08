@@ -18,6 +18,7 @@ builder.Services.AddControllers();
 //Provider dependency injection
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
+builder.Services.AddScoped<IAdminProvider, AdminProvider>();
 
 //Repository dependency injection
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));

@@ -12,7 +12,7 @@ public interface IApiRequestService
 
     Task<Response<LoginResponse>> PostCustomerLogin(LoginRequest loginRequest);
 
-    Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateAccountRequest request);
+    Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateCustomerAccountRequest request);
 
     Task<Response<bool>> PostUploadCustomerDocument(Document document);
 
@@ -21,4 +21,7 @@ public interface IApiRequestService
     Task<Response<bool>> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request);
 
     Task<Response<List<GetOngoingElectionsResponse>>> GetCustomerOngoingElections(int customerId);
+
+    Task<Response<LoginResponse>> PostAdminLogin(LoginRequest loginRequest);
+
 }

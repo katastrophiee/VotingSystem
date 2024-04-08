@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using VotingSystem.Components.Pages.Admin
+@using VotingSystem.Components.Pages.Shared
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 
@@ -7,117 +9,125 @@
 
 <PageTitle>Home</PageTitle>
 
-@if (Errors.Any())
+@if (!IsAdmin)
 {
-    <ErrorPopup Errors="@Errors" />
-}
-else if (CustomerDetails == null)
-{
-    <h1><em>Loading...</em></h1>
-}
-else
-{
-    <h1>Welcome @CustomerDetails.FirstName</h1>
-
-    @if (!CustomerDetails.IsVerified)
+    @if (Errors.Any())
     {
-        <div class="content-container">
-            @if (CustomerDetails.NewUser)
-            {
-                <div>
-                    Here's how to use the voting system:
-                    <ul>
-                        <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your votes.</li>
-                        <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
-                        <li>Once verified, that's all for setup, you're ready to vote!</li>
-                    </ul>
-                </div>
-            }
-            else
-            {
-                <div>
-                    You have no valid ID! Don't worry though, just go to your profile page, upload one and wait!
-                    You can do that here:
-                </div>  
-            }
-            <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResult.UserId}")">
-                @if (CustomerDetails.NewUser)
-                {
-                    <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Get Started</span>
-                }
-                else
-                {
-                    <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Profile</span>
-                }
-            </NavLink>
-        </div>
+        <ErrorPopup Errors="@Errors" />
+    }
+    else if (CustomerDetails == null)
+    {
+        <h1><em>Loading...</em></h1>
     }
     else
     {
-        <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
-        @if (OngoingElections.Count != 0)
-        {<table>
-                <tr>
-                    <th>Election ID</th>
-                    <th>Election</th>
-                    <th>Election Description</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Vote</th>
-                </tr>
-                @foreach (var election in OngoingElections)
-                {
-                    <tr>
-                        <td>@election.ElectionId</td>
-                        <td>@election.ElectionName</td>
-                        <td>@election.ElectionDescription</td>
-                        <td>@election.StartDate.FormatDateTime()</td>
-                        <td>@election.EndDate.FormatDateTime()</td>
-                        @if(!election.HasVoted)
-                        {
-                            <td><NavLink class="button-styled-nav-link" href="@($"cast-a-vote")">Vote Here!</NavLink></td>
-                        }
-                        else
-                        {
-                            <td>You have already voted in this election.</td>
-                        }
-                    </tr>
-                }
-            </table>
-        }
-        else
-        {
-            <div class="content-container">
-                There are no ongoing elections in your area.
-            </div>
-        }
+        <h1>Welcome @CustomerDetails.FirstName</h1>
 
-        <h2>Your Votes</h2>
-        @if (VotingHistory.Count != 0)
+        @if (!CustomerDetails.IsVerified)
         {
-            <table>
-                <tr>
-                    <th>Election ID</th>
-                    <th>Election</th>
-                    <th>Election Description</th>
-                    <th>Date You Voted</th>
-                </tr>
-                @foreach (var vote in VotingHistory)
+            <div class="content-container">
+                @if (CustomerDetails.NewUser)
                 {
-                    <tr>
-                        <td>@vote.ElectionId</td>
-                        <td>@vote.ElectionName</td>
-                        <td>@vote.ElectionDescription</td>
-                        <td>@vote.VoteDate.FormatDateTime()</td>
-                    </tr>
+                    <div>
+                        Here's how to use the voting system:
+                        <ul>
+                            <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your votes.</li>
+                            <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
+                            <li>Once verified, that's all for setup, you're ready to vote!</li>
+                        </ul>
+                    </div>
                 }
-            </table>
+                else
+                {
+                    <div>
+                        You have no valid ID! Don't worry though, just go to your profile page, upload one and wait!
+                        You can do that here:
+                    </div>  
+                }
+                <NavLink class="button-styled-nav-link" href="@($"profile/userId={LoginResult.UserId}")">
+                    @if (CustomerDetails.NewUser)
+                    {
+                        <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Get Started</span>
+                    }
+                    else
+                    {
+                        <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Profile</span>
+                    }
+                </NavLink>
+            </div>
         }
         else
         {
-            <div class="content-container">
-                You have no voting history!
-            </div>
+            <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+            @if (OngoingElections.Count != 0)
+            {
+                <table>
+                    <tr>
+                        <th>Election ID</th>
+                        <th>Election</th>
+                        <th>Election Description</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Vote</th>
+                    </tr>
+                    @foreach (var election in OngoingElections)
+                    {
+                        <tr>
+                            <td>@election.ElectionId</td>
+                            <td>@election.ElectionName</td>
+                            <td>@election.ElectionDescription</td>
+                            <td>@election.StartDate.FormatDateTime()</td>
+                            <td>@election.EndDate.FormatDateTime()</td>
+                            @if(!election.HasVoted)
+                            {
+                                <td><NavLink class="button-styled-nav-link" href="@($"cast-a-vote")">Vote Here!</NavLink></td>
+                            }
+                            else
+                            {
+                                <td>You have already voted in this election.</td>
+                            }
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <div class="content-container">
+                    There are no ongoing elections in your area.
+                </div>
+            }
+
+            <h2>Your Votes</h2>
+            @if (VotingHistory.Count != 0)
+            {
+                <table>
+                    <tr>
+                        <th>Election ID</th>
+                        <th>Election</th>
+                        <th>Election Description</th>
+                        <th>Date You Voted</th>
+                    </tr>
+                    @foreach (var vote in VotingHistory)
+                    {
+                        <tr>
+                            <td>@vote.ElectionId</td>
+                            <td>@vote.ElectionName</td>
+                            <td>@vote.ElectionDescription</td>
+                            <td>@vote.VoteDate.FormatDateTime()</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <div class="content-container">
+                    You have no voting history!
+                </div>
+            }
         }
     }
+}
+else
+{
+    <AdminHome/>
 }

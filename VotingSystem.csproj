@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="API\Repository\DBContext\" />
-    <Folder Include="Components\Pages\Admin\" />
   </ItemGroup>
 
 </Project>

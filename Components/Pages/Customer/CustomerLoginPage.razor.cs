@@ -23,8 +23,8 @@ public partial class CustomerLoginPage
     public List<ErrorResponse> Errors { get; set; } = [];
 
     [Parameter]
-    public EventCallback<int> OnLogin { get; set; }
-
+    public EventCallback<int> OnLogin { get; set; }    
+    
     public bool CreateAccount { get; set; } = false;
 
     protected override void OnInitialized()
@@ -46,7 +46,7 @@ public partial class CustomerLoginPage
         }
     }
 
-    private async Task HandleRegister(CreateAccountRequest request)
+    private async Task HandleRegister(CreateCustomerAccountRequest request)
     {
         Errors.Clear();
         var createAccountResponse = await ApiRequestService.PostCreateCustomerAccount(request);
@@ -63,8 +63,12 @@ public partial class CustomerLoginPage
     private async Task HandleLoginResponse(LoginResponse response)
     {
         LoginResult = response;
+        await _localStorage.RemoveItemsAsync(["adminUserId", "authToken"]);
+
         await _localStorage.SetItemAsStringAsync("authToken", response.AccessToken);
         await _localStorage.SetItemAsync("currentUserId", response.UserId);
+        await _localStorage.SetItemAsync("isAdmin", false);
+
         await OnLogin.InvokeAsync(response.UserId);
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace VotingSystem.API.DTO.DbModels.Admin
+﻿namespace VotingSystem.API.DTO.DbModels.Admin;
+
+public class Admin : User
 {
-    public class Admin
-    {
-    }
+    public string DisplayName { get; set; }
 }

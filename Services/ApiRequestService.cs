@@ -1,6 +1,7 @@
 ﻿using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
+using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
 
 namespace VotingSystem.Services;
@@ -91,11 +92,11 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
         }
     }
 
-    public async Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateAccountRequest request)
+    public async Task<Response<LoginResponse>> PostCreateCustomerAccount(CreateCustomerAccountRequest request)
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync($"Auth/PostCreateAccount", request);
+            var response = await _httpClient.PostAsJsonAsync($"Auth/PostCreateCustomerAccount", request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -220,6 +221,60 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occurred when trying to fetch ongoing elections for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<LoginResponse>> PostAdminLogin(LoginRequest loginRequest)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Auth/PostAdminLogin", loginRequest);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<LoginResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to login for admin {loginRequest.Username}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<LoginResponse>> PostCreateAdminAccount(CreateAdminAccountRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Auth/PostCreateAdminAccount", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<LoginResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to create an account for customer {request.Username}",
                 StatusCode = 500,
                 AdditionalDetails = ex.Message
             });

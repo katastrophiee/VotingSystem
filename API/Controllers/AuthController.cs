@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests;
+using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
@@ -21,9 +22,29 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> PostCreateAccount(CreateAccountRequest request)
+    public async Task<ActionResult> PostCreateCustomerAccount(CreateCustomerAccountRequest request)
     {
-        var response = await _authProvider.CreateAccount(request);
+        var response = await _authProvider.CreateCustomerAccount(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> PostAdminLogin(LoginRequest request)
+    {
+        var response = await _authProvider.AdminLogin(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> PostCreateAdminAccount(CreateAdminAccountRequest request)
+    {
+        var response = await _authProvider.CreateAdminAccount(request);
 
         return response.Error is null
             ? Ok(response.Data)

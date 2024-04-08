@@ -1,11 +1,11 @@
-﻿    <Router AppAssembly="typeof(Program).Assembly">
-        <Found Context="routeData">
-            <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
-        </Found>
-        <NotFound>
-            <PageTitle>Not Found</PageTitle>
-            <LayoutView Layout="typeof(Layout.MainLayout)">
-                <p role="alert">Sorry, nothing found at this address.</p>
-            </LayoutView>
-        </NotFound>
-    </Router>
+﻿<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not Found</PageTitle>
+        <LayoutView Layout="typeof(Layout.MainLayout)">
+            <p role="alert">Sorry, nothing found at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>

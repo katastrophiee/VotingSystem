@@ -20,27 +20,41 @@ public partial class Home
     public List<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
     public List<GetOngoingElectionsResponse> OngoingElections { get; set; } = [];
 
+    public bool IsAdmin { get; set; } = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
+            StateHasChanged();
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        LoginResult.UserId = await _localStorage.GetItemAsync<int>("currentUserId");
+        if (!IsAdmin)
+        {
+            LoginResult.UserId = await _localStorage.GetItemAsync<int>("currentUserId");
 
-        var customerDetails = await ApiRequestService.GetCustomerInfo(LoginResult.UserId);
+            var customerDetails = await ApiRequestService.GetCustomerInfo(LoginResult.UserId);
 
-        if (customerDetails.Error == null)
-            CustomerDetails = customerDetails.Data;
-        else
-            Errors.Add(customerDetails.Error);
+            if (customerDetails.Error == null)
+                CustomerDetails = customerDetails.Data;
+            else
+                Errors.Add(customerDetails.Error);
 
-        var votingHistory = await ApiRequestService.GetCustomerVotingHistory(LoginResult.UserId);
-        if (votingHistory.Error == null)
-            VotingHistory = votingHistory.Data;
-        else
-            Errors.Add(votingHistory.Error);
+            var votingHistory = await ApiRequestService.GetCustomerVotingHistory(LoginResult.UserId);
+            if (votingHistory.Error == null)
+                VotingHistory = votingHistory.Data;
+            else
+                Errors.Add(votingHistory.Error);
 
-        var ongoingElections = await ApiRequestService.GetCustomerOngoingElections(LoginResult.UserId);
-        if (ongoingElections.Error == null)
-            OngoingElections = ongoingElections.Data;
-        else
-            Errors.Add(ongoingElections.Error);
+            var ongoingElections = await ApiRequestService.GetCustomerOngoingElections(LoginResult.UserId);
+            if (ongoingElections.Error == null)
+                OngoingElections = ongoingElections.Data;
+            else
+                Errors.Add(ongoingElections.Error);
+        }
     }
 }
