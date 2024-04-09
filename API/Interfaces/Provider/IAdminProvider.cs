@@ -11,4 +11,6 @@ public interface IAdminProvider
     Task<Response<AdminGetCustomerResponse>> GetCustomerDetails(int customerId, int adminId);
 
     Task<Response<bool>> AdminVerifyId(AdminVerifyIdRequest request);
+
+    Task<Response<bool>> AddElection(AddElectionRequest request);
 }

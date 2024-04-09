@@ -31,9 +31,19 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     }
 
     [HttpPost]
-    public async Task<ActionResult> AdminVerifyId(AdminVerifyIdRequest request)
+    public async Task<ActionResult> PostAdminVerifyId(AdminVerifyIdRequest request)
     {
         var response = await _adminProvider.AdminVerifyId(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> PostAddElection(AddElectionRequest request)
+    {
+        var response = await _adminProvider.AddElection(request);
 
         return response.Error is null
             ? Ok(response.Data)

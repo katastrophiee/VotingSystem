@@ -22,6 +22,8 @@ public partial class Home
 
     public bool IsAdmin { get; set; } = false;
 
+    public DateTime? IdExpireyDate { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -55,6 +57,16 @@ public partial class Home
                 OngoingElections = ongoingElections.Data;
             else
                 Errors.Add(ongoingElections.Error);
+
+            var currentIdDocument = await ApiRequestService.GetCurrentCustomerDocument(CustomerId);
+            if (currentIdDocument.Error == null)
+            {
+                IdExpireyDate = currentIdDocument.Data.ExpiryDate;
+            }
+            else
+            {
+                Errors.Add(currentIdDocument.Error);
+            }
         }
     }
 }

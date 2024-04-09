@@ -1,9 +1,54 @@
-﻿<h3>Elections</h3>
+﻿@page "/add-election"
+@using VotingSystem.API.Enums
+
+<h1>Add an Election</h1>
 
 <div class="content-container">
+    <EditForm Model="AddElectionRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
+        <div>
+            <label for="electionName">Election Name</label>
+            <InputText id="electionName" @bind-Value="AddElectionRequest.ElectionName" placeholder="Election Name" />
+        </div>
+
+        <div>
+            <label for="electionDescription">Desciption:</label>
+            <InputTextArea id="electionDescription" @bind-Value="AddElectionRequest.ElectionDescription" placeholder="Description" />
+        </div>
+
+        <InputDate id="startDate" @bind-Value="AddElectionRequest.StartDate" placeholder="Start Date" />
+        <InputDate id="endDate" @bind-Value="AddElectionRequest.EndDate" placeholder="End Date" />
+        <InputSelect id="country" @bind-Value="AddElectionRequest.Country">
+            <option value="">Select a country</option>
+            @foreach (var country in Enum.GetValues<CustomerCountry>())
+            {
+                <option value="@country">@country</option>
+            }
+        </InputSelect>
+        <InputSelect id="electionType" @bind-Value="AddElectionRequest.ElectionType">
+            <option value="">Select an election type</option>
+            @foreach (var type in Enum.GetValues<ElectionType>())
+            {
+                <option value="@type">@type</option>
+            }
+        </InputSelect>
+
+        <h3>Add Election Option</h3>
+        <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder="Option Name" />
+        <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder="Option Description" />
+        <button type="button" @onclick="AddOption">Add Option</button>
+
+        <h3>Election Options</h3>
+        @foreach (var option in AddElectionRequest.ElectionOptions)
+        {
+            <div>
+                <p>@option.OptionName</p>
+                <button type="button" @onclick="() => RemoveOption(option)">Remove</button>
+            </div>
+        }
+
+        <button type="submit">Submit</button>
+    </EditForm>
 </div>
-
-@code {
-
-}

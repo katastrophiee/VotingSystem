@@ -18,7 +18,7 @@ public class Election
 
     public List<ElectionOption> ElectionOptions { get; set; }
 
-    public string ElectionResult { get; set; }
+    public string? ElectionResult { get; set; }
 
     public ElectionType ElectionType { get; set; }
 }

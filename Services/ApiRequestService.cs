@@ -363,5 +363,60 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             });
         }
     }
+
+    public async Task<Response<Document>> GetCurrentCustomerDocument(int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetCurrentCustomerDocument?customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<Document>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to retrieve document for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+
+    public async Task<Response<bool>> PostAddElection(AddElectionRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Admin/PostAddElection", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(true);
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to add a new election for admin {request.AdminId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }
 

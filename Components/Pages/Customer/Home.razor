@@ -58,6 +58,18 @@
         }
         else
         {
+            <h2>Notifications</h2>
+            <div class="content-container">
+                @if(IdExpireyDate is not null && IdExpireyDate < DateTime.Now.AddMonths(3))
+                {
+                    <div>Your ID expires in less than 3 months, go to the profile page to upload a new one.</div>
+                }
+                else
+                {
+                    <div>You have no notifications.</div>
+                }
+            </div>
+
             <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
             @if (OngoingElections.Count != 0)
             {

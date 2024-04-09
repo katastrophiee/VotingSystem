@@ -17,4 +17,6 @@ public interface ICustomerProvider
     Task<Response<bool>> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request);
 
     Task<Response<List<GetOngoingElectionsResponse>>> GetCustomerOngoingElections(int customerId);
+
+    Task<Response<Document?>> GetCurrentCustomerDocument(int customerId);
 }

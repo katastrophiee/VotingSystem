@@ -73,4 +73,15 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [HttpGet]
+    public async Task<ActionResult> GetCurrentCustomerDocument(int customerId)
+    {
+        var response = await _customerProvider.GetCurrentCustomerDocument(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
 }

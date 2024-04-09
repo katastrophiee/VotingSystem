@@ -31,4 +31,8 @@ public interface IApiRequestService
     Task<Response<AdminGetCustomerResponse>> AdminGetCustomerDetails(int customerId, int adminId);
 
     Task<Response<bool>> AdminVerifyCustomerIdDocument(AdminVerifyIdRequest request);
+
+    Task<Response<Document>> GetCurrentCustomerDocument(int customerId);
+
+    Task<Response<bool>> PostAddElection(AddElectionRequest request);
 }

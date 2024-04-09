@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
@@ -135,6 +136,47 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occured when trying to verify ID {request.DocumentId} for admin {request.AdminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> AddElection(AddElectionRequest request)
+    {
+        try
+        {
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Id == request.AdminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Admin Found",
+                    Description = $"No admin was found with the admin id {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var election = new Election()
+            {
+                ElectionName = request.ElectionName,
+                ElectionDescription = request.ElectionDescription,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Country = request.Country,
+                ElectionType = request.ElectionType,
+                ElectionOptions = request.ElectionOptions,
+            };
+
+            _dbContext.Election.Add(election);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to add a new election for admin {request.AdminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

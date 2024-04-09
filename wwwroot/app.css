@@ -137,3 +137,70 @@ th, tr, td {
     justify-content: center;
     margin: 1rem;
 }
+
+.edit-form {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #293241;
+    background: #98c1d9;
+    border-radius: 25px;
+    padding: 1rem;
+    margin-top: 2rem;
+    transition-duration: 0.25s;
+}
+
+/*    .edit-form input[type="text"],*/
+    .edit-form input[type="date"],
+    .edit-form select {
+        width: 100%;
+        padding: .75rem;
+        border-radius: 15px;
+        border: none;
+        margin-bottom: 1rem;
+        box-sizing: border-box;
+    }
+
+    .edit-form button[type="submit"] {
+        background-color: #293241;
+        color: white;
+        border-radius: 15px;
+        border: none;
+        padding: .75rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .edit-form button[type="submit"]:hover {
+            background-color: #405c84;
+        }
+
+    .edit-form .option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .5rem;
+        margin-bottom: .5rem;
+        border-radius: 15px;
+        background-color: #3d5a80;
+        color: white;
+    }
+
+        .edit-form .option button {
+            background-color: #293241;
+            color: white;
+            border-radius: 15px;
+            border: none;
+            padding: .5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .edit-form .option button:hover {
+                background-color: #405c84;
+            }
+
+    .edit-form input[type="text"],
+    .edit-form textarea {
+        display: block;
+        width: 100%;
+        padding-bottom: 1rem;
+    }

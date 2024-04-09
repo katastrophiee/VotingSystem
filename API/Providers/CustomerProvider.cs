@@ -1,7 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Server.HttpSys;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
@@ -236,6 +233,37 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occured when trying to fetch ongoing elections for customer {customerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<Document?>> GetCurrentCustomerDocument(int customerId)
+    {
+        try
+        {
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {customerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var currentDocument = await _dbContext.Document
+              .Where(v => v.CustomerId == customerId && v.MostRecentId == true)
+              .FirstOrDefaultAsync();
+
+            return new(currentDocument);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to retrieve documents for customer {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
