@@ -1,13 +1,12 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
-using VotingSystem.API.DTO.DbModels.Admin;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Customer;
 
-public partial class CastVote
+public partial class ViewElections
 {
     [Inject]
     public IApiRequestService ApiRequestService { get; set; }

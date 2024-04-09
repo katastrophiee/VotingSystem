@@ -1,4 +1,4 @@
-﻿@page "/cast-vote"
+﻿@page "/view-elections"
 @using VotingSystem.Components.Pages.Shared
 
 <PageTitle>Cast a Vote</PageTitle>
@@ -38,7 +38,7 @@ else
                     <td>@election.EndDate.FormatDateTime()</td>
                     @if (!election.HasVoted)
                     {
-                        <td><NavLink class="button-styled-nav-link" href="@($"cast-vote")">Vote Here!</NavLink></td>
+                        <td><NavLink class="button-styled-nav-link" href="@($"view-elections")">Vote Here!</NavLink></td>
                     }
                     else
                     {
