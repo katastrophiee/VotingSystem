@@ -20,6 +20,7 @@ public partial class ViewElections
     public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; } 
     public List<GetElectionResponse> VotedInElections { get; set; } = [];
     public List<GetElectionResponse> OngoingElections { get; set; } = [];
+    public List<GetElectionResponse> UpcomingElections { get; set; } = [];
     public List<GetElectionResponse> PreviousElections { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
@@ -42,6 +43,12 @@ public partial class ViewElections
         var ongoingElections = await ApiRequestService.GetCustomerOngoingElections(CustomerId);
         if (ongoingElections.Error == null)
             OngoingElections = ongoingElections.Data;
+        else
+            Errors.Add(ongoingElections.Error);
+
+        var upcomingElections = await ApiRequestService.GetUpcomingEndedElections(CustomerId);
+        if (upcomingElections.Error == null)
+            UpcomingElections = upcomingElections.Data;
         else
             Errors.Add(ongoingElections.Error);
 

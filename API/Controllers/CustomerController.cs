@@ -103,4 +103,34 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [HttpGet]
+    public async Task<ActionResult> GetUpcomingEndedElections(int customerId)
+    {
+        var response = await _customerProvider.GetUpcomingEndedElections(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetElection(int electionId, int customerId)
+    {
+        var response = await _customerProvider.GetElection(electionId, customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> AddCustomerVote(AddCustomerVoteRequest request)
+    {
+        var response = await _customerProvider.AddCustomerVote(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

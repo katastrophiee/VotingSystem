@@ -1,4 +1,5 @@
 ﻿using VotingSystem.API.DTO.DbModels;
+using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.Responses;
 
@@ -14,7 +15,11 @@ public class GetElectionResponse
 
     public DateTime EndDate { get; set; }
 
-    public bool HasVoted { get; set; }
+    public bool? HasVoted { get; set; }
+    
+    public CustomerCountry Country { get; set; }
+
+    public List<ElectionOption> ElectionOptions { get; set; }
 
     public GetElectionResponse()
     {
@@ -27,5 +32,7 @@ public class GetElectionResponse
         ElectionDescription = election.ElectionDescription;
         StartDate = election.StartDate;
         EndDate = election.EndDate;
+        Country = election.Country;
+        ElectionOptions = election.ElectionOptions;
     }
 }

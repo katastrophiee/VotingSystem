@@ -12,6 +12,7 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<Document> Document { get; set; }
     public DbSet<Election> Election { get; set; }
     public DbSet<Admin> Admin { get; set; }
+    public DbSet<VoteDetails> VoteDetails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,5 +21,6 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
         modelBuilder.ApplyConfiguration(new DocumentEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ElectionEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new AdminEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new VoteDetailsEntityTypeConfiguration());
     }
 }

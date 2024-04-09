@@ -23,4 +23,10 @@ public interface ICustomerProvider
     Task<Response<List<GetElectionResponse>>> GetCustomerVotedInElections(int customerId);
 
     Task<Response<List<GetElectionResponse>>> GetRecentlyEndedElections(int customerId);
+
+    Task<Response<List<GetElectionResponse>>> GetUpcomingEndedElections(int customerId);
+
+    Task<Response<GetElectionResponse>> GetElection(int electionId, int customerId);
+
+    Task<Response<bool>> AddCustomerVote(AddCustomerVoteRequest request);
 }

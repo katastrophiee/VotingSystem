@@ -472,5 +472,86 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             });
         }
     }
+
+    public async Task<Response<List<GetElectionResponse>>> GetUpcomingEndedElections(int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetUpcomingEndedElections?customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<List<GetElectionResponse>>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to fetch recently ended elections for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<GetElectionResponse>> GetElection(int electionId, int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetElection?electionId={electionId}&customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<GetElectionResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to fetch election for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> AddCustomerVote(AddCustomerVoteRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Customer/AddCustomerVote", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(true);
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to add vote for customer {request.CustomerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }
 

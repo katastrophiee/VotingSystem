@@ -1,7 +1,39 @@
-﻿@page "/view-election"
+﻿@page "/view-election/electionId={electionId:int}"
+@using VotingSystem.API.Enums
+@using VotingSystem.Components.Pages.Shared
 
-<h3>ViewAnElection</h3>
-
-@code {
-
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
 }
+else if (Election == null)
+{
+    <h1><em>Loading...</em></h1>
+}
+else
+{
+    <h1>Election ID @Election.ElectionId</h1>
+
+    <div class="content-container">
+        <EditForm Model="AddCustomerVote" OnValidSubmit="async () => await HandleValidSubmit()">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <p>@Election.ElectionName</p>
+            <p>@Election.ElectionDescription</p>
+            <p>@Election.StartDate</p>
+            <p>@Election.EndDate</p>
+            @if (Election.HasVoted is not null && Election.HasVoted == false)
+            {
+                foreach (var option in ElectionOptions)
+                {
+                    <div>
+                        <InputCheckbox @bind-Value="option.IsChecked" /> @option.OptionName
+                    </div>
+                }
+                <button type="submit">Submit</button>
+            }
+        </EditForm>
+    </div>
+}
+

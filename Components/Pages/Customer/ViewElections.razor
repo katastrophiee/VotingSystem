@@ -36,9 +36,13 @@ else
                     <td>@election.ElectionDescription</td>
                     <td>@election.StartDate.FormatDateTime()</td>
                     <td>@election.EndDate.FormatDateTime()</td>
-                    @if (!election.HasVoted)
+                    @if (election.HasVoted is not null && election.HasVoted == false)
                     {
-                        <td><NavLink class="button-styled-nav-link" href="@($"view-elections")">Vote Here!</NavLink></td>
+                        <td>
+                            <NavLink class="button-styled-nav-link" href="@($"view-election/electionId={election.ElectionId}")">
+                                <span>Vote Here!</span>
+                            </NavLink>
+                        </td>
                     }
                     else
                     {
@@ -52,6 +56,37 @@ else
     {
         <div class="content-container">
             There are no ongoing elections in your area.
+        </div>
+    }
+
+    <h2>Upcoming Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    @if (UpcomingElections.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>Election ID</th>
+                <th>Election</th>
+                <th>Election Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Vote</th>
+            </tr>
+            @foreach (var election in UpcomingElections)
+            {
+                <tr>
+                    <td>@election.ElectionId</td>
+                    <td>@election.ElectionName</td>
+                    <td>@election.ElectionDescription</td>
+                    <td>@election.StartDate.FormatDateTime()</td>
+                    <td>@election.EndDate.FormatDateTime()</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container">
+            There are no upcoming elections in your area.
         </div>
     }
 
