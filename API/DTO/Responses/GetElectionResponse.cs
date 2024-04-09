@@ -2,7 +2,7 @@
 
 namespace VotingSystem.API.DTO.Responses;
 
-public class GetOngoingElectionsResponse
+public class GetElectionResponse
 {
     public int ElectionId { get; set; }
 
@@ -16,11 +16,11 @@ public class GetOngoingElectionsResponse
 
     public bool HasVoted { get; set; }
 
-    public GetOngoingElectionsResponse()
+    public GetElectionResponse()
     {
     }
 
-    public GetOngoingElectionsResponse(Election election)
+    public GetElectionResponse(Election election)
     {
         ElectionId = election.Id;
         ElectionName = election.ElectionName;

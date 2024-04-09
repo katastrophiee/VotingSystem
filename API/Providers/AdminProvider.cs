@@ -155,6 +155,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
+            // check startdate is not more than today and check it is not more than the end date and end date is not today
+
             var election = new Election()
             {
                 ElectionName = request.ElectionName,

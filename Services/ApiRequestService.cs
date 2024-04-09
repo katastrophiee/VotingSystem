@@ -202,7 +202,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
         }
     }
 
-    public async Task<Response<List<GetOngoingElectionsResponse>>> GetCustomerOngoingElections(int customerId)
+    public async Task<Response<List<GetElectionResponse>>> GetCustomerOngoingElections(int customerId)
     {
         try
         {
@@ -210,7 +210,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
 
             if (response.IsSuccessStatusCode)
             {
-                return new(await response.Content.ReadFromJsonAsync<List<GetOngoingElectionsResponse>>());
+                return new(await response.Content.ReadFromJsonAsync<List<GetElectionResponse>>());
             }
             else
             {
@@ -413,6 +413,60 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occurred when trying to add a new election for admin {request.AdminId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<List<GetElectionResponse>>> GetCustomerVotedInElections(int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetCustomerVotedInElections?customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<List<GetElectionResponse>>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to fetch voted in elections for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<List<GetElectionResponse>>> GetRecentlyEndedElections(int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetRecentlyEndedElections?customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<List<GetElectionResponse>>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to fetch recently ended elections for customer {customerId}",
                 StatusCode = 500,
                 AdditionalDetails = ex.Message
             });

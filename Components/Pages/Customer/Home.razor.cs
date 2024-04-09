@@ -18,7 +18,7 @@ public partial class Home
     public static int CustomerId { get; set; }
     public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; }
     public List<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
-    public List<GetOngoingElectionsResponse> OngoingElections { get; set; } = [];
+    public List<GetElectionResponse> OngoingElections { get; set; } = [];
 
     public bool IsAdmin { get; set; } = false;
 
@@ -40,7 +40,6 @@ public partial class Home
             CustomerId = await _localStorage.GetItemAsync<int>("currentUserId");
 
             var customerDetails = await ApiRequestService.GetCustomerInfo(CustomerId);
-
             if (customerDetails.Error == null)
                 CustomerDetails = customerDetails.Data;
             else

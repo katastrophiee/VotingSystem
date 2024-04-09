@@ -84,4 +84,23 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [HttpGet]
+    public async Task<ActionResult> GetCustomerVotedInElections(int customerId)
+    {
+        var response = await _customerProvider.GetCustomerVotedInElections(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetRecentlyEndedElections(int customerId)
+    {
+        var response = await _customerProvider.GetRecentlyEndedElections(customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

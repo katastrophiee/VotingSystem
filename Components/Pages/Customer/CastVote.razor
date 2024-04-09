@@ -1,0 +1,117 @@
+﻿@page "/cast-vote"
+@using VotingSystem.Components.Pages.Shared
+
+<PageTitle>Cast a Vote</PageTitle>
+
+<h1>Cast a Vote</h1>
+
+
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (CustomerDetails == null)
+{
+    <h1><em>Loading...</em></h1>
+}
+else
+{
+    <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    @if (OngoingElections.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>Election ID</th>
+                <th>Election</th>
+                <th>Election Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Vote</th>
+            </tr>
+            @foreach (var election in OngoingElections)
+            {
+                <tr>
+                    <td>@election.ElectionId</td>
+                    <td>@election.ElectionName</td>
+                    <td>@election.ElectionDescription</td>
+                    <td>@election.StartDate.FormatDateTime()</td>
+                    <td>@election.EndDate.FormatDateTime()</td>
+                    @if (!election.HasVoted)
+                    {
+                        <td><NavLink class="button-styled-nav-link" href="@($"cast-vote")">Vote Here!</NavLink></td>
+                    }
+                    else
+                    {
+                        <td>You have already voted in this election.</td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container">
+            There are no ongoing elections in your area.
+        </div>
+    }
+
+    <h2>Recently Ended Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    @if (PreviousElections.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>Election ID</th>
+                <th>Election</th>
+                <th>Election Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            @foreach (var election in PreviousElections)
+            {
+                <tr>
+                    <td>@election.ElectionId</td>
+                    <td>@election.ElectionName</td>
+                    <td>@election.ElectionDescription</td>
+                    <td>@election.StartDate.FormatDateTime()</td>
+                    <td>@election.EndDate.FormatDateTime()</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container">
+            There are no recently ended elections in your area.
+        </div>
+    }
+
+    <h2>Elections you have voted in</h2>
+    @if (VotedInElections.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>Election ID</th>
+                <th>Election</th>
+                <th>Election Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            @foreach (var election in VotedInElections)
+            {
+                <tr>
+                    <td>@election.ElectionId</td>
+                    <td>@election.ElectionName</td>
+                    <td>@election.ElectionDescription</td>
+                    <td>@election.StartDate.FormatDateTime()</td>
+                    <td>@election.EndDate.FormatDateTime()</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container">
+            There are no ongoing elections in your area.
+        </div>
+    }
+}

@@ -22,7 +22,7 @@ public interface IApiRequestService
 
     Task<Response<bool>> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request);
 
-    Task<Response<List<GetOngoingElectionsResponse>>> GetCustomerOngoingElections(int customerId);
+    Task<Response<List<GetElectionResponse>>> GetCustomerOngoingElections(int customerId);
 
     Task<Response<LoginResponse>> PostAdminLogin(LoginRequest loginRequest);
 
@@ -35,4 +35,8 @@ public interface IApiRequestService
     Task<Response<Document>> GetCurrentCustomerDocument(int customerId);
 
     Task<Response<bool>> PostAddElection(AddElectionRequest request);
+
+    Task<Response<List<GetElectionResponse>>> GetCustomerVotedInElections(int customerId);
+
+    Task<Response<List<GetElectionResponse>>> GetRecentlyEndedElections(int customerId);
 }
