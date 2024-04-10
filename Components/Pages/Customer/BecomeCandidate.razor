@@ -1,0 +1,47 @@
+﻿@page "/become-candidate"
+@using VotingSystem.API.Enums
+@using VotingSystem.Components.Pages.Shared
+@rendermode InteractiveServer
+
+<PageTitle>Become a Candidate</PageTitle>
+
+<h1>Become a Candidate</h1>
+
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (CustomerDetails == null)
+{
+    <h1><em>Loading...</em></h1>
+}
+else if (CustomerDetails.Country == CustomerCountry.Unknown)
+{
+<div class="warning-container">
+    You cannot become a candidate yet as you have not filled out your profile.
+</div>
+}
+else if (!CustomerDetails.IsVerified)
+{
+    <div class="warning-container">
+        You cannot become a candidate yet as you are not verified. Upload ID and wait to become verified.
+    </div>
+}
+else {
+    <EditForm Model="BecomeCandidateRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label for="candidateName">Name</label>
+            <InputText id="candidateName" @bind-Value="BecomeCandidateRequest.CandidateName" />
+        </div>
+
+        <div>
+            <label for="candidateDescription">Desciption:</label>
+            <InputTextArea id="candidateDescription" @bind-Value="BecomeCandidateRequest.CandidateDescription" placeholder="Enter a description about you" />
+        </div>
+
+        <button type="submit">Submit</button>
+    </EditForm>
+}

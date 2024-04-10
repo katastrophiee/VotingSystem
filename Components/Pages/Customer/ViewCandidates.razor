@@ -1,7 +1,10 @@
 ﻿@page "/view-candidates"
+@using VotingSystem.API.Enums
 @using VotingSystem.Components.Pages.Shared
 
 <PageTitle>View Candidates</PageTitle>
+
+<h1>View Candidate</h1>
 
 @if (Errors.Any())
 {
@@ -10,6 +13,18 @@
 else if (CustomerDetails == null)
 {
     <h1><em>Loading...</em></h1>
+}
+else if (CustomerDetails.Country == CustomerCountry.Unknown)
+{
+    <div class="warning-container">
+        We cannot get candidates in your region as you have not filled out your profile.
+    </div>
+}
+else if (!CustomerDetails.IsVerified)
+{
+    <div class="warning-container">
+        You cannot view candidates yet as you are not verified. Upload ID and wait to become verified.
+    </div>
 }
 else
 {
@@ -22,6 +37,8 @@ else
                 <th>Name</th>
                 <th>Description</th>
                 <th>Length of Candidacy</th>
+                <th>Running In Elections Amount</th>
+                <th>Action</th>
             </tr>
             @foreach (var candidate in Candidates)
             {
@@ -30,6 +47,13 @@ else
                     <td>@candidate.Name</td>
                     <td>@candidate.Description</td>
                     <td>@candidate.StartDateOfCandidacy.GetDateTimeDurationToCurrentDate()</td>
+                    @* <td>@string.Join(", ", candidate.OngoingEnteredElectionsIds)</td> *@
+                    <td>@candidate.OngoingEnteredElectionsIds.Count()</td>
+                    <td>
+                        <NavLink class="button-styled-nav-link" href="@($"view-candidate/userId={candidate.CandidateId}")">
+                            <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">View</span>
+                        </NavLink>
+                    </td>
                 </tr>
             }
         </table>

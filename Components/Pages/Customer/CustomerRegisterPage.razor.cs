@@ -13,8 +13,12 @@ public partial class CustomerRegisterPage
     [Parameter]
     public EventCallback<bool> Return { get; set; }
 
+    public bool ShowLoading { get; set; } = false;
+
     private async Task HandleRegistration()
     {
+        ShowLoading = true;
         await OnCreation.InvokeAsync(CreateAccountRequest);
+        ShowLoading = false;
     }
 }

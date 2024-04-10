@@ -5,7 +5,7 @@ namespace VotingSystem.API.Interfaces.Provider;
 
 public interface IDocumentProvider
 {
-    Task<Response<Document?>> GetCurrentCustomerDocument(int customerId);
+    Task<Response<Document>> GetCurrentCustomerDocument(int customerId);
 
     Task<Response<List<Document>>> GetCustomerDocuments(int customerId);
 

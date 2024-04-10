@@ -574,7 +574,61 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             return new(new ErrorResponse
             {
                 Title = "Internal Server Error",
-                Description = $"An unknown error occurred when trying to add vote for customer {customerId}",
+                Description = $"An unknown error occurred when trying to get active candidates for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> PutMakeCustomerACandidate(BecomeCandidateRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"Customer/PutMakeCustomerACandidate", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(true);
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to convert to candidate for customer {request.CustomerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetCandidate?customerId={customerId}&adminId={adminId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<GetCandidateResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to get candidate for admin {adminId}",
                 StatusCode = 500,
                 AdditionalDetails = ex.Message
             });

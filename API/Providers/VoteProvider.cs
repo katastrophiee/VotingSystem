@@ -58,6 +58,14 @@ public class VoteProvider(DBContext dbContext) : IVoteProvider
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
+            if (!customer.IsVerified)
+                return new(new ErrorResponse()
+                {
+                    Title = "Customer Not Verified",
+                    Description = $"Cannot vote as customer {request.CustomerId} is not verified.",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
             var election = await _dbContext.Election.FirstOrDefaultAsync(c => c.Id == request.ElectionId);
             if (election is null || election.Id == 0)
                 return new(new ErrorResponse()
@@ -84,6 +92,14 @@ public class VoteProvider(DBContext dbContext) : IVoteProvider
                 v.ElectionId == election.Id
                 && v.CustomerId == customer.Id)
                 .FirstOrDefaultAsync();
+
+            if (customerVote is null || customerVote.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Vote Found",
+                    Description = $"No vote was found by customer {request.CustomerId} for election {request.ElectionId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
 
             var voteDetails = new VoteDetails()
             {

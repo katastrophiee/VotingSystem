@@ -30,6 +30,8 @@ public partial class AdminLoginPage
 
     public bool CreateAccount { get; set; } = false;
 
+    public bool ShowLoading { get; set; } = false;
+
     protected override void OnInitialized()
     {
         LoginRequest = new();
@@ -37,6 +39,7 @@ public partial class AdminLoginPage
 
     private async Task HandleLogin()
     {
+        ShowLoading = true;
         Errors.Clear();
         var loginResponse = await ApiRequestService.PostAdminLogin(LoginRequest);
         if (loginResponse.Error == null)
@@ -49,12 +52,12 @@ public partial class AdminLoginPage
             await _localStorage.SetItemAsync("isAdmin", true);
 
             await OnLogin.InvokeAsync(LoginResult.UserId);
-
             StateHasChanged();
         }
         else
         {
             Errors.Add(loginResponse.Error);
+            ShowLoading = false;
         }
     }
 }

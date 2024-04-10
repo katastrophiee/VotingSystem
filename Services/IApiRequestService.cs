@@ -47,4 +47,8 @@ public interface IApiRequestService
     Task<Response<bool>> AddCustomerVote(AddCustomerVoteRequest request);
 
     Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int customerId);
+
+    Task<Response<bool>> PutMakeCustomerACandidate(BecomeCandidateRequest request);
+
+    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId);
 }

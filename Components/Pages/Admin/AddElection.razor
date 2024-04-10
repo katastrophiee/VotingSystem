@@ -36,6 +36,11 @@
         </InputSelect>
 
         <h3>Add Election Option</h3>
+        <div>
+            <label for="candidateId">Candidate ID:</label>
+            <input type="number" @oninput="OnCandidateIdInput"/>
+            @* <InputNumber @bind-Value="NewOption.CandidateId" @onchange="async () => await AutofillCandidate()" id="candidateId" /> *@
+        </div>
         <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder="Option Name" />
         <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder="Option Description" />
         <button type="button" @onclick="AddOption">Add Option</button>
@@ -45,7 +50,6 @@
         {
             <div>
                 <p>@option.OptionName</p>
-                @* add candidate id option to autofill values *@
                 <button type="button" @onclick="() => RemoveOption(option)">Remove</button>
             </div>
         }

@@ -10,7 +10,7 @@ namespace VotingSystem.API.Providers;
 public class DocumentProvider(DBContext dbContext) : IDocumentProvider
 {
     private readonly DBContext _dbContext = dbContext;
-    public async Task<Response<Document?>> GetCurrentCustomerDocument(int customerId)
+    public async Task<Response<Document>> GetCurrentCustomerDocument(int customerId)
     {
         try
         {
@@ -27,7 +27,7 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
               .Where(v => v.CustomerId == customerId && v.MostRecentId == true)
               .FirstOrDefaultAsync();
 
-            return new(currentDocument);
+            return new(currentDocument ?? new());
         }
         catch (Exception ex)
         {
@@ -98,7 +98,10 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
             document.IsVerified = false;
             document.MostRecentId = true;
 
+            customer.IsVerified = false;
+
             _dbContext.Document.Add(document);
+            _dbContext.Customer.Update(customer);
             await _dbContext.SaveChangesAsync();
 
             // TO DO

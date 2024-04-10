@@ -27,6 +27,10 @@
         <div class="form-group">No Account?</div>
         <button @onclick="() => CreateAccount = true">Make one!</button>
     </EditForm>
+    @if (ShowLoading)
+    {
+        <h1 class="centered-heading">Loading...</h1>
+    }
 }
 else
 {
@@ -53,5 +57,11 @@ else
 
     button {
         margin: .5rem;
+    }
+
+    .centered-heading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

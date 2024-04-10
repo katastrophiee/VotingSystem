@@ -15,6 +15,9 @@ public partial class ViewVoter
     [Inject]
     public ILocalStorageService _localStorage { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     public List<ErrorResponse> Errors { get; set; } = [];
 
     [Parameter]
@@ -30,12 +33,7 @@ public partial class ViewVoter
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
 
-        var customerDetails = await ApiRequestService.AdminGetCustomerDetails(UserId, AdminId);
-
-        if (customerDetails.Error == null)
-            CustomerDetails = customerDetails.Data;
-        else
-            Errors.Add(customerDetails.Error);
+        await FetchCustomerDetails();
     }
 
     private async Task VerifyId()
@@ -47,8 +45,20 @@ public partial class ViewVoter
 
         if (verifyIdResult.Error != null)
             Errors.Add(verifyIdResult.Error);
+        else
+            await FetchCustomerDetails();
 
         StateHasChanged();
+    }
+
+    private async Task FetchCustomerDetails()
+    {
+        var customerDetails = await ApiRequestService.AdminGetCustomerDetails(UserId, AdminId);
+
+        if (customerDetails.Error == null)
+            CustomerDetails = customerDetails.Data;
+        else
+            Errors.Add(customerDetails.Error);
     }
 }
 

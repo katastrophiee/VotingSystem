@@ -63,6 +63,10 @@ public partial class Profile
         var customerDetails = await ApiRequestService.GetCustomerInfo(UserId);
         if (customerDetails.Error == null)
         {
+            //Trim as white space is being added
+            customerDetails.Data.Email = customerDetails.Data.Email.Trim();
+            customerDetails.Data.FirstName = customerDetails.Data.FirstName.Trim();
+            customerDetails.Data.LastName = customerDetails.Data.LastName.Trim();
             CustomerDetails = customerDetails.Data;
             UpdateCustomerProfileRequest = new(CustomerDetails);
         }
@@ -144,5 +148,6 @@ public partial class Profile
         {
             Errors.Add(documents.Error);
         }
+        StateHasChanged();
     }
 }

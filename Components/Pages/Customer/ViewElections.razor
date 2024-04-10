@@ -1,4 +1,5 @@
 ﻿@page "/view-elections"
+@using VotingSystem.API.Enums
 @using VotingSystem.Components.Pages.Shared
 
 <PageTitle>Cast a Vote</PageTitle>
@@ -13,6 +14,18 @@
 else if (CustomerDetails == null)
 {
     <h1><em>Loading...</em></h1>
+}
+else if (CustomerDetails.Country == CustomerCountry.Unknown)
+{
+    <div class="warning-container">
+        We cannot get elections in your region as you have not filled out your profile.
+    </div>
+}
+else if (!CustomerDetails.IsVerified)
+{
+    <div class="warning-container">
+        You cannot cast a vote yet as you are not verified. Upload ID and wait to become verified.
+    </div>
 }
 else
 {

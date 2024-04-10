@@ -16,6 +16,9 @@ public partial class ViewElection
     [Inject]
     public ILocalStorageService _localStorage { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     [Parameter]
     public int ElectionId { get; set; }
 
@@ -69,7 +72,8 @@ public partial class ViewElection
         var response = await ApiRequestService.AddCustomerVote(AddCustomerVote);
         if (response.Error == null)
         {
-            //redirect to view elections page
+            //Page needs adding
+            NavigationManager.NavigateTo("/admin-view-elections");
         }
         else
             Errors.Add(response.Error);

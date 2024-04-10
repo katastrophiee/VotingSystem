@@ -22,11 +22,15 @@
 
     <div class="form-group">
         <label for="password">Password:</label>
-        <InputText id="password" class="form-control" @bind-Value="CreateAccountRequest.Password" />
+        <InputText id="password" type="password" class="form-control" @bind-Value="CreateAccountRequest.Password" />
     </div>
 
     <button type="submit">Register</button>
 </EditForm>
+@if (ShowLoading)
+{
+    <h1 class="centered-heading">Loading...</h1>
+}
 
 <style>
     h1 {
@@ -65,5 +69,11 @@
     .left {
         transform: rotate(135deg);
         -webkit-transform: rotate(135deg);
+    }
+
+    .centered-heading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

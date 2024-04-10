@@ -10,6 +10,8 @@ public class Customer : User
 
     public bool IsCandidate { get; set; }
 
+    public string? CandidateName { get; set; }
+
     public string? CandidateDescription { get; set; }
 
     public DateTime? DateOfCandidacy { get; set; }

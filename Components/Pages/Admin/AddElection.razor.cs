@@ -7,7 +7,7 @@ using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
 
-public partial class Elections
+public partial class AddElection
 {
     private AddElectionRequest AddElectionRequest = new([])
     {
@@ -22,6 +22,9 @@ public partial class Elections
 
     [Inject]
     public ILocalStorageService _localStorage { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     public List<ErrorResponse> Errors { get; set; } = [];
 
@@ -39,12 +42,35 @@ public partial class Elections
 
         if (response.Error == null)
         {
-            //redirect to view elections page
+            NavigationManager.NavigateTo("/view-elections");
         }
         else
             Errors.Add(response.Error);
     }
 
+    async Task OnCandidateIdInput(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int result))
+        {
+            NewOption.CandidateId = result;
+            await AutofillCandidate();
+        }
+        else
+        {
+            NewOption.OptionName = "";
+            NewOption.OptionDescription = "";
+        }
+    }
+
+    private async Task AutofillCandidate()
+    {
+        var candidate = await ApiRequestService.GetCandidate(NewOption.CandidateId ?? 0, AdminId);
+        if (candidate.Error == null)
+        {
+            NewOption.OptionName = candidate.Data.Name;
+            NewOption.OptionDescription = candidate.Data.Description;
+        }
+    }
 
     private void AddOption()
     {

@@ -15,8 +15,6 @@ public class GetCandidateResponse
 
     public DateTime StartDateOfCandidacy { get; set; }
 
-    public List<int> EnteredElectionsIds { get; set; }
-
     public List<int> OngoingEnteredElectionsIds { get; set; }
 
     public GetCandidateResponse()
@@ -26,10 +24,9 @@ public class GetCandidateResponse
     public GetCandidateResponse(Customer candidate)
     {
         CandidateId = candidate.Id;
-        Name = $"{candidate.FirstName} {candidate.LastName}";
+        Name = candidate.CandidateName ?? "";
         Description = candidate.CandidateDescription ?? "Unknown";
         Country = candidate.Country;
         StartDateOfCandidacy = candidate.DateOfCandidacy ?? DateTime.MaxValue;
-
     }
 }

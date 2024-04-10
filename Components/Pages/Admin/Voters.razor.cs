@@ -48,6 +48,8 @@ public partial class Voters
     private void ClearSearch()
     {
         GetVotersRequest = new();
+        IsCandidateString = "";
+        IsVerifiedString = "";
         VotersResult.Clear();
     }
 }

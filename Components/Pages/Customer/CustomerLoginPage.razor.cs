@@ -27,6 +27,9 @@ public partial class CustomerLoginPage
     
     public bool CreateAccount { get; set; } = false;
 
+    public bool ShowLoading { get; set; } = false;
+
+
     protected override void OnInitialized()
     {
         LoginRequest = new();
@@ -34,6 +37,7 @@ public partial class CustomerLoginPage
 
     private async Task HandleLogin()
     {
+        ShowLoading = true;
         Errors.Clear();
         var loginResponse = await ApiRequestService.PostCustomerLogin(LoginRequest);
         if (loginResponse.Error == null)
@@ -43,6 +47,7 @@ public partial class CustomerLoginPage
         else
         {
             Errors.Add(loginResponse.Error);
+            ShowLoading = false;
         }
     }
 

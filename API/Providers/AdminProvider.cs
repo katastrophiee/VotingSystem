@@ -113,15 +113,15 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             if (!request.IsRejected)
             {
                 document.ExpiryDate = request.DocumentExpiryDate;
+
+                var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == document.CustomerId);
+                customer.IsVerified = true;
+                _dbContext.Customer.Update(customer);
             }
             else
             {
                 document.RejectionReason = request.RejectionReason;
                 document.RejectedByAdminId = request.AdminId;
-
-                var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == document.CustomerId);
-                customer.IsVerified = true;
-                _dbContext.Customer.Update(customer);
             }
 
             _dbContext.Document.Update(document);

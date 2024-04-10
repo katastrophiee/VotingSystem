@@ -60,7 +60,8 @@ public partial class Home
             var currentIdDocument = await ApiRequestService.GetCurrentCustomerDocument(CustomerId);
             if (currentIdDocument.Error == null)
             {
-                IdExpireyDate = currentIdDocument.Data.ExpiryDate;
+                if (currentIdDocument.Data.Id != 0)
+                    IdExpireyDate = currentIdDocument.Data.ExpiryDate;
             }
             else
             {

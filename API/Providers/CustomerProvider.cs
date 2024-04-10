@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -106,21 +107,22 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
 
             foreach(var candidate in response)
             {
-                var enteredElections = await _dbContext.Election.Where(e =>
-                    e.ElectionOptions.Any(o =>
-                    o.CandidateId == candidate.CandidateId))
-                    .ToListAsync();
+                var candidateId = candidate.CandidateId;
+                var candidateName = candidate.Name;
 
-                candidate.EnteredElectionsIds = enteredElections.Select(e => e.Id).ToList();
+                //electionid and optionId not being saved to election options
 
-                var currentlyRunningEnteredElections = await _dbContext.Election.Where(e =>
-                    e.ElectionOptions.Any(o =>
-                    o.CandidateId == candidate.CandidateId)
+                var ongoingElections = await _dbContext.Election.Where(e =>
+                    e.Country == customer.Country
                     && e.StartDate <= DateTime.Now
-                    && e.EndDate > DateTime.Now)
-                    .ToListAsync();
+                    && e.EndDate > DateTime.Now).ToListAsync();
 
-                candidate.OngoingEnteredElectionsIds = currentlyRunningEnteredElections.Select(e => e.Id).ToList();
+                var ongoingEnteredElectionsIds = ongoingElections
+                    .Where(e => e.ElectionOptions.Any(o => o.CandidateId == customerId))
+                    .Select(e => e.Id)
+                    .ToList() ?? [];
+
+                candidate.OngoingEnteredElectionsIds = ongoingEnteredElectionsIds;
             }
 
             return new(response);
@@ -131,6 +133,95 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occured when trying to retrieve candidates for customer {customerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> MakeCustomerACandidate(BecomeCandidateRequest request)
+    {
+        try
+        {
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == request.CustomerId);
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (!customer.IsVerified)
+                return new(new ErrorResponse()
+                {
+                    Title = "Customer Not Verified",
+                    Description = $"Cannot convert to candidate as customer {request.CustomerId} is not verified.",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (string.IsNullOrEmpty(request.CandidateName) || string.IsNullOrEmpty(request.CandidateDescription))
+                return new(new ErrorResponse()
+                {
+                    Title = "No Name or Description Provided",
+                    Description = $"No candidate name or description was provided when trying convert to candidate for customer id {request.CustomerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            customer.IsCandidate = true;
+            customer.CandidateName = request.CandidateName;
+            customer.CandidateDescription = request.CandidateDescription;
+            customer.DateOfCandidacy = DateTime.Now;
+
+            _dbContext.Customer.Update(customer);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to convert to candidate for customer {request.CustomerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId)
+    {
+        try
+        {
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
+
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {customerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (customer.IsCandidate == false)
+                return new(new ErrorResponse()
+                {
+                    Title = "Customer Not A Candidate",
+                    Description = $"The customer id {customerId} is not a candidate.",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var response = new GetCandidateResponse(customer);
+
+            return new(response);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to retrieve candidate {customerId} for admin {adminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

@@ -16,9 +16,11 @@ else
     <h2>User ID: @UserId</h2>
     @if (!Editable)
     {
-        @if (string.IsNullOrEmpty(CustomerDetails.FirstName)
-                || string.IsNullOrEmpty(CustomerDetails.LastName)
-                || CustomerDetails.Country == CustomerCountry.Unknown)
+        @if ((string.IsNullOrEmpty(CustomerDetails.FirstName)
+            || string.IsNullOrEmpty(CustomerDetails.LastName)
+            || CustomerDetails.Country == CustomerCountry.Unknown)
+            && CurrentIdDocument is not null 
+            && CurrentIdDocument.Id != 0)
         {
             <div class="warning-container">You have missing details from your profile, these need to be entered before we can verify your ID.</div>
         }
@@ -66,7 +68,9 @@ else
                 <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
                 @if (ShowUpdateButton)
                 {
+                    <div class="warning-container">After uploading, your account will need re-verifying.</div>
                     <button @onclick="async () => await UploadIdentificationDocument()">Upload</button>
+                    <button @onclick="() => CurrentIdDocument = new()">Cancel</button>
                 }
             }
         </div>

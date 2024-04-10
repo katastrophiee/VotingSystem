@@ -10,4 +10,8 @@ public interface ICustomerProvider
     Task<Response<bool>> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request);
 
     Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int customerId);
+
+    Task<Response<bool>> MakeCustomerACandidate(BecomeCandidateRequest request);
+
+    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId);
 }
