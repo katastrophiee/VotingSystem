@@ -44,7 +44,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerVotingHistory?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Vote/GetCustomerVotingHistory?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -125,7 +125,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync($"Customer/PostUploadCustomerDocument", document);
+            var response = await _httpClient.PostAsJsonAsync($"Document/PostUploadCustomerDocument", document);
 
             if (response.IsSuccessStatusCode)
             {
@@ -152,7 +152,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerDocuments?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Document/GetCustomerDocuments?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -206,7 +206,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerOngoingElections?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Election/GetCustomerOngoingElections?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -341,7 +341,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync($"Admin/AdminVerifyId", request);
+            var response = await _httpClient.PostAsJsonAsync($"Admin/PostAdminVerifyId", request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -368,7 +368,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCurrentCustomerDocument?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Document/GetCurrentCustomerDocument?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -392,7 +392,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     }
 
 
-    public async Task<Response<bool>> PostAddElection(AddElectionRequest request)
+    public async Task<Response<bool>> AdminPostAddElection(AddElectionRequest request)
     {
         try
         {
@@ -423,7 +423,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerVotedInElections?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Election/GetCustomerVotedInElections?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -450,7 +450,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetRecentlyEndedElections?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Election/GetRecentlyEndedElections?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -473,11 +473,11 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
         }
     }
 
-    public async Task<Response<List<GetElectionResponse>>> GetUpcomingEndedElections(int customerId)
+    public async Task<Response<List<GetElectionResponse>>> GetCustomerUpcomingElections(int customerId)
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetUpcomingEndedElections?customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Election/GetCustomerUpcomingElections?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -504,7 +504,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetElection?electionId={electionId}&customerId={customerId}");
+            var response = await _httpClient.GetAsync($"Election/GetElection?electionId={electionId}&customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {

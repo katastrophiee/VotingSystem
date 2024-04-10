@@ -46,7 +46,7 @@ public partial class ViewElections
         else
             Errors.Add(ongoingElections.Error);
 
-        var upcomingElections = await ApiRequestService.GetUpcomingEndedElections(CustomerId);
+        var upcomingElections = await ApiRequestService.GetCustomerUpcomingElections(CustomerId);
         if (upcomingElections.Error == null)
             UpcomingElections = upcomingElections.Data;
         else

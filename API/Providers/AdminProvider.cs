@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;

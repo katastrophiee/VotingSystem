@@ -34,13 +34,13 @@ public interface IApiRequestService
 
     Task<Response<Document>> GetCurrentCustomerDocument(int customerId);
 
-    Task<Response<bool>> PostAddElection(AddElectionRequest request);
+    Task<Response<bool>> AdminPostAddElection(AddElectionRequest request);
 
     Task<Response<List<GetElectionResponse>>> GetCustomerVotedInElections(int customerId);
 
     Task<Response<List<GetElectionResponse>>> GetRecentlyEndedElections(int customerId);
 
-    Task<Response<List<GetElectionResponse>>> GetUpcomingEndedElections(int customerId);
+    Task<Response<List<GetElectionResponse>>> GetCustomerUpcomingElections(int customerId);
 
     Task<Response<GetElectionResponse>> GetElection(int electionId, int customerId);
 

@@ -35,7 +35,7 @@ public partial class Elections
     private async Task HandleValidSubmit()
     {
         AddElectionRequest.AdminId = AdminId;
-        var response = await ApiRequestService.PostAddElection(AddElectionRequest);
+        var response = await ApiRequestService.AdminPostAddElection(AddElectionRequest);
 
         if (response.Error == null)
         {
