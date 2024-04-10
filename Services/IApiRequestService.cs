@@ -45,4 +45,6 @@ public interface IApiRequestService
     Task<Response<GetElectionResponse>> GetElection(int electionId, int customerId);
 
     Task<Response<bool>> AddCustomerVote(AddCustomerVoteRequest request);
+
+    Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int customerId);
 }

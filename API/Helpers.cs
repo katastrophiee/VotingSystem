@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VotingSystem;
 
@@ -39,4 +40,19 @@ public static class Helpers
         return null;
     }
 
+    public static string GetDateTimeDurationToCurrentDate(this DateTime startDate)
+    {
+        DateTime currentDate = DateTime.Now;
+
+        int years = currentDate.Year - startDate.Year;
+        int months = currentDate.Month - startDate.Month;
+
+        if (months < 0)
+        {
+            years--;
+            months += 12;
+        }
+
+        return $"{years} years and {months} months";
+    }
 }

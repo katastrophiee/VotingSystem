@@ -1,10 +1,43 @@
 ﻿@page "/view-candidates"
-@rendermode InteractiveServer
+@using VotingSystem.Components.Pages.Shared
 
 <PageTitle>View Candidates</PageTitle>
 
-<h1>View Candidates</h1>
-
-@code {
-
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (CustomerDetails == null)
+{
+    <h1><em>Loading...</em></h1>
+}
+else
+{
+    <h2>Candidates in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    @if (Candidates.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>Candidate ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Length of Candidacy</th>
+            </tr>
+            @foreach (var candidate in Candidates)
+            {
+                <tr>
+                    <td>@candidate.CandidateId</td>
+                    <td>@candidate.Name</td>
+                    <td>@candidate.Description</td>
+                    <td>@candidate.StartDateOfCandidacy.GetDateTimeDurationToCurrentDate()</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container">
+            There are no candidates on the platform in your area.
+        </div>
+    }
 }

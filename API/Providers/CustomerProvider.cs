@@ -82,4 +82,58 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
             });
         }
     }
+
+    public async Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int customerId)
+    {
+        try
+        {
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
+
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {customerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var candidates = await _dbContext.Customer.Where(c =>
+                c.IsCandidate == true
+                && c.IsActive == true
+                && c.IsVerified == true).ToListAsync();
+            
+            var response = candidates.Select(c => new GetCandidateResponse(c)).ToList();
+
+            foreach(var candidate in response)
+            {
+                var enteredElections = await _dbContext.Election.Where(e =>
+                    e.ElectionOptions.Any(o =>
+                    o.CandidateId == candidate.CandidateId))
+                    .ToListAsync();
+
+                candidate.EnteredElectionsIds = enteredElections.Select(e => e.Id).ToList();
+
+                var currentlyRunningEnteredElections = await _dbContext.Election.Where(e =>
+                    e.ElectionOptions.Any(o =>
+                    o.CandidateId == candidate.CandidateId)
+                    && e.StartDate <= DateTime.Now
+                    && e.EndDate > DateTime.Now)
+                    .ToListAsync();
+
+                candidate.OngoingEnteredElectionsIds = currentlyRunningEnteredElections.Select(e => e.Id).ToList();
+            }
+
+            return new(response);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to retrieve candidates for customer {customerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }

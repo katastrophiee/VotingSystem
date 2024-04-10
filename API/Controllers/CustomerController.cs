@@ -13,9 +13,9 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
 
     //[Authorize(Roles = ("Voter, Candidate"))]
     [HttpGet]
-    public async Task<ActionResult> GetCustomerDetails(int id)
+    public async Task<ActionResult> GetCustomerDetails(int customerId)
     {
-        var response = await _customerProvider.GetCustomerAccountDetails(id);
+        var response = await _customerProvider.GetCustomerAccountDetails(customerId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -26,6 +26,16 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
     public async Task<ActionResult> PutUpdateCustomerProfile(UpdateCustomerProfileRequest request)
     {
         var response = await _customerProvider.PutUpdateCustomerProfile(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetActiveCandidates(int customerId)
+    {
+        var response = await _customerProvider.GetActiveCandidates(customerId);
 
         return response.Error is null
             ? Ok(response.Data)

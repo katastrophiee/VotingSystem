@@ -16,7 +16,7 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCustomerDetails?id={customerId}");
+            var response = await _httpClient.GetAsync($"Customer/GetCustomerDetails?customerId={customerId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -548,6 +548,33 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occurred when trying to add vote for customer {request.CustomerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetActiveCandidates?customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<List<GetCandidateResponse>>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to add vote for customer {customerId}",
                 StatusCode = 500,
                 AdditionalDetails = ex.Message
             });
