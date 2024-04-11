@@ -50,5 +50,13 @@ public interface IApiRequestService
 
     Task<Response<bool>> PutMakeCustomerACandidate(BecomeCandidateRequest request);
 
-    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId);
+    Task<Response<GetCandidateResponse>> AdminGetCandidate(int customerId, int adminId);
+    
+    Task<Response<GetCandidateResponse>> AdminGetCandidate(int customerId);
+
+    Task<Response<List<GetElectionResponse>>> PostGetElections(GetElectionsRequest request);
+
+    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int candidateId);
+
+    Task<Response<bool>> PutUpateCandidate(UpdateCandidateRequest request);
 }

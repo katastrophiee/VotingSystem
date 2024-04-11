@@ -608,11 +608,11 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
         }
     }
 
-    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId)
+    public async Task<Response<GetCandidateResponse>> AdminGetCandidate(int customerId, int adminId)
     {
         try
         {
-            var response = await _httpClient.GetAsync($"Customer/GetCandidate?customerId={customerId}&adminId={adminId}");
+            var response = await _httpClient.GetAsync($"Admin/GetCandidate?customerId={customerId}&adminId={adminId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -629,6 +629,114 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occurred when trying to get candidate for admin {adminId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<GetCandidateResponse>> AdminGetCandidate(int customerId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetCandidate?customerId={customerId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<GetCandidateResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to get candidate for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<List<GetElectionResponse>>> PostGetElections(GetElectionsRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Election/PostGetElections", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<List<GetElectionResponse>>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to fetch election for customer {request.CustomerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int candidateId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetCandidate?customerId={customerId}&candidateId={candidateId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(await response.Content.ReadFromJsonAsync<GetCandidateResponse>());
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to get candidate for customer {customerId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> PutUpateCandidate(UpdateCandidateRequest request)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"Customer/PutUpateCandidate", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(true);
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to update candidate {request.CustomerId}",
                 StatusCode = 500,
                 AdditionalDetails = ex.Message
             });

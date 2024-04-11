@@ -47,10 +47,9 @@ else
                     <td>@candidate.Name</td>
                     <td>@candidate.Description</td>
                     <td>@candidate.StartDateOfCandidacy.GetDateTimeDurationToCurrentDate()</td>
-                    @* <td>@string.Join(", ", candidate.OngoingEnteredElectionsIds)</td> *@
                     <td>@candidate.OngoingEnteredElectionsIds.Count()</td>
                     <td>
-                        <NavLink class="button-styled-nav-link" href="@($"view-candidate/userId={candidate.CandidateId}")">
+                        <NavLink class="button-styled-nav-link" href="@($"view-candidate/candidateId={candidate.CandidateId}")">
                             <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">View</span>
                         </NavLink>
                     </td>

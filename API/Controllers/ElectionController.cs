@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
@@ -53,6 +54,16 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
     public async Task<ActionResult> GetElection(int electionId, int customerId)
     {
         var response = await _electionProvider.GetElection(electionId, customerId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> PostGetElections(GetElectionsRequest request)
+    {
+        var response = await _electionProvider.GetElections(request);
 
         return response.Error is null
             ? Ok(response.Data)

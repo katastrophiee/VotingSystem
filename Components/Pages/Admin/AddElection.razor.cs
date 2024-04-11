@@ -30,6 +30,8 @@ public partial class AddElection
 
     public int AdminId { get; set; }
 
+    public bool ShowAddOptionError { get; set; } = false;
+
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
@@ -50,10 +52,11 @@ public partial class AddElection
 
     async Task OnCandidateIdInput(ChangeEventArgs e)
     {
-        if (int.TryParse(e.Value.ToString(), out int result))
+        ShowAddOptionError = false;
+        if (int.TryParse(e.Value?.ToString(), out int result))
         {
             NewOption.CandidateId = result;
-            await AutofillCandidate();
+            await AutofillCandidate(result);
         }
         else
         {
@@ -62,20 +65,32 @@ public partial class AddElection
         }
     }
 
-    private async Task AutofillCandidate()
+    private async Task<bool> AutofillCandidate(int candidateId)
     {
-        var candidate = await ApiRequestService.GetCandidate(NewOption.CandidateId ?? 0, AdminId);
+        var candidate = await ApiRequestService.AdminGetCandidate(candidateId, AdminId);
         if (candidate.Error == null)
         {
             NewOption.OptionName = candidate.Data.Name;
             NewOption.OptionDescription = candidate.Data.Description;
+            return true;
         }
+
+        return false;
     }
 
-    private void AddOption()
+    private async void AddOption()
     {
-        AddElectionRequest.ElectionOptions.Add(NewOption);
-        NewOption = new();
+        var candidateExists = await AutofillCandidate(NewOption.CandidateId ?? 0);
+
+        if (candidateExists)
+        {
+            AddElectionRequest.ElectionOptions.Add(NewOption);
+            NewOption = new();
+        }
+        else
+        {
+            ShowAddOptionError = true;
+        }
     }
 
     private void RemoveOption(ElectionOption option)

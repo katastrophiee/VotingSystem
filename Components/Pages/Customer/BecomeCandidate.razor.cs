@@ -24,6 +24,7 @@ public partial class BecomeCandidate
     public GetCustomerAccountDetailsResponse? CustomerDetails { get; set; }
 
     public BecomeCandidateRequest BecomeCandidateRequest { get; set; } = new();
+    public UpdateCandidateRequest UpdateCandidateRequest { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,13 +36,31 @@ public partial class BecomeCandidate
             //Trim as white space is being added to existing strings
             customerDetails.Data.FirstName = customerDetails.Data.FirstName.Trim();
             customerDetails.Data.LastName = customerDetails.Data.LastName.Trim();
+
             CustomerDetails = customerDetails.Data;
+
             BecomeCandidateRequest.CandidateName = $"{CustomerDetails.FirstName} {CustomerDetails.LastName}";
             BecomeCandidateRequest.CustomerId = CustomerId;
+
+            if (customerDetails.Data.IsCandidate)
+            {
+                var candidateDetails = await ApiRequestService.GetCandidate(CustomerId, CustomerId);
+                if (candidateDetails.Error == null)
+                {
+                    UpdateCandidateRequest.CustomerId = CustomerId;
+                    UpdateCandidateRequest.CandidateName = candidateDetails.Data.Name;
+                    UpdateCandidateRequest.CandidateDescription = candidateDetails.Data.Description;
+                }
+                else
+                {
+                    Errors.Add(candidateDetails.Error);
+                }
+            }
         }
         else
+        {
             Errors.Add(customerDetails.Error);
-
+        }
     }
 
     public async Task HandleValidSubmit()
@@ -49,6 +68,15 @@ public partial class BecomeCandidate
         var response = await ApiRequestService.PutMakeCustomerACandidate(BecomeCandidateRequest);
         if (response.Error == null)
             NavigationManager.NavigateTo("/view-candidate");
+        else
+            Errors.Add(response.Error);
+    }
+
+    public async Task HandleUpdateCandidate()
+    {
+        var response = await ApiRequestService.PutUpateCandidate(UpdateCandidateRequest);
+        if (response.Error == null)
+            StateHasChanged();
         else
             Errors.Add(response.Error);
     }

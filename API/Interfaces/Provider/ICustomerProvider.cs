@@ -13,5 +13,8 @@ public interface ICustomerProvider
 
     Task<Response<bool>> MakeCustomerACandidate(BecomeCandidateRequest request);
 
-    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId);
+    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int candidateId);
+
+    Task<Response<bool>> UpdateCandidate(UpdateCandidateRequest request);
+
 }

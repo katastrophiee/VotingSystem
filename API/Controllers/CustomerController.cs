@@ -53,9 +53,19 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCandidate(int customerId, int adminId)
+    public async Task<ActionResult> GetCandidate(int customerId, int candidateId)
     {
-        var response = await _customerProvider.GetCandidate(customerId, adminId);
+        var response = await _customerProvider.GetCandidate(customerId, candidateId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> PutUpateCandidate(UpdateCandidateRequest request)
+    {
+        var response = await _customerProvider.UpdateCandidate(request);
 
         return response.Error is null
             ? Ok(response.Data)

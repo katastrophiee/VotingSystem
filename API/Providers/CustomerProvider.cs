@@ -190,7 +190,7 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
         }
     }
 
-    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId)
+    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int candidateId)
     {
         try
         {
@@ -204,15 +204,29 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            if (customer.IsCandidate == false)
+            var candidate = await _dbContext.Customer.Where(c => c.Id == candidateId).FirstOrDefaultAsync();
+
+            if (candidate is null || candidate.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "Customer Not A Candidate",
-                    Description = $"The customer id {customerId} is not a candidate.",
+                    Title = "No Candidate Found",
+                    Description = $"No candidate was found with the customer id {candidate}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var response = new GetCandidateResponse(customer);
+            var response = new GetCandidateResponse(candidate);
+
+            var ongoingElections = await _dbContext.Election.Where(e =>
+                e.Country == customer.Country
+                && e.StartDate <= DateTime.Now
+                && e.EndDate > DateTime.Now).ToListAsync();
+
+            var ongoingEnteredElectionsIds = ongoingElections
+                .Where(e => e.ElectionOptions.Any(o => o.CandidateId == customerId))
+                .Select(e => e.Id)
+                .ToList() ?? [];
+
+            response.OngoingEnteredElectionsIds = ongoingEnteredElectionsIds;
 
             return new(response);
         }
@@ -221,7 +235,56 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
             return new(new ErrorResponse()
             {
                 Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve candidate {customerId} for admin {adminId}",
+                Description = $"An unknown error occured when trying to retrieve candidate for customer {customerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> UpdateCandidate(UpdateCandidateRequest request)
+    {
+        try
+        {
+            var candidate = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == request.CustomerId);
+            if (candidate is null || candidate.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (!candidate.IsVerified)
+                return new(new ErrorResponse()
+                {
+                    Title = "Customer Not Verified",
+                    Description = $"Cannot update candidate as candidate {request.CustomerId} is not verified.",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (string.IsNullOrEmpty(request.CandidateName) || string.IsNullOrEmpty(request.CandidateDescription))
+                return new(new ErrorResponse()
+                {
+                    Title = "No Name or Description Provided",
+                    Description = $"No candidate name or description was provided when trying update candidate {request.CustomerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            candidate.CandidateName = request.CandidateName;
+            candidate.CandidateDescription = request.CandidateDescription;
+
+            _dbContext.Customer.Update(candidate);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to update candidate {request.CustomerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

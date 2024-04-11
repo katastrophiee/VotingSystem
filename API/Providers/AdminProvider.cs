@@ -183,4 +183,42 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             });
         }
     }
+
+    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId)
+    {
+        try
+        {
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
+
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {customerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (customer.IsCandidate == false)
+                return new(new ErrorResponse()
+                {
+                    Title = "Customer Not A Candidate",
+                    Description = $"The customer id {customerId} is not a candidate.",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var response = new GetCandidateResponse(customer);
+
+            return new(response);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to retrieve candidate {customerId} for admin {adminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }

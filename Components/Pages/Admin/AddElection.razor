@@ -39,11 +39,14 @@
         <div>
             <label for="candidateId">Candidate ID:</label>
             <input type="number" @oninput="OnCandidateIdInput"/>
-            @* <InputNumber @bind-Value="NewOption.CandidateId" @onchange="async () => await AutofillCandidate()" id="candidateId" /> *@
         </div>
         <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder="Option Name" />
         <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder="Option Description" />
         <button type="button" @onclick="AddOption">Add Option</button>
+        @if (ShowAddOptionError)
+        {
+            <div>You cannot add an option with a candidate ID when no candidate with that ID exists</div>
+        }
 
         <h3>Election Options</h3>
         @foreach (var option in AddElectionRequest.ElectionOptions)

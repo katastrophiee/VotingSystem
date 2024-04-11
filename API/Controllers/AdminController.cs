@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.Interfaces.Provider;
+using VotingSystem.API.Providers;
 
 namespace VotingSystem.API.Controllers;
 
@@ -44,6 +45,16 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     public async Task<ActionResult> PostAddElection(AddElectionRequest request)
     {
         var response = await _adminProvider.AddElection(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetCandidate(int customerId, int adminId)
+    {
+        var response = await _adminProvider.GetCandidate(customerId, adminId);
 
         return response.Error is null
             ? Ok(response.Data)

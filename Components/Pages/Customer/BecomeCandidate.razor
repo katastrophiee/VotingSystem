@@ -27,6 +27,29 @@ else if (!CustomerDetails.IsVerified)
         You cannot become a candidate yet as you are not verified. Upload ID and wait to become verified.
     </div>
 }
+else if (CustomerDetails.IsCandidate)
+{
+    <div class="content-container">
+        You are already a candidate. You can edit existing details here.
+    </div>
+
+    <EditForm Model="UpdateCandidateRequest" OnValidSubmit="async () => await HandleUpdateCandidate()" class="edit-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label for="candidateName">Name</label>
+            <InputText id="candidateName" @bind-Value="UpdateCandidateRequest.CandidateName" />
+        </div>
+
+        <div>
+            <label for="candidateDescription">Desciption:</label>
+            <InputTextArea id="candidateDescription" @bind-Value="UpdateCandidateRequest.CandidateDescription" placeholder="Enter a description about you" />
+        </div>
+
+        <button type="submit">Submit</button>
+    </EditForm>
+}
 else {
     <EditForm Model="BecomeCandidateRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
         <DataAnnotationsValidator />

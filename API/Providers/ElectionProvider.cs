@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Routing.Matching;
+using Microsoft.EntityFrameworkCore;
 using VotingSystem.API.DTO.ErrorHandling;
+using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Repository.DBContext;
@@ -209,6 +211,37 @@ public class ElectionProvider(DBContext dbContext) : IElectionProvider
             {
                 Title = "Internal Server Error",
                 Description = $"An unknown error occured when trying to fetch election for customer {customerId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<List<GetElectionResponse>>> GetElections(GetElectionsRequest request)
+    {
+        try
+        {
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == request.CustomerId);
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = "No Customer Found",
+                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var elections = await _dbContext.Election.Where(e => request.ElectionIds.Contains(e.Id)).ToListAsync() ?? [];
+
+            var response = elections.Select(c => new GetElectionResponse(c)).ToList();
+
+            return new(response);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occured when trying to fetch elections for customer {request.CustomerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
