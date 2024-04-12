@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using VotingSystem.Services;
 
-namespace VotingSystem.Components.Pages.Customer;
+namespace VotingSystem.Components.Pages.Shared;
 
 public partial class Settings
 {

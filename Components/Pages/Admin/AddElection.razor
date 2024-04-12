@@ -1,7 +1,7 @@
 ﻿@page "/add-election"
 @using VotingSystem.API.Enums
 
-<h1>Add an Election</h1>
+<h1>@Localizer["AddAnElection"]</h1>
 
 <div class="content-container">
     <EditForm Model="AddElectionRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
@@ -9,54 +9,54 @@
         <ValidationSummary />
 
         <div>
-            <label for="electionName">Election Name</label>
-            <InputText id="electionName" @bind-Value="AddElectionRequest.ElectionName" placeholder="Election Name" />
+            <label for="electionName">@Localizer["ElectionName"]:</label>
+            <InputText id="electionName" @bind-Value="AddElectionRequest.ElectionName" placeholder=@Localizer["ElectionName"] />
         </div>
 
         <div>
-            <label for="electionDescription">Desciption:</label>
-            <InputTextArea id="electionDescription" @bind-Value="AddElectionRequest.ElectionDescription" placeholder="Description" />
+            <label for="electionDescription">@Localizer["Desciption"]:</label>
+            <InputTextArea id="electionDescription" @bind-Value="AddElectionRequest.ElectionDescription" placeholder=@Localizer["Desciption"] />
         </div>
 
-        <InputDate id="startDate" @bind-Value="AddElectionRequest.StartDate" placeholder="Start Date" />
-        <InputDate id="endDate" @bind-Value="AddElectionRequest.EndDate" placeholder="End Date" />
+        <InputDate id="startDate" @bind-Value="AddElectionRequest.StartDate" placeholder=@Localizer["StartDate"] />
+        <InputDate id="endDate" @bind-Value="AddElectionRequest.EndDate" placeholder=@Localizer["StartDate"] />
         <InputSelect id="country" @bind-Value="AddElectionRequest.Country">
-            <option value="">Select a country</option>
+            <option value="">@Localizer["SelectACountry"]</option>
             @foreach (var country in Enum.GetValues<CustomerCountry>())
             {
                 <option value="@country">@country</option>
             }
         </InputSelect>
         <InputSelect id="electionType" @bind-Value="AddElectionRequest.ElectionType">
-            <option value="">Select an election type</option>
+            <option value="">@Localizer["SelectAnElectionType"]</option>
             @foreach (var type in Enum.GetValues<ElectionType>())
             {
                 <option value="@type">@type</option>
             }
         </InputSelect>
 
-        <h3>Add Election Option</h3>
+        <h3>@Localizer["AddElectionOption"]</h3>
         <div>
-            <label for="candidateId">Candidate ID:</label>
+            <label for="candidateId">@Localizer["Candidate"] ID:</label>
             <input type="number" @oninput="OnCandidateIdInput"/>
         </div>
-        <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder="Option Name" />
-        <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder="Option Description" />
-        <button type="button" @onclick="AddOption">Add Option</button>
+        <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder=@Localizer["OptionName"] />
+        <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder=@Localizer["OptionDescription"] />
+        <button type="button" @onclick="AddOption">@Localizer["AddOption"]</button>
         @if (ShowAddOptionError)
         {
-            <div>You cannot add an option with a candidate ID when no candidate with that ID exists</div>
+            <div>@Localizer["CannotAddOptionNoCandidate"]</div>
         }
 
-        <h3>Election Options</h3>
+        <h3>@Localizer["ElectionOptions"]</h3>
         @foreach (var option in AddElectionRequest.ElectionOptions)
         {
             <div>
                 <p>@option.OptionName</p>
-                <button type="button" @onclick="() => RemoveOption(option)">Remove</button>
+                <button type="button" @onclick="() => RemoveOption(option)">@Localizer["Remove"]</button>
             </div>
         }
 
-        <button type="submit">Submit</button>
+        <button type="submit">@Localizer["Submit"]</button>
     </EditForm>
 </div>

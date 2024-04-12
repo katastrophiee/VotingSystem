@@ -15,8 +15,6 @@
   <ItemGroup>
     <Folder Include="API\Repository\DBContext\" />
     <Folder Include="Components\Resources\" />
-    <Folder Include="Resources\Components\Pages\Admin\" />
-    <Folder Include="Resources\Components\Pages\Shared\" />
   </ItemGroup>
 
   <ItemGroup>
