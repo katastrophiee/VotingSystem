@@ -1,12 +1,10 @@
 ﻿@page "/settings"
 
-@* remove all interactive servers *@
-
 <h1>Settings</h1>
 
 @if (Cultures != null)
 {
-    <h2>Change Language</h2>
+    <h2>@Localizer["ChangeLanguage"]</h2>
     <form class="form-inline">
         @* mr-2 is bootstrap class for margin right 2 px *@
         <select class="form-control mr-2" @bind="SelectedCulture">
@@ -15,6 +13,6 @@
                 <option value="@culture.Key">@culture.Value</option>
             }
         </select>
-        <button @onclick="() => ChangeCulture(SelectedCulture)">Change Language</button>
+        <button @onclick="() => ChangeCulture(SelectedCulture)">@Localizer["ChangeLanguage"]</button>
     </form>
 }

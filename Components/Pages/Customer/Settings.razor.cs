@@ -1,6 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
-using System.Globalization;
+using Microsoft.Extensions.Localization;
 using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Customer;
@@ -19,6 +19,9 @@ public partial class Settings
 
     [Inject]
     public IApiRequestService ApiRequestService { get; set; }
+
+    [Inject]
+    public IStringLocalizer<Settings> Localizer { get; set; }
 
     public string SelectedCulture = Thread.CurrentThread.CurrentCulture.Name;
     private Dictionary<string, string?> Cultures;
