@@ -1,7 +1,7 @@
 ﻿@page "/view-voters"
 @using VotingSystem.API.Enums
 @using VotingSystem.Components.Pages.Shared
-<h1>Voters</h1>
+<h1>@Localizer["Voters"]</h1>
 
 @if (Errors.Any())
 {
@@ -9,21 +9,21 @@
 }
 else if (VotersResult == null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else
 {
     <div class="content-container">
         <EditForm Model="GetVotersRequest" OnValidSubmit="async () => await SearchCustomers()">
             <div>
-                <label for="userId">User ID:</label>
+                <label for="userId">@Localizer["User"] ID:</label>
                 <InputNumber @bind-Value="GetVotersRequest.UserId" id="userId" />
             </div>
 
             <div>
-                <label for="country">Country:</label>
+                <label for="country">@Localizer["Country"]:</label>
                 <InputSelect @bind-Value="GetVotersRequest.Country" id="country">
-                    <option value="">-- Select --</option>
+                    <option value="">-- @Localizer["Select"] --</option>
                     @foreach (var country in Enum.GetValues(typeof(CustomerCountry)).Cast<CustomerCountry>().Where(c => c != CustomerCountry.Unknown))
                     {
                         <option value="@country">@country.EnumDisplayName()</option>
@@ -32,41 +32,41 @@ else
             </div>
 
             <div>
-                <label for="isCandidate">Is Candidate:</label>
+                <label for="isCandidate">@Localizer["IsCandidate"]:</label>
                 <InputSelect @bind-Value="IsCandidateString" id="isCandidate">
-                    <option value="">-- Select --</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
+                    <option value="">-- @Localizer["Select"] --</option>
+                    <option value="true">@Localizer["True"]</option>
+                    <option value="false">@Localizer["False"]</option>
                 </InputSelect>
             </div>
 
             <div>
-                <label for="isVerified">Is Verified:</label>
+                <label for="isVerified">@Localizer["IsVerified"]:</label>
                 <InputSelect @bind-Value="IsVerifiedString" id="isVerified">
-                    <option value="">-- Select --</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
+                    <option value="">-- @Localizer["Select"] --</option>
+                    <option value="true">@Localizer["True"]</option>
+                    <option value="false">@Localizer["False"]</option>
                 </InputSelect>
             </div>
 
-            <button type="submit">Search</button>
+            <button type="submit">@Localizer["Search"]</button>
         </EditForm>
-        <button @onclick=ClearSearch>Clear</button>
+        <button @onclick=ClearSearch>@Localizer["Clear"]</button>
     </div>
     @if (VotersResult.Count != 0)
     {
         <table>
             <tr>
                 <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Country</th>
-                <th>Last Logged In</th>
-                <th>New User</th>
-                <th>Active</th>
-                <th>Candidate</th>
-                <th>Verified</th>
-                <th>Actions</th>
+                <th>@Localizer["FirstName"]</th>
+                <th>@Localizer["FirstName"]</th>
+                <th>@Localizer["Country"]</th>
+                <th>@Localizer["LastLoggedIn"]</th>
+                <th>@Localizer["NewUser"]</th>
+                <th>@Localizer["Active"]</th>
+                <th>@Localizer["Candidate"]</th>
+                <th>@Localizer["Verified"]</th>
+                <th>@Localizer["Actions"]</th>
             </tr>
             @foreach (var voter in VotersResult)
             {
@@ -82,7 +82,7 @@ else
                     <td>@voter.IsVerified</td>
                     <td>
                         <NavLink class="button-styled-nav-link" href="@($"view-voter/userId={voter.UserId}")">
-                                <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">View</span>
+                            <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">@Localizer["View"]</span>
                         </NavLink>
                     </td>
                 </tr>
@@ -91,6 +91,6 @@ else
     }
     else
     {
-        <div class="content-container-centered">No voters found!</div>
+        <div class="content-container-centered">@Localizer["NoVotersFound"]</div>
     }
 }
