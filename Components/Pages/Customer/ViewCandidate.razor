@@ -1,37 +1,37 @@
 ﻿@page "/view-candidate/candidateId={candidateId:int}"
 @using VotingSystem.Components.Pages.Shared
 
-<h1>View Candidate</h1>
+<h1>@Localizer["ViewCandidate"]</h1>
 @if (Errors.Any())
 {
     <ErrorPopup Errors="@Errors" />
 }
 else if (Candidate == null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else
 {
-    <h2>Candidate ID @Candidate.CandidateId</h2>
+    <h2>@Localizer["Candidate"] ID @Candidate.CandidateId</h2>
 
     <div class="content-container">
-        <div><strong>Name:</strong> @Candidate.Name</div>
-        <div><strong>Description:</strong> @Candidate.Description</div>
-        <div><strong>Country:</strong> @Candidate.Country</div>
-        <div><strong>Start Date of Candidacy:</strong> @Candidate.StartDateOfCandidacy</div>
+        <div><strong>@Localizer["Name"]:</strong> @Candidate.Name</div>
+        <div><strong>@Localizer["Description"]:</strong> @Candidate.Description</div>
+        <div><strong>@Localizer["Country"]:</strong> @Candidate.Country</div>
+        <div><strong>@Localizer["CandidacyStartDate"]:</strong> @Candidate.StartDateOfCandidacy</div>
     </div>
 
-    <h2>Ongoing Entered Elections</h2>
+    <h2>@Localizer["OngoingEnteredElections"]</h2>
     @if (Elections.Count() != 0)
     {
         <table>
             <tr>
-                <th>Election ID</th>
-                <th>Election</th>
-                <th>Election Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Vote</th>
+                <th>@Localizer["Election"] ID</th>
+                <th>@Localizer["Election"]</th>
+                <th>@Localizer["ElectionDescription"]</th>
+                <th>@Localizer["StartDate"]</th>
+                <th>@Localizer["EndDate"]</th>
+                <th>@Localizer["Country"]</th>
             </tr>
             @foreach (var election in Elections)
             {
@@ -48,6 +48,6 @@ else
     }
     else
     {
-        <p>This candidate is not running in any ongoing elections.</p>
+        <p>@Localizer["CandidateNotRunning"]</p>
     }
 }
