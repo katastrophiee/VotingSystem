@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing.Matching;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
@@ -22,8 +21,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -54,8 +53,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to fetch ongoing elections for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerOngoingElections"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -70,8 +69,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -93,8 +92,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to fetch voted in elections for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerVotedInElections"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -109,8 +108,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -128,8 +127,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to fetch recently ended elections for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetRecentlyEndedElections"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -144,8 +143,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -163,8 +162,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to fetch upcoming elections for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerUpcomingElections"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -179,8 +178,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -188,8 +187,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (election is null || election.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Election Found",
-                    Description = $"No election was found with the election id {electionId}",
+                    Title = _localizer["NoElectionFound"],
+                    Description = $"{_localizer["NoElectionFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -211,8 +210,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to fetch election for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetElection"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -227,8 +226,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -242,8 +241,8 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to fetch elections for customer {request.CustomerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetElections"]} {request.CustomerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
