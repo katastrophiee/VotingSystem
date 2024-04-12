@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -8,9 +8,10 @@ using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers;
 
-public class CustomerProvider(DBContext dbContext) : ICustomerProvider
+public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProvider> localizer) : ICustomerProvider
 {
     private readonly DBContext _dbContext = dbContext;
+    private readonly IStringLocalizer<CustomerProvider> _localizer = localizer;
 
     public async Task<Response<GetCustomerAccountDetailsResponse>> GetCustomerAccountDetails(int customerId)
     {
@@ -21,7 +22,8 @@ public class CustomerProvider(DBContext dbContext) : ICustomerProvider
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
+                    //VotingSystem.Resources.API.Providers.CustomerProvider
+                    Title = _localizer["NoCustomerFound"], //"No Customer Found",
                     Description = $"No customer was found with the customer id {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });

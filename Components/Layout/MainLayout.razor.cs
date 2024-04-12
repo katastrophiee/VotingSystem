@@ -1,7 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using VotingSystem.Components.Pages.Customer;
 
 namespace VotingSystem.Components.Layout;
 

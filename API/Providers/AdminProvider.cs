@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
@@ -9,9 +10,10 @@ using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers;
 
-public class AdminProvider(DBContext dbContext) : IAdminProvider
+public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> localizer) : IAdminProvider
 {
     private readonly DBContext _dbContext = dbContext;
+    private readonly IStringLocalizer<AdminProvider> _localizer = localizer;
 
     public async Task<Response<List<AdminGetVotersResponse>>> GetCustomers(AdminGetCustomersRequest request)
     {
@@ -21,8 +23,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             if (admin is null || admin.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Admin Found",
-                    Description = $"No admin was found with the admin id {request.AdminId}",
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.AdminId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -42,8 +44,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve customers for admin {request.AdminId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomers"]} {request.AdminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -58,12 +60,19 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             if (admin is null || admin.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Admin Found",
-                    Description = $"No admin was found with the admin id {adminId}",
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
+            if (customer is null || customer.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
 
             var response = new AdminGetCustomerResponse(customer);
 
@@ -77,8 +86,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve customer details for admin {adminId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerDetails"]} {adminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -93,8 +102,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             if (admin is null || admin.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Admin Found",
-                    Description = $"No admin was found with the admin id {request.AdminId}",
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.AdminId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -103,8 +112,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             if (document is null)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Document Found",
-                    Description = $"No document was found with the id {request.DocumentId}",
+                    Title = _localizer["NoDocumentFound"],
+                    Description = $"{_localizer["NoDocumentFoundWithId"]} {request.DocumentId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -115,6 +124,14 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
                 document.ExpiryDate = request.DocumentExpiryDate;
 
                 var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == document.CustomerId);
+                if (customer is null || customer.Id == 0)
+                    return new(new ErrorResponse()
+                    {
+                        Title = _localizer["NoCustomerFound"],
+                        Description = $"{_localizer["NoCustomerFoundWithId"]} {document.CustomerId}",
+                        StatusCode = StatusCodes.Status404NotFound
+                    });
+
                 customer.IsVerified = true;
                 _dbContext.Customer.Update(customer);
             }
@@ -133,8 +150,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to verify ID {request.DocumentId} for admin {request.AdminId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorAdminVerifyId"]} {request.AdminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -149,8 +166,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
             if (admin is null || admin.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Admin Found",
-                    Description = $"No admin was found with the admin id {request.AdminId}",
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.AdminId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -176,8 +193,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to add a new election for admin {request.AdminId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorAddElection"]} {request.AdminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -188,21 +205,29 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
+            var admin = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == adminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
 
+            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             if (customer.IsCandidate == false)
                 return new(new ErrorResponse()
                 {
-                    Title = "Customer Not A Candidate",
-                    Description = $"The customer id {customerId} is not a candidate.",
+                    Title = _localizer["CustomerNotCandidate"],
+                    Description = $"{_localizer["CustomerNotCandidateWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -214,8 +239,8 @@ public class AdminProvider(DBContext dbContext) : IAdminProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve candidate {customerId} for admin {adminId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCandidate"]} {adminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

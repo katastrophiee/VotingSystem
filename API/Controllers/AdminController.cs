@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.Interfaces.Provider;
-using VotingSystem.API.Providers;
 
 namespace VotingSystem.API.Controllers;
 

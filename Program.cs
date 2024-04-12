@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Providers;
 using VotingSystem.API.Repository.DBContext;
@@ -42,6 +43,7 @@ builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder
 builder.Services.AddHttpClient<IApiRequestService, ApiRequestService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:44389/api/");
+    client.DefaultRequestHeaders.Add("Accept-Language", CultureInfo.CurrentCulture.Name);
 });
 
 builder.Services.AddBlazoredLocalStorage();
