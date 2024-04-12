@@ -8,11 +8,11 @@
 }
 else if (Election == null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else
 {
-    <h1>Election ID @Election.ElectionId</h1>
+    <h1>@Localizer["Election"] ID @Election.ElectionId</h1>
 
     <div class="content-container">
         <EditForm Model="AddCustomerVote" OnValidSubmit="async () => await HandleValidSubmit()">
@@ -31,7 +31,7 @@ else
                         <InputCheckbox @bind-Value="option.IsChecked" /> @option.OptionName
                     </div>
                 }
-                <button type="submit">Submit</button>
+                <button type="submit">@Localizer["Submit"]</button>
             }
         </EditForm>
     </div>

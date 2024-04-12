@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
@@ -18,6 +19,9 @@ public partial class ViewElection
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IStringLocalizer<ViewElection> Localizer { get; set; }
 
     [Parameter]
     public int ElectionId { get; set; }
