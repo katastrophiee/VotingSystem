@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
@@ -17,6 +18,9 @@ public partial class Profile
 
     [Inject]
     public IApiRequestService ApiRequestService { get; set; }
+
+    [Inject]
+    public IStringLocalizer<Profile> Localizer { get; set; }
 
     public bool Editable { get; set; } = false;    
     public bool ShowUpdateButton { get; set; } = false;

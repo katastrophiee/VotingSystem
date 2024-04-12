@@ -8,12 +8,12 @@
 }
 @if (CustomerDetails == null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else
 {
-    <h1>Profile</h1>
-    <h2>User ID: @UserId</h2>
+    <h1>@Localizer["Profile"]</h1>
+    <h2>@Localizer["User"] ID: @UserId</h2>
     @if (!Editable)
     {
         @if ((string.IsNullOrEmpty(CustomerDetails.FirstName)
@@ -22,19 +22,20 @@ else
             && CurrentIdDocument is not null 
             && CurrentIdDocument.Id != 0)
         {
-            <div class="warning-container">You have missing details from your profile, these need to be entered before we can verify your ID.</div>
+            <div class="warning-container">@Localizer["MissingDetails"]</div>
         }
         <div class="content-container profile-data">
-            <div>Name: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
-            <div>Email: @CustomerDetails.Email</div>
-            <div>Country: @CustomerDetails.Country.EnumDisplayName()</div>
+            <div>@Localizer["Name"]: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
+            <div>@Localizer["Email"]: @CustomerDetails.Email</div>
+            <div>@Localizer["Country"]: @CustomerDetails.Country.EnumDisplayName()</div>
             @if (CurrentIdDocument is null)
             {
-                <div>You're not verified! Upload a valid form of ID for our admins to verify here:</div>
+                <div>@Localizer["NotVerifiedUploadId"]</div>
+                //Needs changing to add localisation
                 <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
                 @if(ShowUpdateButton)
                 {
-                    <button @onclick="async () => await UploadIdentificationDocument()">Upload</button>
+                    <button @onclick="async () => await UploadIdentificationDocument()">@Localizer["Upload"]</button>
                 }
             }
             else
@@ -43,39 +44,40 @@ else
                 {
                     @if (CurrentIdDocument.IdRejected is not null && CurrentIdDocument.IdRejected is true)
                     {
-                        <div>Your most recent uploaded ID got reject by our admins.</div>
-                        <div>Rejection reason: @CurrentIdDocument.RejectionReason</div>
-                        <div>Try a different form of ID or try taking a better picture.</div>
+                        <div>@Localizer["IdRejected"]</div>
+                        <div>@Localizer["IdRejected"]: @CurrentIdDocument.RejectionReason</div>
+                        <div>@Localizer["TryDifferentIdForm"]</div>
                     }
                     else if (CurrentIdDocument.IdRejected is null)
                     {
-                        <div>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.</div>
+                        <div>@Localizer["IdUploaded"]</div>
                     }
                 }
                 <DocumentRenderer Document=@CurrentIdDocument></DocumentRenderer>
                 @if (CurrentIdDocument.ExpiryDate is not null && CurrentIdDocument.ExpiryDate < DateTime.Now.AddMonths(3))
                 {
-                    <div class="seperated">Your ID expires in less than 3 months, upload a new one here:</div>
+                    <div class="seperated">@Localizer["IdExpiresInThreeMonth"]</div>
                 }
                 else if (CurrentIdDocument.IdRejected is not null && CurrentIdDocument.IdRejected is true)
                 {
-                    <div class="seperated">Please submit another one here and we will review it:</div>
+                    <div class="seperated">@Localizer["SubmitAnother"]</div>
                 }
                 else
                 {
-                    <div class="seperated">Want to upload a new ID? Do it here:</div>
+                    <div class="seperated">@Localizer["UploadNewId"]</div>
                 }
+                //Needs changing to add localisation
                 <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
                 @if (ShowUpdateButton)
                 {
-                    <div class="warning-container">After uploading, your account will need re-verifying.</div>
-                    <button @onclick="async () => await UploadIdentificationDocument()">Upload</button>
-                    <button @onclick="() => CurrentIdDocument = new()">Cancel</button>
+                    <div class="warning-container">@Localizer["NeedReverifying"]</div>
+                    <button @onclick="async () => await UploadIdentificationDocument()">@Localizer["Upload"]</button>
+                    <button @onclick="() => CurrentIdDocument = new()">@Localizer["Cancel"]</button>
                 }
             }
         </div>
 
-        <button @onclick="() => Editable = true">Change Details</button>
+        <button @onclick="() => Editable = true">@Localizer["ChangeDetails"]</button>
     }
     else
     {
@@ -84,17 +86,17 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <label for="firstName">First Name:</label>
+                <label for="firstName">@Localizer["FirstName"]:</label>
                 <InputText id="firstName" @bind-Value="UpdateCustomerProfileRequest.FirstName" />
 
-                <label for="lastName">Last Name:</label>
+                <label for="lastName">@Localizer["LastName"]:</label>
                 <InputText id="lastName" @bind-Value="UpdateCustomerProfileRequest.LastName" />
 
-                <label for="email">Email:</label>
+                <label for="email">@Localizer["Email"]:</label>
                 <InputText id="email" @bind-Value="UpdateCustomerProfileRequest.Email" />
 
                 <div class="form-group">
-                    <label for="country">Country:</label>
+                    <label for="country">@Localizer["Country"]:</label>
                     <InputSelect id="country" @bind-Value="UpdateCustomerProfileRequest.Country">
                         @foreach (var country in Enum.GetValues(typeof(CustomerCountry)).Cast<CustomerCountry>().Where(c => c != CustomerCountry.Unknown))
                         {
@@ -102,8 +104,8 @@ else
                         }
                     </InputSelect>
                 </div>
-                <button @onclick="() => Editable = false">Cancel</button>
-                <button type="submit">Update</button>
+                <button @onclick="() => Editable = false">@Localizer["Cancel"]</button>
+                <button type="submit">@Localizer["Update"]</button>
             </EditForm>
          </div>
     }
