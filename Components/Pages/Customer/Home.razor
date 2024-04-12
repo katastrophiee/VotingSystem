@@ -58,7 +58,7 @@
         }
         else
         {
-            <h2>Notifications</h2>
+            <h2>@Localizer["Notifications"]</h2>
             <div class="content-container">
                 @if(IdExpireyDate is not null && IdExpireyDate < DateTime.Now.AddMonths(3))
                 {
@@ -113,7 +113,7 @@
                 </div>
             }
 
-            <h2>Your Votes</h2>
+            <h2>@Localizer["YourVotes"]</h2>
             @if (VotingHistory.Count != 0)
             {
                 <table>

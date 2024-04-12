@@ -2,9 +2,10 @@
 @using VotingSystem.API.Enums
 @using VotingSystem.Components.Pages.Shared
 
-<PageTitle>Become a Candidate</PageTitle>
+@* ensure every page has a page title *@
+<PageTitle>@Localizer["BecomeACandidate"]</PageTitle>
 
-<h1>Become a Candidate</h1>
+<h1>@Localizer["BecomeACandidate"]</h1>
 
 @if (Errors.Any())
 {
@@ -12,24 +13,24 @@
 }
 else if (CustomerDetails == null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else if (CustomerDetails.Country == CustomerCountry.Unknown)
 {
-<div class="warning-container">
-    You cannot become a candidate yet as you have not filled out your profile.
-</div>
+    <div class="warning-container">
+        @Localizer["CannotBecomeCandidateProfile"]
+    </div>
 }
 else if (!CustomerDetails.IsVerified)
 {
     <div class="warning-container">
-        You cannot become a candidate yet as you are not verified. Upload ID and wait to become verified.
+        @Localizer["CannotBecomeCandidateUnverified"]
     </div>
 }
 else if (CustomerDetails.IsCandidate)
 {
     <div class="content-container">
-        You are already a candidate. You can edit existing details here.
+        @Localizer["AlreadyACandidate"]
     </div>
 
     <EditForm Model="UpdateCandidateRequest" OnValidSubmit="async () => await HandleUpdateCandidate()" class="edit-form">
@@ -37,16 +38,16 @@ else if (CustomerDetails.IsCandidate)
         <ValidationSummary />
 
         <div>
-            <label for="candidateName">Name</label>
+            <label for="candidateName">@Localizer["Name"]</label>
             <InputText id="candidateName" @bind-Value="UpdateCandidateRequest.CandidateName" />
         </div>
 
         <div>
-            <label for="candidateDescription">Desciption:</label>
-            <InputTextArea id="candidateDescription" @bind-Value="UpdateCandidateRequest.CandidateDescription" placeholder="Enter a description about you" />
+            <label for="candidateDescription">@Localizer["Description"]:</label>
+            <InputTextArea id="candidateDescription" @bind-Value="UpdateCandidateRequest.CandidateDescription" placeholder=@Localizer["EnterDescription"] />
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit">@Localizer["Submit"]</button>
     </EditForm>
 }
 else {
@@ -55,15 +56,15 @@ else {
         <ValidationSummary />
 
         <div>
-            <label for="candidateName">Name</label>
+            <label for="candidateName">@Localizer["Name"]</label>
             <InputText id="candidateName" @bind-Value="BecomeCandidateRequest.CandidateName" />
         </div>
 
         <div>
-            <label for="candidateDescription">Desciption:</label>
-            <InputTextArea id="candidateDescription" @bind-Value="BecomeCandidateRequest.CandidateDescription" placeholder="Enter a description about you" />
+            <label for="candidateDescription">@Localizer["Description"]:</label>
+            <InputTextArea id="candidateDescription" @bind-Value="BecomeCandidateRequest.CandidateDescription" placeholder=@Localizer["EnterDescription"] />
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit">@Localizer["Submit"]</button>
     </EditForm>
 }

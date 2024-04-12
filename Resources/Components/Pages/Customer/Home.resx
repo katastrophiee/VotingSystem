@@ -159,6 +159,9 @@
   <data name="NoOngoingElections" xml:space="preserve">
     <value>There are no ongoing elections in your area.</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
   <data name="NoValidId" xml:space="preserve">
     <value>You have no valid ID! Don't worry though, just go to your profile page, upload one and wait!
 You can do that here:</value>

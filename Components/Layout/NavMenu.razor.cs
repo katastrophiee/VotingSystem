@@ -13,7 +13,7 @@ public partial class NavMenu
     public ILocalStorageService _localStorage { get; set; }
 
     [Inject]
-    public IStringLocalizer<MainLayout> Localizer { get; set; }
+    public IStringLocalizer<NavMenu> Localizer { get; set; }
 
     public bool ShowAdminNavigation { get; set; } = false;
 

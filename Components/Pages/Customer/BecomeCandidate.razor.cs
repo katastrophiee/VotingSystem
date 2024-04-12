@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -14,6 +15,9 @@ public partial class BecomeCandidate
 
     [Inject]
     public ILocalStorageService _localStorage { get; set; }
+
+    [Inject]
+    public IStringLocalizer<BecomeCandidate> Localizer { get; set; }
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }

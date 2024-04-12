@@ -117,77 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlreadyVoted" xml:space="preserve">
-    <value>Vous avez déjà voté à cette élection.</value>
-  </data>
-  <data name="DateYouVoted" xml:space="preserve">
-    <value>Date à laquelle vous avez voté</value>
-  </data>
-  <data name="Election" xml:space="preserve">
-    <value>Élection</value>
-  </data>
-  <data name="ElectionDescription" xml:space="preserve">
-    <value>Description de l’élection</value>
-  </data>
-  <data name="EndDate" xml:space="preserve">
-    <value>Date de fin</value>
-  </data>
-  <data name="GetStarted" xml:space="preserve">
-    <value>Commencer</value>
-  </data>
-  <data name="IdExpiresInThreeMonths" xml:space="preserve">
-    <value>Votre ID expire dans moins de 3 mois, allez sur la page de profil pour en télécharger une nouvelle.</value>
-  </data>
-  <data name="IntroEnterProfileDetails" xml:space="preserve">
-    <value>Entrez les détails de votre profil tels que votre nom légal et votre emplacement, il est important que cela soit correct car cela sera utilisé pour vos votes.</value>
-  </data>
-  <data name="IntroHowToUse" xml:space="preserve">
-    <value>Voici comment utiliser le système de vote:</value>
-  </data>
-  <data name="IntroOnceVerified" xml:space="preserve">
-    <value>Une fois vérifié, c’est tout pour la configuration, vous êtes prêt à voter!</value>
-  </data>
-  <data name="IntroUploadValidIdentification" xml:space="preserve">
-    <value>Téléchargez une forme d’identification valide dans votre région et attendez qu’un membre de notre équipe la vérifie.</value>
-  </data>
   <data name="Loading" xml:space="preserve">
     <value>Chargement…</value>
   </data>
-  <data name="NoNotifications" xml:space="preserve">
-    <value>Vous n’avez pas de notifications</value>
+  <data name="Login" xml:space="preserve">
+    <value>Connexion</value>
   </data>
-  <data name="NoOngoingElections" xml:space="preserve">
-    <value>Il n’y a pas d’élections en cours dans votre région.</value>
+  <data name="MakeOne" xml:space="preserve">
+    <value>Créez-en un !</value>
   </data>
-  <data name="Notifications" xml:space="preserve">
-    <value>Notifications</value>
+  <data name="NoAccount" xml:space="preserve">
+    <value>Pas de compte ?</value>
   </data>
-  <data name="NoValidId" xml:space="preserve">
-    <value>Vous n’avez pas d’ID valide ! Ne vous inquiétez pas, allez simplement sur la page de votre profil, téléchargez-en une et attendez !
-Vous pouvez le faire ici :</value>
+  <data name="Password" xml:space="preserve">
+    <value>Mot de passe</value>
   </data>
-  <data name="NoVotingHistory" xml:space="preserve">
-    <value>Vous n’avez pas d’historique de vote</value>
-  </data>
-  <data name="OngoingElectionsIn" xml:space="preserve">
-    <value>Élections en cours dans</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profil</value>
-  </data>
-  <data name="StartDate" xml:space="preserve">
-    <value>Date de début</value>
-  </data>
-  <data name="Vote" xml:space="preserve">
-    <value>Vote</value>
-  </data>
-  <data name="VoteHere" xml:space="preserve">
-    <value>Votez ici</value>
-  </data>
-  <data name="Welcome" xml:space="preserve">
-    <value>Bienvenue</value>
-  </data>
-  <data name="YourVotes" xml:space="preserve">
-    <value>Vos Votes</value>
+  <data name="Username" xml:space="preserve">
+    <value>Nom d’utilisateur</value>
   </data>
 </root>

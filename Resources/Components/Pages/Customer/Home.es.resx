@@ -159,6 +159,9 @@
   <data name="NoOngoingElections" xml:space="preserve">
     <value>No hay elecciones en curso en tu área.</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notificaciones</value>
+  </data>
   <data name="NoValidId" xml:space="preserve">
     <value>¡No tienes una ID válida! No te preocupes, solo ve a la página de tu perfil, sube una y espera!
 Puedes hacer eso aquí:</value>
@@ -183,5 +186,8 @@ Puedes hacer eso aquí:</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Bienvenido</value>
+  </data>
+  <data name="YourVotes" xml:space="preserve">
+    <value>Tus Votos</value>
   </data>
 </root>
