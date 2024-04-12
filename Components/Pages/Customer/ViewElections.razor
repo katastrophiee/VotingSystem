@@ -2,9 +2,9 @@
 @using VotingSystem.API.Enums
 @using VotingSystem.Components.Pages.Shared
 
-<PageTitle>Cast a Vote</PageTitle>
+<PageTitle>@Localizer["CastAVote"]</PageTitle>
 
-<h1>Cast a Vote</h1>
+<h1>@Localizer["CastAVote"]</h1>
 
 
 @if (Errors.Any())
@@ -13,33 +13,33 @@
 }
 else if (CustomerDetails == null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else if (CustomerDetails.Country == CustomerCountry.Unknown)
 {
     <div class="warning-container">
-        We cannot get elections in your region as you have not filled out your profile.
+        @Localizer["CannotGetElectionsProfileNotFilled"]
     </div>
 }
 else if (!CustomerDetails.IsVerified)
 {
     <div class="warning-container">
-        You cannot cast a vote yet as you are not verified. Upload ID and wait to become verified.
+        @Localizer["CannotCastVoteNotVerified"]
     </div>
 }
 else
 {
-    <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    <h2>@Localizer["OngoingElectionsIn"] @CustomerDetails.Country.EnumDisplayName()</h2>
     @if (OngoingElections.Count != 0)
     {
         <table>
             <tr>
-                <th>Election ID</th>
-                <th>Election</th>
-                <th>Election Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Vote</th>
+                <th>@Localizer["Election"] ID</th>
+                <th>@Localizer["Election"]</th>
+                <th>@Localizer["ElectionDescription"]</th>
+                <th>@Localizer["StartDate"]</th>
+                <th>@Localizer["EndDate"]</th>
+                <th>@Localizer["Vote"]</th>
             </tr>
             @foreach (var election in OngoingElections)
             {
@@ -53,13 +53,13 @@ else
                     {
                         <td>
                             <NavLink class="button-styled-nav-link" href="@($"view-election/electionId={election.ElectionId}")">
-                                <span>Vote Here!</span>
+                                <span>@Localizer["VoteHere"]</span>
                             </NavLink>
                         </td>
                     }
                     else
                     {
-                        <td>You have already voted in this election.</td>
+                        <td>@Localizer["AlreadyVoted"]</td>
                     }
                 </tr>
             }
@@ -68,21 +68,21 @@ else
     else
     {
         <div class="content-container">
-            There are no ongoing elections in your area.
+            @Localizer["NoOngoingElections"]
         </div>
     }
 
-    <h2>Upcoming Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    <h2>@Localizer["UpcomingElections"] @CustomerDetails.Country.EnumDisplayName()</h2>
     @if (UpcomingElections.Count != 0)
     {
         <table>
             <tr>
-                <th>Election ID</th>
-                <th>Election</th>
-                <th>Election Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Vote</th>
+                <th>@Localizer["Election"] ID</th>
+                <th>@Localizer["Election"]</th>
+                <th>@Localizer["ElectionDescription"]</th>
+                <th>@Localizer["StartDate"]</th>
+                <th>@Localizer["EndDate"]</th>
+                <th>@Localizer["Vote"]</th>
             </tr>
             @foreach (var election in UpcomingElections)
             {
@@ -99,20 +99,20 @@ else
     else
     {
         <div class="content-container">
-            There are no upcoming elections in your area.
+            @Localizer["NoUpcomingElections"]
         </div>
     }
 
-    <h2>Recently Ended Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+    <h2>@Localizer["RecentlyEndedElections"] @CustomerDetails.Country.EnumDisplayName()</h2>
     @if (PreviousElections.Count != 0)
     {
         <table>
             <tr>
-                <th>Election ID</th>
-                <th>Election</th>
-                <th>Election Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>@Localizer["Election"] ID</th>
+                <th>@Localizer["Election"]</th>
+                <th>@Localizer["ElectionDescription"]</th>
+                <th>@Localizer["StartDate"]</th>
+                <th>@Localizer["EndDate"]</th>
             </tr>
             @foreach (var election in PreviousElections)
             {
@@ -129,20 +129,20 @@ else
     else
     {
         <div class="content-container">
-            There are no recently ended elections in your area.
+            @Localizer["NoRecentlyEndedElections"]
         </div>
     }
 
-    <h2>Elections you have voted in</h2>
+    <h2>@Localizer["ElectionsYouVotedIn"]</h2>
     @if (VotedInElections.Count != 0)
     {
         <table>
             <tr>
-                <th>Election ID</th>
-                <th>Election</th>
-                <th>Election Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>@Localizer["Election"] ID</th>
+                <th>@Localizer["Election"]</th>
+                <th>@Localizer["ElectionDescription"]</th>
+                <th>@Localizer["StartDate"]</th>
+                <th>@Localizer["EndDate"]</th>
             </tr>
             @foreach (var election in VotedInElections)
             {
@@ -159,7 +159,7 @@ else
     else
     {
         <div class="content-container">
-            There are no ongoing elections in your area.
+            @Localizer["NoOngoingElections"]
         </div>
     }
 }

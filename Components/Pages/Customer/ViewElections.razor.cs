@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.Services;
@@ -13,6 +14,9 @@ public partial class ViewElections
 
     [Inject]
     public ILocalStorageService _localStorage { get; set; }
+
+    [Inject]
+    public IStringLocalizer<ViewElections> Localizer { get; set; }
 
     public List<ErrorResponse> Errors { get; set; } = [];
     public static int CustomerId { get; set; }
