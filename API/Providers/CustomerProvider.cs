@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -22,9 +24,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    //VotingSystem.Resources.API.Providers.CustomerProvider
-                    Title = _localizer["NoCustomerFound"], //"No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -36,8 +37,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerAccountDetails"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -52,8 +53,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {request.UserId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {request.UserId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -78,8 +79,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to update profile for customer {request.UserId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorPutUpdateCustomerProfile"]} {request.UserId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -95,8 +96,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -133,8 +134,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve candidates for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetActiveCandidates"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -149,24 +150,24 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             if (!customer.IsVerified)
                 return new(new ErrorResponse()
                 {
-                    Title = "Customer Not Verified",
-                    Description = $"Cannot convert to candidate as customer {request.CustomerId} is not verified.",
+                    Title = _localizer["CustomerNotVerified"],
+                    Description = $"{_localizer["CustomerNotVerifiedWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             if (string.IsNullOrEmpty(request.CandidateName) || string.IsNullOrEmpty(request.CandidateDescription))
                 return new(new ErrorResponse()
                 {
-                    Title = "No Name or Description Provided",
-                    Description = $"No candidate name or description was provided when trying convert to candidate for customer id {request.CustomerId}",
+                    Title = _localizer["NoNameOrDescriptionProvided"],
+                    Description = $"{_localizer["NoNameOrDescriptionProvidedConvertWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -184,8 +185,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to convert to candidate for customer {request.CustomerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorMakeCustomerACandidate"]} {request.CustomerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -201,8 +202,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -211,8 +212,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (candidate is null || candidate.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Candidate Found",
-                    Description = $"No candidate was found with the customer id {candidate}",
+                    Title = _localizer["NoCandidateFound"],
+                    Description = $"{_localizer["NoCandidateFoundWithId"]} {candidate}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -236,8 +237,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve candidate for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCandidate"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -252,24 +253,24 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             if (candidate is null || candidate.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             if (!candidate.IsVerified)
                 return new(new ErrorResponse()
                 {
-                    Title = "Customer Not Verified",
-                    Description = $"Cannot update candidate as candidate {request.CustomerId} is not verified.",
-                    StatusCode = StatusCodes.Status404NotFound
+                    Title = _localizer["CustomerNotVerified"],
+                    Description = $"{_localizer["CustomerNotVerifiedWithId"]} {request.CustomerId}",
+                    StatusCode = StatusCodes.Status400BadRequest
                 });
 
             if (string.IsNullOrEmpty(request.CandidateName) || string.IsNullOrEmpty(request.CandidateDescription))
                 return new(new ErrorResponse()
                 {
-                    Title = "No Name or Description Provided",
-                    Description = $"No candidate name or description was provided when trying update candidate {request.CustomerId}",
+                    Title = _localizer["NoNameOrDescriptionProvided"],
+                    Description = $"{_localizer["NoNameOrDescriptionProvidedUpdateWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -285,8 +286,8 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to update candidate {request.CustomerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorUpdateCandidate"]} {request.CustomerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

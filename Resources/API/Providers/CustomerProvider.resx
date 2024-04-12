@@ -117,35 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerNotCandidate" xml:space="preserve">
-    <value>Customer Not A Candidate</value>
+  <data name="CustomerNotVerified" xml:space="preserve">
+    <value>Customer Not Verified</value>
   </data>
-  <data name="CustomerNotCandidateWithId" xml:space="preserve">
-    <value>This customer is not a candidate with the customer id</value>
+  <data name="CustomerNotVerifiedWithId" xml:space="preserve">
+    <value>Cannot convert user to candidate as they are not verified for user</value>
   </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
-  <data name="InternalServerErrorAddElection" xml:space="preserve">
-    <value>An unknown error occured when trying to add a new election for admin</value>
-  </data>
-  <data name="InternalServerErrorAdminVerifyId" xml:space="preserve">
-    <value>An unknown error occured when trying to verify ID for admin</value>
+  <data name="InternalServerErrorGetActiveCandidates" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve candidates for customer</value>
   </data>
   <data name="InternalServerErrorGetCandidate" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve candidate for admin</value>
+    <value>An unknown error occured when trying to retrieve candidate for customer</value>
   </data>
-  <data name="InternalServerErrorGetCustomerDetails" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve customer details for admin</value>
+  <data name="InternalServerErrorGetCustomerAccountDetails" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve customer</value>
   </data>
-  <data name="InternalServerErrorGetCustomers" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve customers for admin</value>
+  <data name="InternalServerErrorMakeCustomerACandidate" xml:space="preserve">
+    <value>An unknown error occured when trying to convert to candidate for customer</value>
   </data>
-  <data name="NoAdminFound" xml:space="preserve">
-    <value>No Admin Found</value>
+  <data name="InternalServerErrorPutUpdateCustomerProfile" xml:space="preserve">
+    <value>An unknown error occured when trying to update profile for customer</value>
   </data>
-  <data name="NoAdminFoundWithId" xml:space="preserve">
-    <value>No admin was found with the admin id</value>
+  <data name="InternalServerErrorUpdateCandidate" xml:space="preserve">
+    <value>An unknown error occured when trying to update candidate</value>
+  </data>
+  <data name="NoCandidateFound" xml:space="preserve">
+    <value>No Candidate Found</value>
+  </data>
+  <data name="NoCandidateFoundWithId" xml:space="preserve">
+    <value>No candidate was found with the customer id</value>
   </data>
   <data name="NoCustomerFound" xml:space="preserve">
     <value>No Customer Found</value>
@@ -153,10 +156,13 @@
   <data name="NoCustomerFoundWithId" xml:space="preserve">
     <value>No customer found with the customer id</value>
   </data>
-  <data name="NoDocumentFound" xml:space="preserve">
-    <value>No Document Found</value>
+  <data name="NoNameOrDescriptionProvided" xml:space="preserve">
+    <value>No Name or Description Provided</value>
   </data>
-  <data name="NoDocumentFoundWithId" xml:space="preserve">
-    <value>No document was found with the document id</value>
+  <data name="NoNameOrDescriptionProvidedConvertWithId" xml:space="preserve">
+    <value>No candidate name or description was provided when trying convert to candidate for customer id</value>
+  </data>
+  <data name="NoNameOrDescriptionProvidedUpdateWithId" xml:space="preserve">
+    <value>No candidate name or description was provided when trying update candidate</value>
   </data>
 </root>
