@@ -8,7 +8,7 @@ using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
 
-public partial class Voters
+public partial class ViewVoters
 {
     [Inject]
     public IApiRequestService ApiRequestService { get; set; }
@@ -17,7 +17,7 @@ public partial class Voters
     public ILocalStorageService _localStorage { get; set; }
 
     [Inject]
-    public IStringLocalizer<Voters> Localizer { get; set; }
+    public IStringLocalizer<ViewVoters> Localizer { get; set; }
 
     public List<ErrorResponse> Errors { get; set; } = [];
 
