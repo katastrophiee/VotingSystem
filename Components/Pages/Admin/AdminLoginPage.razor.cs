@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -17,6 +18,9 @@ public partial class AdminLoginPage
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IStringLocalizer<AdminLoginPage> Localizer { get; set; }
 
     public LoginRequest LoginRequest { get; set; }
     public LoginResponse LoginResult { get; set; }
