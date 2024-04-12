@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Responses;
@@ -7,9 +8,11 @@ using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers;
 
-public class DocumentProvider(DBContext dbContext) : IDocumentProvider
+public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProvider> localizer) : IDocumentProvider
 {
     private readonly DBContext _dbContext = dbContext;
+    private readonly IStringLocalizer<DocumentProvider> _localizer = localizer;
+
     public async Task<Response<Document>> GetCurrentCustomerDocument(int customerId)
     {
         try
@@ -18,8 +21,8 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -33,8 +36,8 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve documents for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCurrentCustomerDocument"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -49,8 +52,8 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -64,8 +67,8 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve documents for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerDocuments"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -81,8 +84,8 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {document.CustomerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {document.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -114,8 +117,8 @@ public class DocumentProvider(DBContext dbContext) : IDocumentProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to upload document {document.FileName}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerDocuments"]} {document.FileName}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

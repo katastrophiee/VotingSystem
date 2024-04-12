@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing.Matching;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -8,9 +9,10 @@ using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers;
 
-public class ElectionProvider(DBContext dbContext) : IElectionProvider
+public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProvider> localizer) : IElectionProvider
 {
     private readonly DBContext _dbContext = dbContext;
+    private readonly IStringLocalizer<ElectionProvider> _localizer = localizer;
 
     public async Task<Response<List<GetElectionResponse>>> GetCustomerOngoingElections(int customerId)
     {
