@@ -4,6 +4,7 @@ using VotingSystem.Services;
 using Blazored.LocalStorage;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
+using Microsoft.Extensions.Localization;
 
 namespace VotingSystem.Components.Pages.Admin;
 
@@ -17,6 +18,9 @@ public partial class ViewVoter
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IStringLocalizer<ViewVoter> Localizer { get; set; }
 
     public List<ErrorResponse> Errors { get; set; } = [];
 

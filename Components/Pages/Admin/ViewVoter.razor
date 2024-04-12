@@ -2,25 +2,27 @@
 @using VotingSystem.API.Enums
 @using VotingSystem.Components.Pages.Shared
 
-<h1>Voter</h1>
+<h1>@Localizer["Voter"]</h1>
 @if (Errors.Any())
 {
     <ErrorPopup Errors="@Errors" />
 }
 else if (CustomerDetails is null)
 {
-    <h1><em>Loading...</em></h1>
+    <h1><em>@Localizer["Loading"]</em></h1>
 }
 else
 {
     <div class="content-container profile-data">
-        <h2>Voter ID: @UserId</h2>
-        <div>Name: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
-        <div>Email: @CustomerDetails.Email</div>
-        <div>Country: @CustomerDetails.Country.EnumDisplayName()</div>
+        <h2>@Localizer["Voter"] ID: @UserId</h2>
+        <div>@Localizer["Name"]: @CustomerDetails.FirstName @CustomerDetails.LastName</div>
+        <div>@Localizer["Email"]: @CustomerDetails.Email</div>
+        <div>@Localizer["Country"]: @CustomerDetails.Country.EnumDisplayName()</div>
         @if (CustomerDetails.CurrentIdDocument is null)
         {
-            <div>This user has not uploaded ID yet.</div>
+            <div>
+                @Localizer["UserNotUploadedId"]
+            </div>
         }
         else
         {
@@ -30,7 +32,7 @@ else
             {
                 @if (!CustomerDetails.IsVerified)
                 {
-                    <div>Unverified ID:</div>
+                    <div>@Localizer["Unverified"] ID:</div>
                 }
                 <DocumentRenderer Document=@CustomerDetails.CurrentIdDocument></DocumentRenderer>
                 @if (CustomerDetails.CurrentIdDocument.IdRejected is null)
@@ -38,15 +40,15 @@ else
                     <EditForm Model="VerifyIdRequest" OnValidSubmit="async () => await VerifyId()">
                         @if (CustomerDetails.CurrentIdDocument.RejectedByAdminId is null)
                         {
-                            <div class="separated">Is the ID valid?</div>
+                            <div class="separated">@Localizer["IsThisIdValid"]</div>
                             <InputSelect @bind-Value="VerifyIdRequest.IsRejected">
-                                <option value="false">True</option>
-                                <option value="true">False</option>
+                                <option value="false">@Localizer["True"]</option>
+                                <option value="true">@Localizer["False"]</option>
                             </InputSelect>
                             @if (!VerifyIdRequest.IsRejected)
                             {
                                 <div>
-                                    Select the visible ID expiry date:
+                                    @Localizer["SelectVisibleIdExpiryDate"]:
                                     <InputDate @bind-Value="VerifyIdRequest.DocumentExpiryDate" />
                                 </div>
                             }
@@ -54,18 +56,18 @@ else
                             {
                                 <InputText @bind-Value="VerifyIdRequest.RejectionReason" />
                             }
-                            <button type="submit">Submit</button>
+                            <button type="submit">@Localizer["Submit"]</button>
                         }
                         else
                         {
-                            <div class="separated">This ID has already been reviewed.</div>
+                            <div class="separated">@Localizer["IdAlreadyBeenReviewed"]</div>
                         }
                     </EditForm>
                 }
             }
             else
             {
-                <div class="separated">This user needs to enter their details before you can verify their ID.</div>
+                <div class="separated">@Localizer["UserNeedsToEnterDetails"]</div>
             }
         }
     </div>
