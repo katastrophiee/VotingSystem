@@ -138,7 +138,13 @@
   <data name="ViewCandidates" xml:space="preserve">
     <value>Voir les candidats</value>
   </data>
+  <data name="ViewTasks" xml:space="preserve">
+    <value>Ver Tareas</value>
+  </data>
   <data name="ViewVoters" xml:space="preserve">
     <value>Voir les électeurs</value>
+  </data>
+  <data name="VoteInPerson" xml:space="preserve">
+    <value>Voter en personne</value>
   </data>
 </root>
