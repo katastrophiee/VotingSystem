@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,9 +21,10 @@ namespace VotingSystem.API.Providers;
 //https://learn.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
 //https://learn.microsoft.com/en-us/aspnet/aspnet/overview/owin-and-katana/an-overview-of-project-katana
 
-public class AuthProvider(DBContext dbContext) : IAuthProvider
+public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> localizer) : IAuthProvider
 {
     private readonly DBContext _dbContext = dbContext;
+    private readonly IStringLocalizer<AuthProvider> _localizer = localizer;
 
     //Move all to config
     private readonly string SecretKey = "Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=";
@@ -38,8 +40,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
             if (customer is null)
                 return new(new ErrorResponse()
                 {
-                    Title = "Invalid Login Credentials",
-                    Description = $"The username or password is incorrect.",
+                    Title = _localizer["InvalidLoginCredentials"],
+                    Description = _localizer["UsernameOrPasswordIncorrect"],
                     StatusCode = StatusCodes.Status400BadRequest,
                 });
 
@@ -49,8 +51,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to login for user {request.Username}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorCustomerLogin"]} {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -66,8 +68,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Invalid Login Credentials",
-                Description = $"The username or password is incorrect.",
+                Title = _localizer["InvalidLoginCredentials"],
+                Description = _localizer["UsernameOrPasswordIncorrect"],
                 StatusCode = StatusCodes.Status400BadRequest,
             });
         }
@@ -75,11 +77,10 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         if (!customer.IsActive)
             return new(new ErrorResponse()
             {
-                Title = "Inactive Account",
-                Description = $"Your account is not active",
+                Title = _localizer["InactiveAccount"],
+                Description = _localizer["AccountNotActive"],
                 StatusCode = StatusCodes.Status401Unauthorized,
             });
-
 
         customer.LastLoggedIn = DateTime.UtcNow;
 
@@ -108,8 +109,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
             {
                 return new(new ErrorResponse()
                 {
-                    Title = "Credentials Already Used",
-                    Description = $"The email or username is already in use",
+                    Title = _localizer["CredentialsAlreadyUsed"],
+                    Description = _localizer["EmailOrUsernameAlreadyUsed"],
                     StatusCode = StatusCodes.Status400BadRequest,
                 });
             }
@@ -149,10 +150,11 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         }
         catch (Exception ex) 
         {
+            // add admins page to create other admin accounts
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to create account for user {request.Username}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorCreateCustomerAccount"]} {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -215,8 +217,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
             if (admin is null)
                 return new(new ErrorResponse()
                 {
-                    Title = "Invalid Login Credentials",
-                    Description = $"The username or password is incorrect.",
+                    Title = _localizer["InvalidLoginCredentials"],
+                    Description = _localizer["UsernameOrPasswordIncorrect"],
                     StatusCode = StatusCodes.Status400BadRequest,
                 });
 
@@ -226,8 +228,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to login for admin {request.Username}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorAdminLogin"]} {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -243,8 +245,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Invalid Login Credentials",
-                Description = $"The username or password is incorrect.",
+                Title = _localizer["InvalidLoginCredentials"],
+                Description = _localizer["UsernameOrPasswordIncorrect"],
                 StatusCode = StatusCodes.Status400BadRequest,
             });
         }
@@ -276,8 +278,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
             {
                 return new(new ErrorResponse()
                 {
-                    Title = "Credentials Already Used",
-                    Description = $"The email or username is already in use",
+                    Title = _localizer["CredentialsAlreadyUsed"],
+                    Description = _localizer["EmailOrUsernameAlreadyUsed"],
                     StatusCode = StatusCodes.Status400BadRequest,
                 });
             }
@@ -315,8 +317,8 @@ public class AuthProvider(DBContext dbContext) : IAuthProvider
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to create account for admin {request.Username}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorCreateAdminAccount"]} {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
