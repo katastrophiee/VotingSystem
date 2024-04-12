@@ -22,8 +22,8 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {customerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -40,8 +40,8 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to retrieve voting history for customer {customerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetCustomerVotingHistory"]} {customerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -56,25 +56,25 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             if (customer is null || customer.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Customer Found",
-                    Description = $"No customer was found with the customer id {request.CustomerId}",
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {request.CustomerId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             if (!customer.IsVerified)
                 return new(new ErrorResponse()
                 {
-                    Title = "Customer Not Verified",
-                    Description = $"Cannot vote as customer {request.CustomerId} is not verified.",
-                    StatusCode = StatusCodes.Status404NotFound
+                    Title = _localizer["CustomerNotVerified"],
+                    Description = $"{_localizer["CustomerNotVerifiedWithId"]} {request.CustomerId}",
+                    StatusCode = StatusCodes.Status400BadRequest
                 });
 
             var election = await _dbContext.Election.FirstOrDefaultAsync(c => c.Id == request.ElectionId);
             if (election is null || election.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Election Found",
-                    Description = $"No election was found with the election id {request.ElectionId}",
+                    Title = _localizer["NoElectionFound"],
+                    Description = $"{_localizer["NoElectionFoundWithId"]} {request.ElectionId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -99,8 +99,8 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             if (customerVote is null || customerVote.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = "No Vote Found",
-                    Description = $"No vote was found by customer {request.CustomerId} for election {request.ElectionId}",
+                    Title = _localizer["NoVoteFound"],
+                    Description = $"{_localizer["NoVoteFoundWithId"]} {request.ElectionId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -121,8 +121,8 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
         {
             return new(new ErrorResponse()
             {
-                Title = "Internal Server Error",
-                Description = $"An unknown error occured when trying to add vote for customer {request.CustomerId}",
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorAddCustomerVote"]} {request.CustomerId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
