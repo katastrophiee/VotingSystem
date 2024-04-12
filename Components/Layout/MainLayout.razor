@@ -1,9 +1,6 @@
 ﻿@using VotingSystem.Components.Pages.Admin
 @using VotingSystem.Components.Pages.Customer
 @inherits LayoutComponentBase
-@inject NavigationManager navigationManager
-@attribute [StreamRendering]
-@inject ILocalStorageService _localStorage
 
 @* https://www.youtube.com/watch?v=LBByZRhyZ8U *@
 @if (!LoggedIn)
@@ -11,7 +8,7 @@
     @if (!IsAdmin)
     {
         <CustomerLoginPage OnLogin="@HandleOnLogin"/>
-        <button @onclick="() => IsAdmin = true">Admin Login</button>
+        <button @onclick="() => IsAdmin = true">@Localizer["AdminLogin"]</button>
     }
     else
     {
@@ -20,69 +17,30 @@
 }
 else
 {
-        <div class="page">
-            <div class="sidebar">
-                <NavMenu />
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <main>
+            <div class="top-row px-4">
+            @if (!IsAdmin)
+            {
+                <NavLink class="button-styled-nav-link" href="@($"profile/userId={UserId}")">
+                        <span>@Localizer["Profile"]</span>
+                </NavLink>
+            }
+            else
+            {
+                <NavLink class="button-styled-nav-link" href="@($"admin-profile/userId={UserId}")">
+                        <span>@Localizer["Profile"]</span>
+                </NavLink>
+            }
             </div>
 
-            <main>
-                <div class="top-row px-4">
-                @if (!IsAdmin)
-                {
-                    <NavLink class="button-styled-nav-link" href="@($"profile/userId={UserId}")">
-                        <span>Profile</span>
-                    </NavLink>
-                }
-                else
-                {
-                    <NavLink class="button-styled-nav-link" href="@($"admin-profile/userId={UserId}")">
-                        <span>Profile</span>
-                    </NavLink>
-                }
-                </div>
-
-                <article class="content px-4">
-                    @Body
-                </article>
-            </main>
-        </div>
-}
-
-@code {
-    private bool LoggedIn { get; set; } = false;
-    private bool IsAdmin { get; set; } = false;
-    private int UserId { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender)
-        {
-            var id = IsAdmin
-                ? await _localStorage.GetItemAsync<int>("adminUserId")
-                : await _localStorage.GetItemAsync<int>("currentUserId");
-
-            if (id != 0)
-                LoggedIn = true;
-            else
-                LoggedIn = false;
-
-            StateHasChanged();
-        }
-        else
-        {
-            await _localStorage.ClearAsync();
-            IsAdmin = false;
-        }
-    }
-
-    private async Task HandleOnLogin(int userId)
-    {
-        //need to add enforcement for password structure
-        if (userId != 0)
-        {
-            LoggedIn = true;
-            UserId = userId;
-            navigationManager.NavigateTo("");
-        }
-    }
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
 }

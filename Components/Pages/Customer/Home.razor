@@ -1,13 +1,14 @@
 ﻿@page "/"
+@using Microsoft.Extensions.Localization
 @using VotingSystem.Components.Pages.Admin
 @using VotingSystem.Components.Pages.Shared
-@rendermode InteractiveServer
-@attribute [StreamRendering]
 
 @* button that runs an async c# method on click and passes a value*@
 @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
 
 <PageTitle>Home</PageTitle>
+
+@* https://www.youtube.com/watch?v=h82U0RQ9jtQ&t=3914s *@
 
 @if (!IsAdmin)
 {
@@ -17,11 +18,11 @@
     }
     else if (CustomerDetails == null)
     {
-        <h1><em>Loading...</em></h1>
+        <h1><em>@Localizer["Loading"]</em></h1>
     }
     else
     {
-        <h1>Welcome @CustomerDetails.FirstName!</h1>
+        <h1>@Localizer["Welcome"] @CustomerDetails.FirstName.Trim()!</h1>
 
         @if (!CustomerDetails.IsVerified)
         {
@@ -29,29 +30,28 @@
                 @if (CustomerDetails.NewUser)
                 {
                     <div>
-                        Here's how to use the voting system:
+                        @Localizer["HowToUse"]
                         <ul>
-                            <li>Enter your profile details such as your legal name and location, it's important this is correct as it will be used for your votes.</li>
-                            <li>Upload a valid form of identification within your region and wait for a member of our team to verify it.</li>
-                            <li>Once verified, that's all for setup, you're ready to vote!</li>
+                            <li>@Localizer["IntroEnterProfileDetails"]</li>
+                            <li>@Localizer["IntroUploadValidIdentification"]</li>
+                            <li>@Localizer["IntroOnceVerified"]</li>
                         </ul>
                     </div>
                 }
                 else
                 {
                     <div>
-                        You have no valid ID! Don't worry though, just go to your profile page, upload one and wait!
-                        You can do that here:
+                        
                     </div>  
                 }
                 <NavLink class="button-styled-nav-link" href="@($"profile/userId={CustomerId}")">
                     @if (CustomerDetails.NewUser)
                     {
-                        <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Get Started</span>
+                        <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">@Localizer["GetStarted"]</span>
                     }
                     else
                     {
-                        <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">Profile</span>
+                        <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">@Localizer["Profile"]</span>
                     }
                 </NavLink>
             </div>
@@ -62,25 +62,25 @@
             <div class="content-container">
                 @if(IdExpireyDate is not null && IdExpireyDate < DateTime.Now.AddMonths(3))
                 {
-                    <div>Your ID expires in less than 3 months, go to the profile page to upload a new one.</div>
+                    <div>@Localizer["IdExpiresInThreeMonths"]</div>
                 }
                 else
                 {
-                    <div>You have no notifications.</div>
+                    <div>@Localizer["NoNotifications"]</div>
                 }
             </div>
 
-            <h2>Ongoing Elections in the @CustomerDetails.Country.EnumDisplayName()</h2>
+            <h2>@Localizer["OngoingElectionsIn"] @CustomerDetails.Country.EnumDisplayName()</h2>
             @if (OngoingElections.Count != 0)
             {
                 <table>
                     <tr>
-                        <th>Election ID</th>
-                        <th>Election</th>
-                        <th>Election Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Vote</th>
+                        <th>@Localizer["Election"] ID</th>
+                        <th>@Localizer["Election"]</th>
+                        <th>@Localizer["ElectionDescription"]</th>
+                        <th>@Localizer["StartDate"]</th>
+                        <th>@Localizer["EndDate"]</th>
+                        <th>@Localizer["Vote"]</th>
                     </tr>
                     @foreach (var election in OngoingElections)
                     {
@@ -94,13 +94,13 @@
                             {
                                 <td>
                                     <NavLink class="button-styled-nav-link" href="@($"view-election/electionId={election.ElectionId}")">
-                                        <span>Vote Here!</span>
+                                        <span>@Localizer["VoteHere"]!</span>
                                     </NavLink>
                                 </td>
                             }
                             else
                             {
-                                <td>You have already voted in this election.</td>
+                                <td>@Localizer["AlreadyVoted"]</td>
                             }
                         </tr>
                     }
@@ -109,7 +109,7 @@
             else
             {
                 <div class="content-container">
-                    There are no ongoing elections in your area.
+                    @Localizer["OngoingElections"]
                 </div>
             }
 
@@ -118,10 +118,10 @@
             {
                 <table>
                     <tr>
-                        <th>Election ID</th>
-                        <th>Election</th>
-                        <th>Election Description</th>
-                        <th>Date You Voted</th>
+                        <th>@Localizer["Election"] ID</th>
+                        <th>@Localizer["Election"]</th>
+                        <th>@Localizer["ElectionDescription"]</th>
+                        <th>@Localizer["DateYouVoted"]</th>
                     </tr>
                     @foreach (var vote in VotingHistory)
                     {
@@ -137,7 +137,7 @@
             else
             {
                 <div class="content-container">
-                    You have no voting history!
+                    @Localizer["NoVotingHistory"]!
                 </div>
             }
         }

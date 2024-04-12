@@ -1,5 +1,4 @@
-﻿@inject ILocalStorageService _localStorage
-@inject NavigationManager NavigationManager
+﻿@using Microsoft.Extensions.Localization
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -85,22 +84,3 @@
     }
     </nav>
 </div>
-
-@code {
-    public bool ShowAdminNavigation { get; set; } = false;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            ShowAdminNavigation = await _localStorage.GetItemAsync<bool>("isAdmin");
-            StateHasChanged();
-        }
-    }
-
-    private async Task Logout()
-    {
-        await _localStorage.RemoveItemsAsync(["currentUserId", "adminUserId", "authToken", "isAdmin"]);
-        NavigationManager.NavigateTo("/");
-    }
-}

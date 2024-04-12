@@ -8,14 +8,28 @@ using VotingSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-//Controller dependency injection
 builder.Services.AddControllers();
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
 
-//Provider dependency injection
+RequestLocalizationOptions GetLocalizationOptions()
+{
+    var cultures = builder.Configuration.GetSection("Cultures").GetChildren().ToDictionary(x => x.Key, x => x.Value);
+
+    var supportedCultures = cultures.Keys.ToArray();
+
+    var localizationOptions = new RequestLocalizationOptions()
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+
+    return localizationOptions;
+}
+
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
 builder.Services.AddScoped<IAdminProvider, AdminProvider>();
@@ -23,7 +37,6 @@ builder.Services.AddScoped<IDocumentProvider, DocumentProvider>();
 builder.Services.AddScoped<IElectionProvider, ElectionProvider>();
 builder.Services.AddScoped<IVoteProvider, VoteProvider>();
 
-//Repository dependency injection
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
 
 builder.Services.AddHttpClient<IApiRequestService, ApiRequestService>(client =>
@@ -49,6 +62,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAntiforgery();
+app.UseRequestLocalization(GetLocalizationOptions());
 app.MapControllers();
 
 app.MapRazorComponents<App>()

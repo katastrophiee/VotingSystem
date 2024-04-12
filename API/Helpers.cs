@@ -18,6 +18,7 @@ public static class Helpers
         return dateTime.ToString($"MMMM d'{daySuffix}', yyyy");
     }
 
+    //need changing for addition of localization
     private static string GetDaySuffix(int day)
     {
         if (day % 10 == 1 && day != 11)

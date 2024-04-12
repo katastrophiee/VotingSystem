@@ -1,9 +1,20 @@
 ﻿@page "/settings"
-@rendermode InteractiveServer
 
-<PageTitle>Settings</PageTitle>
+@* remove all interactive servers *@
 
 <h1>Settings</h1>
-@code {
 
+@if (Cultures != null)
+{
+    <h2>Change Language</h2>
+    <form class="form-inline">
+        @* mr-2 is bootstrap class for margin right 2 px *@
+        <select class="form-control mr-2" @bind="SelectedCulture">
+            @foreach (var culture in Cultures)
+            {
+                <option value="@culture.Key">@culture.Value</option>
+            }
+        </select>
+        <button @onclick="() => ChangeCulture(SelectedCulture)">Change Language</button>
+    </form>
 }
