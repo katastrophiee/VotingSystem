@@ -7,7 +7,6 @@ using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VotingSystem.Components.Pages.Admin;
 
@@ -39,6 +38,8 @@ public partial class AddElection
 
     public bool ShowAddOptionError { get; set; } = false;
 
+    public int ElectionOptionId { get; set; } = 0;
+
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
@@ -57,7 +58,8 @@ public partial class AddElection
 
             if (response.Error == null)
             {
-                NavigationManager.NavigateTo("/view-elections");
+                //TO DO - add this page
+                NavigationManager.NavigateTo("/admin-view-elections");
             }
             else
                 Errors.Add(response.Error);
@@ -162,6 +164,7 @@ public partial class AddElection
 
         if (candidateExists)
         {
+            NewOption.OptionId = ElectionOptionId++;
             AddElectionRequest.ElectionOptions.Add(NewOption);
             NewOption = new();
         }
