@@ -126,6 +126,9 @@
   <data name="AddOption" xml:space="preserve">
     <value>Añadir opción</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
   <data name="Candidate" xml:space="preserve">
     <value>Candidato</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="Desciption" xml:space="preserve">
     <value>Descripción</value>
+  </data>
+  <data name="Election" xml:space="preserve">
+    <value>Elección</value>
   </data>
   <data name="ElectionDescriptionRequired" xml:space="preserve">
     <value>Se requiere descripción de la elección</value>
@@ -156,6 +162,12 @@
   <data name="EndDate" xml:space="preserve">
     <value>Fecha de finalización</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>Inglaterra</value>
+  </data>
+  <data name="General Election" xml:space="preserve">
+    <value>Elección General</value>
+  </data>
   <data name="InvalidDateRange" xml:space="preserve">
     <value>Rango de fechas inválido</value>
   </data>
@@ -174,14 +186,29 @@
   <data name="InvalidStartDateDescription" xml:space="preserve">
     <value>La fecha de inicio debe ser posterior a la fecha de hoy</value>
   </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlanda</value>
+  </data>
+  <data name="Local Government Election" xml:space="preserve">
+    <value>Elección de Gobierno Local</value>
+  </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlanda del Norte</value>
+  </data>
   <data name="OptionDescription" xml:space="preserve">
     <value>Descripción de la opción</value>
   </data>
   <data name="OptionName" xml:space="preserve">
     <value>Nombre de la opción</value>
   </data>
+  <data name="Parliamentary Election" xml:space="preserve">
+    <value>Elección Parlamentaria</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>Eliminar</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Escocia</value>
   </data>
   <data name="SelectACountry" xml:space="preserve">
     <value>Selecciona un país</value>
@@ -194,5 +221,14 @@
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Enviar</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>Estados Unidos</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Gales</value>
   </data>
 </root>

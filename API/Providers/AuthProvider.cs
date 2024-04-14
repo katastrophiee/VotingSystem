@@ -198,9 +198,6 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-        //TO DO
-        //Check foreaches using enum values converts to the display name
-
         var userRoles = await _dbContext.UserRole.Where(r => r.UserId == userId && r.IsAdmin == isAdmin).FirstOrDefaultAsync();
 
         foreach (var role in userRoles.RoleIds)

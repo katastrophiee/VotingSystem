@@ -25,17 +25,18 @@
         <InputDate id="startDate" @bind-Value="AddElectionRequest.StartDate" placeholder=@Localizer["StartDate"] />
         <InputDate id="endDate" @bind-Value="AddElectionRequest.EndDate" placeholder=@Localizer["StartDate"] />
         <InputSelect id="country" @bind-Value="AddElectionRequest.Country">
+            @* TO DO - need to add validation once election types are added to only show appropriate types *@
             <option value="">@Localizer["SelectACountry"]</option>
             @foreach (var country in Enum.GetValues<VoterCountry>())
             {
-                <option value="@country">@country</option>
+                <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
             }
         </InputSelect>
         <InputSelect id="electionType" @bind-Value="AddElectionRequest.ElectionType">
             <option value="">@Localizer["SelectAnElectionType"]</option>
             @foreach (var type in Enum.GetValues<ElectionType>())
             {
-                <option value="@type">@type</option>
+                <option value="@type">@type.LocalisedEnumDisplayName(Localizer)</option>
             }
         </InputSelect>
 
