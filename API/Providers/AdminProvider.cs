@@ -171,8 +171,47 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            //TO DO
-            // check startdate is not more than today and check it is not more than the end date and end date is not today
+            if (string.IsNullOrEmpty(request.ElectionName))
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionName"],
+                    Description = $"{_localizer["NoElectionNameWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+
+            if (string.IsNullOrEmpty(request.ElectionDescription))
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionDescription"],
+                    Description = $"{_localizer["NoElectionDescriptionWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+
+            if (request.StartDate <= DateTime.Now
+                || request.StartDate >= request.EndDate
+                || request.EndDate <= DateTime.Now)
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["InvalidStartOrEndDate"],
+                    Description = $"{_localizer["InvalidStartOrEndDateWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+
+            if (request.ElectionOptions.Count == 0)
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionOptions"],
+                    Description = $"{_localizer["NoElectionOptionsWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
 
             var election = new Election()
             {

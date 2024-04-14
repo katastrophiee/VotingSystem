@@ -159,4 +159,28 @@
   <data name="NoDocumentFoundWithId" xml:space="preserve">
     <value>Aucun document n’a été trouvé avec l’id</value>
   </data>
+  <data name="InvalidStartOrEndDate" xml:space="preserve">
+    <value>Date de début ou de fin invalide</value>
+  </data>
+  <data name="InvalidStartOrEndDateWithId" xml:space="preserve">
+    <value>Date de début ou de fin invalide pour l’identifiant admin</value>
+  </data>
+  <data name="NoElectionDescription" xml:space="preserve">
+    <value>Pas de description d’élection</value>
+  </data>
+  <data name="NoElectionDescriptionWithId" xml:space="preserve">
+    <value>Aucune description d’élection n’a été fournie lors de la tentative d’ajout d’une élection pour l’administrateur</value>
+  </data>
+  <data name="NoElectionName" xml:space="preserve">
+    <value>Pas de nom d’élection</value>
+  </data>
+  <data name="NoElectionNameWithId" xml:space="preserve">
+    <value>Aucun nom d’élection n’a été fourni lors de la tentative d’ajout d’une élection pour l’administrateur</value>
+  </data>
+  <data name="NoElectionOptions" xml:space="preserve">
+    <value>Pas d’options d’élection</value>
+  </data>
+  <data name="NoElectionOptionsWithId" xml:space="preserve">
+    <value>Aucune option d’élection n’a été fournie lors de la tentative d’ajout d’une élection pour l’administrateur</value>
+  </data>
 </root>

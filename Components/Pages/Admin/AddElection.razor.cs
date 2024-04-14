@@ -1,4 +1,5 @@
-﻿using Blazored.LocalStorage;
+﻿using Azure.Core;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
@@ -6,6 +7,7 @@ using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VotingSystem.Components.Pages.Admin;
 
@@ -45,14 +47,80 @@ public partial class AddElection
     private async Task HandleValidSubmit()
     {
         AddElectionRequest.AdminId = AdminId;
-        var response = await ApiRequestService.SendAsync<bool>("Admin/PostAddElection", HttpMethod.Post, AddElectionRequest);
 
-        if (response.Error == null)
-        {
-            NavigationManager.NavigateTo("/view-elections");
+        Errors.Clear();
+
+        var isValidRequest = ValidateAddElectionRequest();
+        if (isValidRequest.Error is null)
+        { 
+            var response = await ApiRequestService.SendAsync<bool>("Admin/PostAddElection", HttpMethod.Post, AddElectionRequest);
+
+            if (response.Error == null)
+            {
+                NavigationManager.NavigateTo("/view-elections");
+            }
+            else
+                Errors.Add(response.Error);
         }
         else
-            Errors.Add(response.Error);
+        {
+            Errors.Add(isValidRequest.Error);
+        }
+    }
+
+    private Response<bool> ValidateAddElectionRequest()
+    {
+        if (string.IsNullOrWhiteSpace(AddElectionRequest.ElectionName))
+        {
+            return new(new ErrorResponse
+            {
+                Title = Localizer["ElectionNameRequired"],
+                Description = Localizer["ElectionNameRequiredDesciption"],
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+
+        if (string.IsNullOrWhiteSpace(AddElectionRequest.ElectionDescription))
+        {
+            return new(new ErrorResponse
+            {
+                Title = Localizer["ElectionDescriptionRequired"],
+                Description = Localizer["ElectionDescriptionRequiredDescription"],
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+
+        if (AddElectionRequest.StartDate <= DateTime.Now)
+        {
+            return new(new ErrorResponse
+            {
+                Title = Localizer["InvalidStartDate"],
+                Description = Localizer["InvalidStartDateDescription"],
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+
+        if (AddElectionRequest.EndDate <= DateTime.Now)
+        {
+            return new(new ErrorResponse
+            {
+                Title = Localizer["InvalidEndDate"],
+                Description = Localizer["InvalidEndDateDescription"],
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+
+        if (AddElectionRequest.EndDate < AddElectionRequest.StartDate)
+        {
+            return new(new ErrorResponse
+            {
+                Title = Localizer["InvalidDateRange"],
+                Description = Localizer["InvalidDateRangeDescription"],
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+
+        return new(true);
     }
 
     private async Task OnCandidateIdInput(ChangeEventArgs e)

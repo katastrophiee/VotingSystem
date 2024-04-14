@@ -28,23 +28,9 @@ public static class Helpers
 
     public static string FormatDateTime(this DateTime dateTime)
     {
-        string daySuffix = GetDaySuffix(dateTime.Day);
-        return dateTime.ToString($"MMMM d'{daySuffix}', yyyy");
+        return dateTime.ToString($"MMMM d, yyyy");
     }
 
-    //TO DO
-    //add localisation for helpers - need changing for addition of localization
-    private static string GetDaySuffix(int day)
-    {
-        if (day % 10 == 1 && day != 11)
-            return "st";
-        else if (day % 10 == 2 && day != 12)
-            return "nd";
-        else if (day % 10 == 3 && day != 13)
-            return "rd";
-        else
-            return "th";
-    }
     public static bool? StringToNullableBool(this string str)
     {
         if (string.IsNullOrEmpty(str))

@@ -135,14 +135,44 @@
   <data name="Desciption" xml:space="preserve">
     <value>Descripción</value>
   </data>
+  <data name="ElectionDescriptionRequired" xml:space="preserve">
+    <value>Se requiere descripción de la elección</value>
+  </data>
+  <data name="ElectionDescriptionRequiredDescription" xml:space="preserve">
+    <value>La descripción de la elección es obligatoria y no puede estar vacía</value>
+  </data>
   <data name="ElectionName" xml:space="preserve">
     <value>Nombre de la elección</value>
+  </data>
+  <data name="ElectionNameRequired" xml:space="preserve">
+    <value>Se requiere nombre de elección</value>
+  </data>
+  <data name="ElectionNameRequiredDesciption" xml:space="preserve">
+    <value>El nombre de la elección es obligatorio y no puede estar vacío</value>
   </data>
   <data name="ElectionOptions" xml:space="preserve">
     <value>Opciones de elección</value>
   </data>
   <data name="EndDate" xml:space="preserve">
     <value>Fecha de finalización</value>
+  </data>
+  <data name="InvalidDateRange" xml:space="preserve">
+    <value>Rango de fechas inválido</value>
+  </data>
+  <data name="InvalidDateRangeDescription" xml:space="preserve">
+    <value>La fecha de finalización debe ser posterior a la fecha de inicio</value>
+  </data>
+  <data name="InvalidEndDate" xml:space="preserve">
+    <value>Fecha de finalización inválida</value>
+  </data>
+  <data name="InvalidEndDateDescription" xml:space="preserve">
+    <value>La fecha de finalización debe ser posterior a la fecha de hoy</value>
+  </data>
+  <data name="InvalidStartDate" xml:space="preserve">
+    <value>Fecha de inicio inválida</value>
+  </data>
+  <data name="InvalidStartDateDescription" xml:space="preserve">
+    <value>La fecha de inicio debe ser posterior a la fecha de hoy</value>
   </data>
   <data name="OptionDescription" xml:space="preserve">
     <value>Descripción de la opción</value>

@@ -2,6 +2,11 @@
 
 <h1>@Localizer["AddAnElection"]</h1>
 
+@if (Errors.Count > 0)
+{
+    <ErrorPopup Errors="Errors" />
+}
+
 <div class="content-container">
     <EditForm Model="AddElectionRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
         <DataAnnotationsValidator />

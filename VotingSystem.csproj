@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="API\Repository\DBContext\" />
-    <Folder Include="Resources\API\Enums\" />
   </ItemGroup>
 
   <ItemGroup>

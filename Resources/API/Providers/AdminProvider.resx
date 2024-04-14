@@ -159,4 +159,28 @@
   <data name="NoDocumentFoundWithId" xml:space="preserve">
     <value>No document was found with the document id</value>
   </data>
+  <data name="InvalidStartOrEndDate" xml:space="preserve">
+    <value>Invalid Start Or End Date</value>
+  </data>
+  <data name="InvalidStartOrEndDateWithId" xml:space="preserve">
+    <value>Invalid start or end date for admin id</value>
+  </data>
+  <data name="NoElectionDescription" xml:space="preserve">
+    <value>No Election Description</value>
+  </data>
+  <data name="NoElectionDescriptionWithId" xml:space="preserve">
+    <value>No election description was provided when trying to add election for admin</value>
+  </data>
+  <data name="NoElectionName" xml:space="preserve">
+    <value>No Election Name</value>
+  </data>
+  <data name="NoElectionNameWithId" xml:space="preserve">
+    <value>No election name was provided when trying to add election for admin</value>
+  </data>
+  <data name="NoElectionOptions" xml:space="preserve">
+    <value>No Election Options</value>
+  </data>
+  <data name="NoElectionOptionsWithId" xml:space="preserve">
+    <value>No election options were provided when trying to add election for admin</value>
+  </data>
 </root>

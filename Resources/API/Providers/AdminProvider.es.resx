@@ -159,4 +159,28 @@
   <data name="NoDocumentFoundWithId" xml:space="preserve">
     <value>No se encontró un documento con el id</value>
   </data>
+  <data name="InvalidStartOrEndDate" xml:space="preserve">
+    <value>Fecha de inicio o fin inválida</value>
+  </data>
+  <data name="InvalidStartOrEndDateWithId" xml:space="preserve">
+    <value>Fecha de inicio o fin inválida para el id de administrador</value>
+  </data>
+  <data name="NoElectionDescription" xml:space="preserve">
+    <value>Sin descripción de elección</value>
+  </data>
+  <data name="NoElectionDescriptionWithId" xml:space="preserve">
+    <value>No se proporcionó descripción de elección al intentar agregar una elección para el administrador</value>
+  </data>
+  <data name="NoElectionName" xml:space="preserve">
+    <value>Sin nombre de elección</value>
+  </data>
+  <data name="NoElectionNameWithId" xml:space="preserve">
+    <value>No se proporcionó nombre de elección al intentar agregar una elección para el administrador</value>
+  </data>
+  <data name="NoElectionOptions" xml:space="preserve">
+    <value>Sin opciones de elección</value>
+  </data>
+  <data name="NoElectionOptionsWithId" xml:space="preserve">
+    <value>No se proporcionaron opciones de elección al intentar agregar una elección para el administrador</value>
+  </data>
 </root>
