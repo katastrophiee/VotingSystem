@@ -11,9 +11,9 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
     private readonly IElectionProvider _electionProvider = electionProvider;
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerOngoingElections(int customerId)
+    public async Task<ActionResult> GetVoterOngoingElections(int voterId)
     {
-        var response = await _electionProvider.GetCustomerOngoingElections(customerId);
+        var response = await _electionProvider.GetVoterOngoingElections(voterId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -21,9 +21,9 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerVotedInElections(int customerId)
+    public async Task<ActionResult> GetVoterVotedInElections(int voterId)
     {
-        var response = await _electionProvider.GetCustomerVotedInElections(customerId);
+        var response = await _electionProvider.GetVoterVotedInElections(voterId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -31,9 +31,9 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetRecentlyEndedElections(int customerId)
+    public async Task<ActionResult> GetRecentlyEndedElections(int voterId)
     {
-        var response = await _electionProvider.GetRecentlyEndedElections(customerId);
+        var response = await _electionProvider.GetRecentlyEndedElections(voterId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -41,9 +41,9 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerUpcomingElections(int customerId)
+    public async Task<ActionResult> GetVoterUpcomingElections(int voterId)
     {
-        var response = await _electionProvider.GetCustomerUpcomingElections(customerId);
+        var response = await _electionProvider.GetVoterUpcomingElections(voterId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -51,9 +51,9 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetElection(int electionId, int customerId)
+    public async Task<ActionResult> GetElection(int electionId, int voterId)
     {
-        var response = await _electionProvider.GetElection(electionId, customerId);
+        var response = await _electionProvider.GetElection(electionId, voterId);
 
         return response.Error is null
             ? Ok(response.Data)

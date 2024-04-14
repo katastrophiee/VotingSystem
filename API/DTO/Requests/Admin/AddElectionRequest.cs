@@ -15,7 +15,7 @@ public class AddElectionRequest
 
     public DateTime EndDate { get; set; }
 
-    public CustomerCountry Country { get; set; }
+    public VoterCountry Country { get; set; }
 
     public ElectionType ElectionType { get; set; }
 

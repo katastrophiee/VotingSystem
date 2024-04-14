@@ -11,7 +11,7 @@ public class GetCandidateResponse
 
     public string Description { get; set; }
 
-    public CustomerCountry Country { get; set; }
+    public VoterCountry Country { get; set; }
 
     public DateTime StartDateOfCandidacy { get; set; }
 
@@ -21,7 +21,7 @@ public class GetCandidateResponse
     {
     }
 
-    public GetCandidateResponse(Customer candidate)
+    public GetCandidateResponse(Voter candidate)
     {
         CandidateId = candidate.Id;
         Name = candidate.CandidateName ?? "";

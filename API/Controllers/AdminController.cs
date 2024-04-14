@@ -11,9 +11,9 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     private readonly IAdminProvider _adminProvider = adminProvider;
 
     [HttpPost]
-    public async Task<ActionResult> GetCustomers(AdminGetCustomersRequest request)
+    public async Task<ActionResult> GetVoters(AdminGetVotersRequest request)
     {
-        var response = await _adminProvider.GetCustomers(request);
+        var response = await _adminProvider.GetVoters(request);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -21,9 +21,9 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerDetails(int customerId, int adminId)
+    public async Task<ActionResult> GetVoterDetails(int voterId, int adminId)
     {
-        var response = await _adminProvider.GetCustomerDetails(customerId, adminId);
+        var response = await _adminProvider.GetVoterDetails(voterId, adminId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -51,9 +51,9 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCandidate(int customerId, int adminId)
+    public async Task<ActionResult> GetCandidate(int voterId, int adminId)
     {
-        var response = await _adminProvider.GetCandidate(customerId, adminId);
+        var response = await _adminProvider.GetCandidate(voterId, adminId);
 
         return response.Error is null
             ? Ok(response.Data)

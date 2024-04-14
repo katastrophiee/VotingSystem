@@ -120,19 +120,19 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Erreur interne du serveur</value>
   </data>
-  <data name="InternalServerErrorGetCurrentCustomerDocument" xml:space="preserve">
+  <data name="InternalServerErrorGetCurrentVoterDocument" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des documents pour le client</value>
   </data>
-  <data name="InternalServerErrorGetCustomerDocuments" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterDocuments" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des documents pour le client</value>
   </data>
-  <data name="InternalServerErrorPostUploadCustomerDocument" xml:space="preserve">
+  <data name="InternalServerErrorPostUploadVoterDocument" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de téléchargement du document</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
+  <data name="NoVoterFound" xml:space="preserve">
     <value>Aucun client trouvé</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
+  <data name="NoVoterFoundWithId" xml:space="preserve">
     <value>Aucun client trouvé avec l’identifiant client</value>
   </data>
 </root>

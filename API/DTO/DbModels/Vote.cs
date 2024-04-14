@@ -14,8 +14,8 @@ namespace VotingSystem.API.DTO.DbModels
 
         public DateTime VoteDate { get; set; }
 
-        public int CustomerId { get; set; }
+        public int VoterId { get; set; }
 
-        public CustomerCountry Country { get; set; }
+        public VoterCountry Country { get; set; }
     }
 }

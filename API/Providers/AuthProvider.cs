@@ -31,13 +31,13 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
     private readonly string Issuer = "LocalVotingSystemApp_v1.0";
     private readonly string Audience = "LocalVotingSystem";
 
-    public async Task<Response<LoginResponse>> CustomerLogin(LoginRequest request)
+    public async Task<Response<LoginResponse>> VoterLogin(LoginRequest request)
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Username == request.Username);
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Username == request.Username);
 
-            if (customer is null)
+            if (voter is null)
                 return new(new ErrorResponse()
                 {
                     Title = _localizer["InvalidLoginCredentials"],
@@ -45,26 +45,26 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                     StatusCode = StatusCodes.Status400BadRequest,
                 });
 
-            return await LoginAsCustomer(customer, request.Password);
+            return await LoginAsVoter(voter, request.Password);
         }
         catch (Exception ex) 
         {
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorCustomerLogin"]} {request.Username}",
+                Description = $"{_localizer["InternalServerErrorVoterLogin"]} {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
         }
     }
 
-    private async Task<Response<LoginResponse>> LoginAsCustomer(Customer customer, string password)
+    private async Task<Response<LoginResponse>> LoginAsVoter(Voter voter, string password)
     {
-        var passwordSalt = customer.PasswordSalt;
+        var passwordSalt = voter.PasswordSalt;
         var pbkdf2HashedPassword = Pbkdf2HashString(password, ref passwordSalt);
 
-        if (!string.Equals(pbkdf2HashedPassword, customer.Password))
+        if (!string.Equals(pbkdf2HashedPassword, voter.Password))
         {
             return new(new ErrorResponse()
             {
@@ -74,7 +74,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             });
         }
 
-        if (!customer.IsActive)
+        if (!voter.IsActive)
             return new(new ErrorResponse()
             {
                 Title = _localizer["InactiveAccount"],
@@ -82,30 +82,30 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 StatusCode = StatusCodes.Status401Unauthorized,
             });
 
-        customer.LastLoggedIn = DateTime.UtcNow;
+        voter.LastLoggedIn = DateTime.UtcNow;
 
-        _dbContext.Customer.Update(customer);
+        _dbContext.Voter.Update(voter);
         await _dbContext.SaveChangesAsync();
 
-        var accessToken = GenerateAccessToken(customer.Id);
+        var accessToken = GenerateAccessToken(voter.Id);
 
         return new(new LoginResponse()
         {
-            UserId = customer.Id,
+            UserId = voter.Id,
             AccessToken = accessToken,
             ExpiresIn = 30,
         });
     }
 
-    public async Task<Response<LoginResponse>> CreateCustomerAccount(CreateCustomerAccountRequest request)
+    public async Task<Response<LoginResponse>> CreateVoterAccount(CreateVoterAccountRequest request)
     {
         try
         {
-            var existingCustomers = await _dbContext.Customer
+            var existingVoters = await _dbContext.Voter
               .Where(v => v.Username == request.Username || v.Email == request.Email)
               .ToListAsync();
             
-            if (existingCustomers.Count != 0)
+            if (existingVoters.Count != 0)
             {
                 return new(new ErrorResponse()
                 {
@@ -118,7 +118,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             var passwordSalt = GenerateSalt();
             var pbkdf2HashedPassword = Pbkdf2HashString(request.Password, ref passwordSalt);
 
-            var newCustomer = new Customer()
+            var newVoter = new Voter()
             {
                 Username = request.Username,
                 Email = request.Email,
@@ -126,7 +126,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 PasswordSalt = passwordSalt,
                 FirstName = "",
                 LastName = "",
-                Country = CustomerCountry.Unknown,
+                Country = VoterCountry.Unknown,
                 NewUser = true,
                 IsCandidate = false,
                 IsActive = true,
@@ -134,16 +134,16 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 LastLoggedIn = DateTime.UtcNow,
             };
 
-            _dbContext.Customer.Add(newCustomer);
+            _dbContext.Voter.Add(newVoter);
             await _dbContext.SaveChangesAsync();
 
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Username == request.Username);
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Username == request.Username);
 
-            var accessToken = GenerateAccessToken(customer.Id);
+            var accessToken = GenerateAccessToken(voter.Id);
 
             return new(new LoginResponse()
             {
-                UserId = customer.Id,
+                UserId = voter.Id,
                 AccessToken = accessToken,
                 ExpiresIn = 30
             });
@@ -154,7 +154,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorCreateCustomerAccount"]} {request.Username}",
+                Description = $"{_localizer["InternalServerErrorCreateVoterAccount"]} {request.Username}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

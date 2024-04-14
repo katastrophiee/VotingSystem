@@ -1,0 +1,68 @@
+﻿@page "/become-candidate"
+
+@* ensure every page has a page title *@
+<PageTitle>@Localizer["BecomeACandidate"]</PageTitle>
+
+<h1>@Localizer["BecomeACandidate"]</h1>
+
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (VoterDetails == null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else if (VoterDetails.Country == VoterCountry.Unknown)
+{
+    <div class="warning-container">
+        @Localizer["CannotBecomeCandidateProfile"]
+    </div>
+}
+else if (!VoterDetails.IsVerified)
+{
+    <div class="warning-container">
+        @Localizer["CannotBecomeCandidateUnverified"]
+    </div>
+}
+else if (VoterDetails.IsCandidate)
+{
+    <div class="content-container">
+        @Localizer["AlreadyACandidate"]
+    </div>
+
+    <EditForm Model="UpdateCandidateRequest" OnValidSubmit="async () => await HandleUpdateCandidate()" class="edit-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label for="candidateName">@Localizer["Name"]</label>
+            <InputText id="candidateName" @bind-Value="UpdateCandidateRequest.CandidateName" />
+        </div>
+
+        <div>
+            <label for="candidateDescription">@Localizer["Description"]:</label>
+            <InputTextArea id="candidateDescription" @bind-Value="UpdateCandidateRequest.CandidateDescription" placeholder=@Localizer["EnterDescription"] />
+        </div>
+
+        <button type="submit">@Localizer["Submit"]</button>
+    </EditForm>
+}
+else {
+    <EditForm Model="BecomeCandidateRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label for="candidateName">@Localizer["Name"]</label>
+            <InputText id="candidateName" @bind-Value="BecomeCandidateRequest.CandidateName" />
+        </div>
+
+        <div>
+            <label for="candidateDescription">@Localizer["Description"]:</label>
+            <InputTextArea id="candidateDescription" @bind-Value="BecomeCandidateRequest.CandidateDescription" placeholder=@Localizer["EnterDescription"] />
+        </div>
+
+        <button type="submit">@Localizer["Submit"]</button>
+    </EditForm>
+}

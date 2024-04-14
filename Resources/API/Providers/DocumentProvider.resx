@@ -120,19 +120,19 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
-  <data name="InternalServerErrorGetCurrentCustomerDocument" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve documents for customer</value>
+  <data name="InternalServerErrorGetCurrentVoterDocument" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve documents for voter</value>
   </data>
-  <data name="InternalServerErrorGetCustomerDocuments" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve documents for customer</value>
+  <data name="InternalServerErrorGetVoterDocuments" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve documents for voter</value>
   </data>
-  <data name="InternalServerErrorPostUploadCustomerDocument" xml:space="preserve">
+  <data name="InternalServerErrorPostUploadVoterDocument" xml:space="preserve">
     <value>An unknown error occured when trying to upload document</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
-    <value>No Customer Found</value>
+  <data name="NoVoterFound" xml:space="preserve">
+    <value>No Voter Found</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
-    <value>No customer found with the customer id</value>
+  <data name="NoVoterFoundWithId" xml:space="preserve">
+    <value>No voter found with the voter id</value>
   </data>
 </root>

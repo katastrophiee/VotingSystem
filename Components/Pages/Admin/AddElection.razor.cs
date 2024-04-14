@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
+using VotingSystem.API.DTO.Responses;
 using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
@@ -44,7 +45,7 @@ public partial class AddElection
     private async Task HandleValidSubmit()
     {
         AddElectionRequest.AdminId = AdminId;
-        var response = await ApiRequestService.AdminPostAddElection(AddElectionRequest);
+        var response = await ApiRequestService.SendAsync<bool>("Admin/PostAddElection", HttpMethod.Post, AddElectionRequest);
 
         if (response.Error == null)
         {
@@ -54,13 +55,18 @@ public partial class AddElection
             Errors.Add(response.Error);
     }
 
-    async Task OnCandidateIdInput(ChangeEventArgs e)
+    private async Task OnCandidateIdInput(ChangeEventArgs e)
     {
         ShowAddOptionError = false;
         if (int.TryParse(e.Value?.ToString(), out int result))
         {
             NewOption.CandidateId = result;
-            await AutofillCandidate(result);
+            var candidateExists = await AutofillCandidate(result);
+            if (!candidateExists)
+            {
+                NewOption.OptionName = "";
+                NewOption.OptionDescription = "";
+            }
         }
         else
         {
@@ -71,7 +77,7 @@ public partial class AddElection
 
     private async Task<bool> AutofillCandidate(int candidateId)
     {
-        var candidate = await ApiRequestService.AdminGetCandidate(candidateId, AdminId);
+        var candidate = await ApiRequestService.SendAsync<GetCandidateResponse>($"Admin/GetCandidate?voterId={candidateId}&adminId={AdminId}", HttpMethod.Get);
         if (candidate.Error == null)
         {
             NewOption.OptionName = candidate.Data.Name;
@@ -95,6 +101,7 @@ public partial class AddElection
         {
             ShowAddOptionError = true;
         }
+        StateHasChanged();
     }
 
     private void RemoveOption(ElectionOption option)

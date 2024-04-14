@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerNotCandidate" xml:space="preserve">
-    <value>Customer Not A Candidate</value>
+  <data name="VoterNotCandidate" xml:space="preserve">
+    <value>Voter Not A Candidate</value>
   </data>
-  <data name="CustomerNotCandidateWithId" xml:space="preserve">
-    <value>This customer is not a candidate with the customer id</value>
+  <data name="VoterNotCandidateWithId" xml:space="preserve">
+    <value>This voter is not a candidate with the voter id</value>
   </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
@@ -135,11 +135,11 @@
   <data name="InternalServerErrorGetCandidate" xml:space="preserve">
     <value>An unknown error occured when trying to retrieve candidate for admin</value>
   </data>
-  <data name="InternalServerErrorGetCustomerDetails" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve customer details for admin</value>
+  <data name="InternalServerErrorGetVoterDetails" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve voter details for admin</value>
   </data>
-  <data name="InternalServerErrorGetCustomers" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve customers for admin</value>
+  <data name="InternalServerErrorGetVoters" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve voters for admin</value>
   </data>
   <data name="NoAdminFound" xml:space="preserve">
     <value>No Admin Found</value>
@@ -147,11 +147,11 @@
   <data name="NoAdminFoundWithId" xml:space="preserve">
     <value>No admin was found with the admin id</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
-    <value>No Customer Found</value>
+  <data name="NoVoterFound" xml:space="preserve">
+    <value>No Voter Found</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
-    <value>No customer found with the customer id</value>
+  <data name="NoVoterFoundWithId" xml:space="preserve">
+    <value>No voter found with the voter id</value>
   </data>
   <data name="NoDocumentFound" xml:space="preserve">
     <value>No Document Found</value>

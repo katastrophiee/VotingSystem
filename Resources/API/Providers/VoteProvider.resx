@@ -117,26 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerNotVerified" xml:space="preserve">
-    <value>Customer Not Verified</value>
+  <data name="VoterNotVerified" xml:space="preserve">
+    <value>Voter Not Verified</value>
   </data>
-  <data name="CustomerNotVerifiedWithId" xml:space="preserve">
-    <value>Cannot vote as this customer is not verified for customer</value>
+  <data name="VoterNotVerifiedWithId" xml:space="preserve">
+    <value>Cannot vote as this voter is not verified for voter</value>
   </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
-  <data name="InternalServerErrorAddCustomerVote" xml:space="preserve">
-    <value>An unknown error occured when trying to add vote for customer</value>
+  <data name="InternalServerErrorAddVoterVote" xml:space="preserve">
+    <value>An unknown error occured when trying to add vote for voter</value>
   </data>
-  <data name="InternalServerErrorGetCustomerVotingHistory" xml:space="preserve">
-    <value>An unknown error occured when trying to retrieve voting history for customer</value>
+  <data name="InternalServerErrorGetVoterVotingHistory" xml:space="preserve">
+    <value>An unknown error occured when trying to retrieve voting history for voter</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
-    <value>No Customer Found</value>
+  <data name="NoVoterFound" xml:space="preserve">
+    <value>No Voter Found</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
-    <value>No customer found with the customer id</value>
+  <data name="NoVoterFoundWithId" xml:space="preserve">
+    <value>No voter found with the voter id</value>
   </data>
   <data name="NoElectionFound" xml:space="preserve">
     <value>No Election Found</value>

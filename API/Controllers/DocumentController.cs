@@ -11,9 +11,9 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
     private readonly IDocumentProvider _documentProvider = documentProvider;
 
     [HttpPost]
-    public async Task<ActionResult> PostUploadCustomerDocument(Document document)
+    public async Task<ActionResult> PostUploadVoterDocument(Document document)
     {
-        var response = await _documentProvider.PostUploadCustomerDocument(document);
+        var response = await _documentProvider.PostUploadVoterDocument(document);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -21,9 +21,9 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerDocuments(int customerId)
+    public async Task<ActionResult> GetVoterDocuments(int voterId)
     {
-        var response = await _documentProvider.GetCustomerDocuments(customerId);
+        var response = await _documentProvider.GetVoterDocuments(voterId);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -31,9 +31,9 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCurrentCustomerDocument(int customerId)
+    public async Task<ActionResult> GetCurrentVoterDocument(int voterId)
     {
-        var response = await _documentProvider.GetCurrentCustomerDocument(customerId);
+        var response = await _documentProvider.GetCurrentVoterDocument(voterId);
 
         return response.Error is null
             ? Ok(response.Data)

@@ -25,12 +25,17 @@ public partial class MainLayout
         {
             var id = IsAdmin
                 ? await _localStorage.GetItemAsync<int>("adminUserId")
-                : await _localStorage.GetItemAsync<int>("currentUserId");
+                : await _localStorage.GetItemAsync<int>("currentVoterId");
 
             if (id != 0)
+            {
+                UserId = id;
                 LoggedIn = true;
+            }            
             else
+            {
                 LoggedIn = false;
+            }
 
             StateHasChanged();
         }

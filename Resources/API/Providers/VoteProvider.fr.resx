@@ -117,25 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerNotVerified" xml:space="preserve">
+  <data name="VoterNotVerified" xml:space="preserve">
     <value>Client non vérifié</value>
   </data>
-  <data name="CustomerNotVerifiedWithId" xml:space="preserve">
+  <data name="VoterNotVerifiedWithId" xml:space="preserve">
     <value>Impossible de voter car ce client n’est pas vérifié pour le client</value>
   </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Erreur interne du serveur</value>
   </data>
-  <data name="InternalServerErrorAddCustomerVote" xml:space="preserve">
+  <data name="InternalServerErrorAddVoterVote" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative d’ajout du vote pour le client</value>
   </data>
-  <data name="InternalServerErrorGetCustomerVotingHistory" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterVotingHistory" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération de l’historique de vote pour le client</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
+  <data name="NoVoterFound" xml:space="preserve">
     <value>Aucun client trouvé</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
+  <data name="NoVoterFoundWithId" xml:space="preserve">
     <value>Aucun client trouvé avec l’identifiant du client</value>
   </data>
   <data name="NoElectionFound" xml:space="preserve">

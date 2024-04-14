@@ -21,7 +21,7 @@
         <InputDate id="endDate" @bind-Value="AddElectionRequest.EndDate" placeholder=@Localizer["StartDate"] />
         <InputSelect id="country" @bind-Value="AddElectionRequest.Country">
             <option value="">@Localizer["SelectACountry"]</option>
-            @foreach (var country in Enum.GetValues<CustomerCountry>())
+            @foreach (var country in Enum.GetValues<VoterCountry>())
             {
                 <option value="@country">@country</option>
             }

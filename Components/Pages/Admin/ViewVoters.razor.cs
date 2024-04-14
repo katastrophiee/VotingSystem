@@ -25,7 +25,7 @@ public partial class ViewVoters
 
     public List<AdminGetVotersResponse> VotersResult { get; set; } = [];
 
-    public AdminGetCustomersRequest GetVotersRequest { get; set; } = new();
+    public AdminGetVotersRequest GetVotersRequest { get; set; } = new();
 
     public string IsCandidateString { get; set; }
     public string IsVerifiedString { get; set; }
@@ -35,13 +35,13 @@ public partial class ViewVoters
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
     }
 
-    private async Task SearchCustomers()
+    private async Task SearchVoters()
     {
         GetVotersRequest.AdminId = AdminId;
         GetVotersRequest.IsCandidate = IsCandidateString.StringToNullableBool();
         GetVotersRequest.IsVerified = IsVerifiedString.StringToNullableBool();
 
-        var votersResult = await ApiRequestService.AdminGetCustomers(GetVotersRequest);
+        var votersResult = await ApiRequestService.SendAsync<List<AdminGetVotersResponse>>("Admin/GetVoters", HttpMethod.Post, GetVotersRequest);
 
         if (votersResult.Error == null)
             VotersResult = votersResult.Data;

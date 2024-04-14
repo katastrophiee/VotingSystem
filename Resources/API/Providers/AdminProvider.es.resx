@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerNotCandidate" xml:space="preserve">
+  <data name="VoterNotCandidate" xml:space="preserve">
     <value>Cliente No Es Candidato</value>
   </data>
-  <data name="CustomerNotCandidateWithId" xml:space="preserve">
+  <data name="VoterNotCandidateWithId" xml:space="preserve">
     <value>Este cliente no es un candidato con el id</value>
   </data>
   <data name="InternalServerError" xml:space="preserve">
@@ -135,10 +135,10 @@
   <data name="InternalServerErrorGetCandidate" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar recuperar al candidato para el administrador</value>
   </data>
-  <data name="InternalServerErrorGetCustomerDetails" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterDetails" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar recuperar los detalles del cliente para el administrador</value>
   </data>
-  <data name="InternalServerErrorGetCustomers" xml:space="preserve">
+  <data name="InternalServerErrorGetVoters" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar recuperar a los clientes para el administrador</value>
   </data>
   <data name="NoAdminFound" xml:space="preserve">
@@ -147,10 +147,10 @@
   <data name="NoAdminFoundWithId" xml:space="preserve">
     <value>No se encontró un administrador con el id de administrador</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
+  <data name="NoVoterFound" xml:space="preserve">
     <value>No Se Encontró Cliente</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
+  <data name="NoVoterFoundWithId" xml:space="preserve">
     <value>No se encontró un cliente con el id</value>
   </data>
   <data name="NoDocumentFound" xml:space="preserve">

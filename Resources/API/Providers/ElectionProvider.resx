@@ -120,29 +120,29 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
-  <data name="InternalServerErrorGetCustomerOngoingElections" xml:space="preserve">
-    <value>An unknown error occured when trying to fetch ongoing elections for customer</value>
+  <data name="InternalServerErrorGetVoterOngoingElections" xml:space="preserve">
+    <value>An unknown error occured when trying to fetch ongoing elections for voter</value>
   </data>
-  <data name="InternalServerErrorGetCustomerUpcomingElections" xml:space="preserve">
-    <value>An unknown error occured when trying to fetch upcoming elections for customer</value>
+  <data name="InternalServerErrorGetVoterUpcomingElections" xml:space="preserve">
+    <value>An unknown error occured when trying to fetch upcoming elections for voter</value>
   </data>
-  <data name="InternalServerErrorGetCustomerVotedInElections" xml:space="preserve">
-    <value>An unknown error occured when trying to fetch voted in elections for customer</value>
+  <data name="InternalServerErrorGetVoterVotedInElections" xml:space="preserve">
+    <value>An unknown error occured when trying to fetch voted in elections for voter</value>
   </data>
   <data name="InternalServerErrorGetElection" xml:space="preserve">
-    <value>An unknown error occured when trying to fetch election for customer</value>
+    <value>An unknown error occured when trying to fetch election for voter</value>
   </data>
   <data name="InternalServerErrorGetElections" xml:space="preserve">
-    <value>An unknown error occured when trying to fetch elections for customer</value>
+    <value>An unknown error occured when trying to fetch elections for voter</value>
   </data>
   <data name="InternalServerErrorGetRecentlyEndedElections" xml:space="preserve">
-    <value>An unknown error occured when trying to fetch recently ended elections for customer</value>
+    <value>An unknown error occured when trying to fetch recently ended elections for voter</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
-    <value>No Customer Found</value>
+  <data name="NoVoterFound" xml:space="preserve">
+    <value>No Voter Found</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
-    <value>No customer found with the customer id</value>
+  <data name="NoVoterFoundWithId" xml:space="preserve">
+    <value>No voter found with the voter id</value>
   </data>
   <data name="NoElectionFound" xml:space="preserve">
     <value>No Election Found</value>

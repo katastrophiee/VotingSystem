@@ -1,5 +1,5 @@
 ﻿@using VotingSystem.Components.Pages.Admin
-@using VotingSystem.Components.Pages.Customer
+@using VotingSystem.Components.Pages.Voter
 @inherits LayoutComponentBase
 
 @* https://www.youtube.com/watch?v=LBByZRhyZ8U *@
@@ -7,7 +7,7 @@
 {
     @if (!IsAdmin)
     {
-        <CustomerLoginPage OnLogin="@HandleOnLogin"/>
+        <VoterLoginPage OnLogin="@HandleOnLogin"/>
         <button @onclick="() => IsAdmin = true">@Localizer["AdminLogin"]</button>
     }
     else

@@ -2,7 +2,7 @@
 
 public class GetElectionsRequest
 {
-    public int CustomerId { get; set; }
+    public int VoterId { get; set; }
 
     public List<int> ElectionIds { get; set; }
 
@@ -10,9 +10,9 @@ public class GetElectionsRequest
     {
     }
 
-    public GetElectionsRequest(int customerId, List<int> electionIds)
+    public GetElectionsRequest(int voterId, List<int> electionIds)
     {
-        CustomerId = customerId;
+        VoterId = voterId;
         ElectionIds = electionIds;
     }
 }

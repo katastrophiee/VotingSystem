@@ -2,7 +2,7 @@
 
 public class BecomeCandidateRequest
 {
-    public int CustomerId { get; set; }
+    public int VoterId { get; set; }
     public string CandidateName { get; set; }
     public string CandidateDescription { get; set; }
 }

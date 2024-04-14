@@ -15,14 +15,13 @@
 
   <ItemGroup>
     <Folder Include="API\Repository\DBContext\" />
-    <Folder Include="Components\Resources\" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Components\Pages\Customer\CustomerRegisterPage.resx">
+    <EmbeddedResource Update="Resources\Components\Pages\Voter\VoterRegisterPage.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Components\Pages\Customer\CustomerLoginPage.resx">
+    <EmbeddedResource Update="Resources\Components\Pages\Voter\VoterLoginPage.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

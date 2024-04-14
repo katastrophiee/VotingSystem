@@ -11,9 +11,9 @@ public class VoteController(IVoteProvider voteProvider) : Controller
     private readonly IVoteProvider _voteProvider = voteProvider;
 
     [HttpPost]
-    public async Task<ActionResult> AddCustomerVote(AddCustomerVoteRequest request)
+    public async Task<ActionResult> AddVoterVote(AddVoterVoteRequest request)
     {
-        var response = await _voteProvider.AddCustomerVote(request);
+        var response = await _voteProvider.AddVoterVote(request);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -21,9 +21,9 @@ public class VoteController(IVoteProvider voteProvider) : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomerVotingHistory(int customerId)
+    public async Task<ActionResult> GetVoterVotingHistory(int voterId)
     {
-        var response = await _voteProvider.GetCustomerVotingHistory(customerId);
+        var response = await _voteProvider.GetVoterVotingHistory(voterId);
 
         return response.Error is null
             ? Ok(response.Data)

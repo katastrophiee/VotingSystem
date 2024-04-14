@@ -5,7 +5,7 @@ namespace VotingSystem.API.Interfaces.Provider;
 
 public interface IVoteProvider
 {
-    Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetCustomerVotingHistory(int customerId);
+    Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetVoterVotingHistory(int voterId);
 
-    Task<Response<bool>> AddCustomerVote(AddCustomerVoteRequest request);
+    Task<Response<bool>> AddVoterVote(AddVoterVoteRequest request);
 }

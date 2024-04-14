@@ -1,0 +1,64 @@
+﻿@page "/view-candidates"
+
+<PageTitle>@Localizer["ViewCandidate"]</PageTitle>
+
+<h1>@Localizer["ViewCandidate"]</h1>
+
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (VoterDetails == null)
+{
+    <h1><em>@Localizer["ViewCandidate"]</em></h1>
+}
+else if (VoterDetails.Country == VoterCountry.Unknown)
+{
+    <div class="warning-container">
+        @Localizer["CannotGetCandidatesNoRegion"]
+    </div>
+}
+else if (!VoterDetails.IsVerified)
+{
+    <div class="warning-container">
+        @Localizer["CannotViewCandidatesNotVerified"]
+    </div>
+}
+else
+{
+    <h2>@Localizer["CandidatesIn"] @VoterDetails.Country.EnumDisplayName()</h2>
+    @if (Candidates.Count != 0)
+    {
+        <table>
+            <tr>
+                <th>@Localizer["Candidate"] ID</th>
+                <th>@Localizer["Name"]</th>
+                <th>@Localizer["Description"]</th>
+                <th>@Localizer["LengthOfCandidacy"]</th>
+                <th>@Localizer["RunningInElectionsAmount"]</th>
+                <th>@Localizer["Action"]</th>
+            </tr>
+            @foreach (var candidate in Candidates)
+            {
+                <tr>
+                    <td>@candidate.CandidateId</td>
+                    <td>@candidate.Name</td>
+                    <td>@candidate.Description</td>
+                    <td>@candidate.StartDateOfCandidacy.GetDateTimeDurationToCurrentDate()</td>
+                    <td>@candidate.OngoingEnteredElectionsIds.Count()</td>
+                    <td>
+                        <NavLink class="button-styled-nav-link" href="@($"view-candidate/candidateId={candidate.CandidateId}")">
+                            <span class="nav-bar-formatting bi-plus-square-fill-nav-menu" aria-hidden="true">@Localizer["View"]</span>
+                        </NavLink>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div class="content-container">
+            @Localizer["NoCandidatesInArea"]
+        </div>
+    }
+}

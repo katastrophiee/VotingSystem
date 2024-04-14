@@ -43,9 +43,9 @@ public partial class Settings
             //var authToken = await _localStorage.GetItemAsync<string>("authToken");
             //var isAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
 
-            //var currentUserId = isAdmin 
+            //var voterId = isAdmin 
             //    ? await _localStorage.GetItemAsync<int>("adminUserId") 
-            //    : await _localStorage.GetItemAsync<int>("currentUserId");
+            //    : await _localStorage.GetItemAsync<int>("currentVoterId");
 
             NavigationManager.NavigateTo($"api/Culture/SetCulture" + query, forceLoad: true);
 

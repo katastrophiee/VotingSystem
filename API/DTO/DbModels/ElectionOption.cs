@@ -1,4 +1,4 @@
-﻿using static VotingSystem.Components.Pages.Customer.ViewElection;
+﻿using static VotingSystem.Components.Pages.Voter.ViewElection;
 
 namespace VotingSystem.API.DTO.DbModels;
 
@@ -18,6 +18,8 @@ public class ElectionOption
     {
     }
 
+    //TO DO
+    //Needs moving to own file for class, not declaring in razor file
     public ElectionOption(ElectionOptionWithState electionOption)
     {
         OptionId = electionOption.OptionId;

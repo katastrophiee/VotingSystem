@@ -120,13 +120,13 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Erreur interne du serveur</value>
   </data>
-  <data name="InternalServerErrorGetCustomerOngoingElections" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterOngoingElections" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des élections en cours pour le client</value>
   </data>
-  <data name="InternalServerErrorGetCustomerUpcomingElections" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterUpcomingElections" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des prochaines élections pour le client</value>
   </data>
-  <data name="InternalServerErrorGetCustomerVotedInElections" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterVotedInElections" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des élections où le client a voté</value>
   </data>
   <data name="InternalServerErrorGetElection" xml:space="preserve">
@@ -138,10 +138,10 @@
   <data name="InternalServerErrorGetRecentlyEndedElections" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des élections récemment terminées pour le client</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
+  <data name="NoVoterFound" xml:space="preserve">
     <value>Aucun client trouvé</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
+  <data name="NoVoterFoundWithId" xml:space="preserve">
     <value>Aucun client trouvé avec l’identifiant client</value>
   </data>
   <data name="NoElectionFound" xml:space="preserve">

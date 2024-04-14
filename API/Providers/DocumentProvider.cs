@@ -13,21 +13,21 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<DocumentProvider> _localizer = localizer;
 
-    public async Task<Response<Document>> GetCurrentCustomerDocument(int customerId)
+    public async Task<Response<Document>> GetCurrentVoterDocument(int voterId)
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
-            if (customer is null || customer.Id == 0)
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == voterId);
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoCustomerFound"],
-                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {voterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             var currentDocument = await _dbContext.Document
-              .Where(v => v.CustomerId == customerId && v.MostRecentId == true)
+              .Where(v => v.VoterId == voterId && v.MostRecentId == true)
               .FirstOrDefaultAsync();
 
             return new(currentDocument ?? new());
@@ -37,28 +37,28 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetCurrentCustomerDocument"]} {customerId}",
+                Description = $"{_localizer["InternalServerErrorGetCurrentVoterDocument"]} {voterId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
         }
     }
 
-    public async Task<Response<List<Document>>> GetCustomerDocuments(int customerId)
+    public async Task<Response<List<Document>>> GetVoterDocuments(int voterId)
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
-            if (customer is null || customer.Id == 0)
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == voterId);
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoCustomerFound"],
-                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {voterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             var documents = await _dbContext.Document
-              .Where(v => v.CustomerId == customerId)
+              .Where(v => v.VoterId == voterId)
               .ToListAsync();
 
             return new(documents);
@@ -68,43 +68,43 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetCustomerDocuments"]} {customerId}",
+                Description = $"{_localizer["InternalServerErrorGetVoterDocuments"]} {voterId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
         }
     }
 
-    public async Task<Response<bool>> PostUploadCustomerDocument(Document document)
+    public async Task<Response<bool>> PostUploadVoterDocument(Document document)
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == document.CustomerId);
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == document.VoterId);
 
-            if (customer is null || customer.Id == 0)
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoCustomerFound"],
-                    Description = $"{_localizer["NoCustomerFoundWithId"]} {document.CustomerId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {document.VoterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var currentIdDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.CustomerId == document.CustomerId && c.MostRecentId == true);
+            var currentIdDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.VoterId == document.VoterId && c.MostRecentId == true);
             if (currentIdDocument != null)
             {
                 currentIdDocument.MostRecentId = false;
                 _dbContext.Document.Update(currentIdDocument);
             }
 
-            document.CustomerId = customer.Id;
+            document.VoterId = voter.Id;
             document.UploadedDate = DateTime.UtcNow;
             document.IsVerified = false;
             document.MostRecentId = true;
 
-            customer.IsVerified = false;
+            voter.IsVerified = false;
 
             _dbContext.Document.Add(document);
-            _dbContext.Customer.Update(customer);
+            _dbContext.Voter.Update(voter);
             await _dbContext.SaveChangesAsync();
 
             // TO DO
@@ -118,7 +118,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetCustomerDocuments"]} {document.FileName}",
+                Description = $"{_localizer["InternalServerErrorGetVoterDocuments"]} {document.FileName}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

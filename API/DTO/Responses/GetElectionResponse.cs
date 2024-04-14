@@ -17,7 +17,7 @@ public class GetElectionResponse
 
     public bool? HasVoted { get; set; }
     
-    public CustomerCountry Country { get; set; }
+    public VoterCountry Country { get; set; }
 
     public List<ElectionOption> ElectionOptions { get; set; }
 

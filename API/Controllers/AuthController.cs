@@ -12,9 +12,9 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
     private readonly IAuthProvider _authProvider = authProvider;
 
     [HttpPost]
-    public async Task<ActionResult> PostCustomerLogin(LoginRequest request)
+    public async Task<ActionResult> PostVoterLogin(LoginRequest request)
     {
-        var response = await _authProvider.CustomerLogin(request);
+        var response = await _authProvider.VoterLogin(request);
 
         return response.Error is null
             ? Ok(response.Data)
@@ -22,9 +22,9 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> PostCreateCustomerAccount(CreateCustomerAccountRequest request)
+    public async Task<ActionResult> PostCreateVoterAccount(CreateVoterAccountRequest request)
     {
-        var response = await _authProvider.CreateCustomerAccount(request);
+        var response = await _authProvider.CreateVoterAccount(request);
 
         return response.Error is null
             ? Ok(response.Data)

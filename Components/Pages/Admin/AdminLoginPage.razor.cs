@@ -45,11 +45,11 @@ public partial class AdminLoginPage
     {
         ShowLoading = true;
         Errors.Clear();
-        var loginResponse = await ApiRequestService.PostAdminLogin(LoginRequest);
+        var loginResponse = await ApiRequestService.SendAsync<LoginResponse>("Auth/PostAdminLogin", HttpMethod.Post, LoginRequest);
         if (loginResponse.Error == null)
         {
             LoginResult = loginResponse.Data;
-            await _localStorage.RemoveItemsAsync(["currentUserId", "authToken"]);
+            await _localStorage.RemoveItemsAsync(["currentVoterId", "authToken"]);
 
             await _localStorage.SetItemAsStringAsync("authToken", LoginResult.AccessToken);
             await _localStorage.SetItemAsync("adminUserId", LoginResult.UserId);

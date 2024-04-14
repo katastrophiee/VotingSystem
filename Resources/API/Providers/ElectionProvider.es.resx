@@ -120,13 +120,13 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Error interno del servidor</value>
   </data>
-  <data name="InternalServerErrorGetCustomerOngoingElections" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterOngoingElections" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar obtener las elecciones en curso para el cliente</value>
   </data>
-  <data name="InternalServerErrorGetCustomerUpcomingElections" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterUpcomingElections" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar obtener las elecciones recientemente finalizadas para el cliente</value>
   </data>
-  <data name="InternalServerErrorGetCustomerVotedInElections" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterVotedInElections" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar obtener las elecciones en las que votó el cliente</value>
   </data>
   <data name="InternalServerErrorGetElection" xml:space="preserve">
@@ -138,10 +138,10 @@
   <data name="InternalServerErrorGetRecentlyEndedElections" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar obtener las elecciones en las que votó el cliente</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
+  <data name="NoVoterFound" xml:space="preserve">
     <value>No se encontró al cliente</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
+  <data name="NoVoterFoundWithId" xml:space="preserve">
     <value>No se encontró ningún cliente con la identificación del cliente</value>
   </data>
   <data name="NoElectionFound" xml:space="preserve">

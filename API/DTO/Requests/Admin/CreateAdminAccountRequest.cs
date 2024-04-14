@@ -19,6 +19,6 @@ namespace VotingSystem.API.DTO.Requests.Admin
         public string DisplayName { get; set; }
 
         [Required]
-        public CustomerCountry Country { get; set; }
+        public VoterCountry Country { get; set; }
     }
 }

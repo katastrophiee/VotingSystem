@@ -11,6 +11,6 @@ public class AdminEntityTypeConfiguration : IEntityTypeConfiguration<Admin>
     {
         builder.HasKey(e => e.Id);
 
-        builder.Property(e => e.Country).HasConversion(dbIn => (byte)dbIn, dbOut => (CustomerCountry)dbOut);
+        builder.Property(e => e.Country).HasConversion(dbIn => (byte)dbIn, dbOut => (VoterCountry)dbOut);
     }
 }

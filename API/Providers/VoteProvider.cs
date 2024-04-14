@@ -14,21 +14,21 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<VoteProvider> _localizer = localizer;
 
-    public async Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetCustomerVotingHistory(int customerId)
+    public async Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetVoterVotingHistory(int voterId)
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
-            if (customer is null || customer.Id == 0)
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == voterId);
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoCustomerFound"],
-                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {voterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
             var votes = await _dbContext.Vote
-               .Where(v => v.CustomerId == customerId)
+               .Where(v => v.VoterId == voterId)
                .ToListAsync();
 
             var response = new List<GetVotingHistoryResponse>();
@@ -41,31 +41,31 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetCustomerVotingHistory"]} {customerId}",
+                Description = $"{_localizer["InternalServerErrorGetVoterVotingHistory"]} {voterId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
         }
     }
 
-    public async Task<Response<bool>> AddCustomerVote(AddCustomerVoteRequest request)
+    public async Task<Response<bool>> AddVoterVote(AddVoterVoteRequest request)
     {
         try
         {
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == request.CustomerId);
-            if (customer is null || customer.Id == 0)
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == request.VoterId);
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoCustomerFound"],
-                    Description = $"{_localizer["NoCustomerFoundWithId"]} {request.CustomerId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {request.VoterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            if (!customer.IsVerified)
+            if (!voter.IsVerified)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["CustomerNotVerified"],
-                    Description = $"{_localizer["CustomerNotVerifiedWithId"]} {request.CustomerId}",
+                    Title = _localizer["VoterNotVerified"],
+                    Description = $"{_localizer["VoterNotVerifiedWithId"]} {request.VoterId}",
                     StatusCode = StatusCodes.Status400BadRequest
                 });
 
@@ -84,19 +84,19 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
                 ElectionName = election.ElectionName,
                 ElectionDescription = election.ElectionDescription,
                 VoteDate = DateTime.Now,
-                CustomerId = customer.Id,
+                VoterId = voter.Id,
                 Country = request.Country
             };
 
             _dbContext.Vote.Add(vote);
             await _dbContext.SaveChangesAsync();
 
-            var customerVote = await _dbContext.Vote.Where(v =>
+            var voterVote = await _dbContext.Vote.Where(v =>
                 v.ElectionId == election.Id
-                && v.CustomerId == customer.Id)
+                && v.VoterId == voter.Id)
                 .FirstOrDefaultAsync();
 
-            if (customerVote is null || customerVote.Id == 0)
+            if (voterVote is null || voterVote.Id == 0)
                 return new(new ErrorResponse()
                 {
                     Title = _localizer["NoVoteFound"],
@@ -106,7 +106,7 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
 
             var voteDetails = new VoteDetails()
             {
-                VoteId = customerVote.Id,
+                VoteId = voterVote.Id,
                 ElectionType = election.ElectionType,
                 Choices = request.Choices,
                 ElectionTypeAdditionalInfo = request.ElectionTypeAdditionalInfo
@@ -122,7 +122,7 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorAddCustomerVote"]} {request.CustomerId}",
+                Description = $"{_localizer["InternalServerErrorAddVoterVote"]} {request.VoterId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

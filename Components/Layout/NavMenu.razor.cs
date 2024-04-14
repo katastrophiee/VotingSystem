@@ -28,7 +28,7 @@ public partial class NavMenu
 
     private async Task Logout()
     {
-        await _localStorage.RemoveItemsAsync(["currentUserId", "adminUserId", "authToken", "isAdmin"]);
+        await _localStorage.RemoveItemsAsync(["currentVoterId", "adminUserId", "authToken", "isAdmin"]);
         NavigationManager.NavigateTo("/");
     }
 }

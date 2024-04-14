@@ -15,7 +15,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<AdminProvider> _localizer = localizer;
 
-    public async Task<Response<List<AdminGetVotersResponse>>> GetCustomers(AdminGetCustomersRequest request)
+    public async Task<Response<List<AdminGetVotersResponse>>> GetVoters(AdminGetVotersRequest request)
     {
         try
         {
@@ -28,15 +28,15 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var customers = await _dbContext.Customer.Where(c => 
-                (request.UserId == null || c.Id == request.UserId) &&
+            var voters = await _dbContext.Voter.Where(c => 
+                (request.VoterId == null || c.Id == request.VoterId) &&
                 (request.Country == null || c.Country == request.Country) &&
                 (request.IsCandidate == null || c.IsCandidate == request.IsCandidate) &&
                 (request.IsVerified == null || c.IsVerified == request.IsVerified))
                .ToListAsync();
 
             var response = new List<AdminGetVotersResponse>();
-            customers?.ForEach(customer => response.Add(new(customer)));
+            voters?.ForEach(voter => response.Add(new(voter)));
 
             return new(response);
         }
@@ -45,14 +45,14 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetCustomers"]} {request.AdminId}",
+                Description = $"{_localizer["InternalServerErrorGetVoters"]} {request.AdminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
         }
     }
 
-    public async Task<Response<AdminGetCustomerResponse>> GetCustomerDetails(int customerId, int adminId)
+    public async Task<Response<AdminGetVoterResponse>> GetVoterDetails(int voterId, int adminId)
     {
         try
         {
@@ -65,8 +65,8 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
-            if (customer is null || customer.Id == 0)
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == voterId);
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
                     Title = _localizer["NoAdminFound"],
@@ -74,9 +74,9 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var response = new AdminGetCustomerResponse(customer);
+            var response = new AdminGetVoterResponse(voter);
 
-            var currentIdDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.CustomerId == customerId && c.MostRecentId == true);
+            var currentIdDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.VoterId == voterId && c.MostRecentId == true);
             if (currentIdDocument != null)
                 response.CurrentIdDocument = currentIdDocument;
 
@@ -87,7 +87,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetCustomerDetails"]} {adminId}",
+                Description = $"{_localizer["InternalServerErrorGetVoterDetails"]} {adminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -123,17 +123,17 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             {
                 document.ExpiryDate = request.DocumentExpiryDate;
 
-                var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == document.CustomerId);
-                if (customer is null || customer.Id == 0)
+                var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == document.VoterId);
+                if (voter is null || voter.Id == 0)
                     return new(new ErrorResponse()
                     {
-                        Title = _localizer["NoCustomerFound"],
-                        Description = $"{_localizer["NoCustomerFoundWithId"]} {document.CustomerId}",
+                        Title = _localizer["NoVoterFound"],
+                        Description = $"{_localizer["NoVoterFoundWithId"]} {document.VoterId}",
                         StatusCode = StatusCodes.Status404NotFound
                     });
 
-                customer.IsVerified = true;
-                _dbContext.Customer.Update(customer);
+                voter.IsVerified = true;
+                _dbContext.Voter.Update(voter);
             }
             else
             {
@@ -201,11 +201,11 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
         }
     }
 
-    public async Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId)
+    public async Task<Response<GetCandidateResponse>> GetCandidate(int voterId, int adminId)
     {
         try
         {
-            var admin = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == adminId);
+            var admin = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == adminId);
             if (admin is null || admin.Id == 0)
                 return new(new ErrorResponse()
                 {
@@ -214,24 +214,24 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var customer = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == customerId);
-            if (customer is null || customer.Id == 0)
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == voterId);
+            if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoCustomerFound"],
-                    Description = $"{_localizer["NoCustomerFoundWithId"]} {customerId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {voterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            if (customer.IsCandidate == false)
+            if (voter.IsCandidate == false)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["CustomerNotCandidate"],
-                    Description = $"{_localizer["CustomerNotCandidateWithId"]} {customerId}",
+                    Title = _localizer["VoterNotCandidate"],
+                    Description = $"{_localizer["VoterNotCandidateWithId"]} {voterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var response = new GetCandidateResponse(customer);
+            var response = new GetCandidateResponse(voter);
 
             return new(response);
         }

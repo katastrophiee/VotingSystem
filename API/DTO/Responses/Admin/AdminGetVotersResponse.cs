@@ -5,12 +5,12 @@ namespace VotingSystem.API.DTO.Responses.Admin
 {
     public class AdminGetVotersResponse
     {
-        public int UserId { get; set; }
+        public int VoterId { get; set; }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public CustomerCountry Country { get; set; }
+        public VoterCountry Country { get; set; }
 
         public DateTime LastLoggedIn { get; set; }
 
@@ -26,17 +26,17 @@ namespace VotingSystem.API.DTO.Responses.Admin
         {
         }
 
-        public AdminGetVotersResponse(Customer customer)
+        public AdminGetVotersResponse(Voter voter)
         {
-            UserId = customer.Id;
-            FirstName = customer.FirstName;
-            LastName = customer.LastName;
-            Country = customer.Country;
-            LastLoggedIn = customer.LastLoggedIn;
-            NewUser = customer.NewUser;
-            IsCandidate = customer.IsCandidate;
-            IsVerified = customer.IsVerified;
-            IsActive = customer.IsActive;
+            VoterId = voter.Id;
+            FirstName = voter.FirstName;
+            LastName = voter.LastName;
+            Country = voter.Country;
+            LastLoggedIn = voter.LastLoggedIn;
+            NewUser = voter.NewUser;
+            IsCandidate = voter.IsCandidate;
+            IsVerified = voter.IsVerified;
+            IsActive = voter.IsActive;
         }
     }
 }

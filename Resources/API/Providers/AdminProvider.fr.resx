@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerNotCandidate" xml:space="preserve">
+  <data name="VoterNotCandidate" xml:space="preserve">
     <value>Client Non Candidat</value>
   </data>
-  <data name="CustomerNotCandidateWithId" xml:space="preserve">
+  <data name="VoterNotCandidateWithId" xml:space="preserve">
     <value>Ce client n’est pas un candidat avec l’id</value>
   </data>
   <data name="InternalServerError" xml:space="preserve">
@@ -135,10 +135,10 @@
   <data name="InternalServerErrorGetCandidate" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération du candidat pour l’administrateur</value>
   </data>
-  <data name="InternalServerErrorGetCustomerDetails" xml:space="preserve">
+  <data name="InternalServerErrorGetVoterDetails" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des détails du client pour l’administrateur</value>
   </data>
-  <data name="InternalServerErrorGetCustomers" xml:space="preserve">
+  <data name="InternalServerErrorGetVoters" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des clients pour l’administrateur</value>
   </data>
   <data name="NoAdminFound" xml:space="preserve">
@@ -147,10 +147,10 @@
   <data name="NoAdminFoundWithId" xml:space="preserve">
     <value>Aucun administrateur n’a été trouvé avec l’id d’administrateur</value>
   </data>
-  <data name="NoCustomerFound" xml:space="preserve">
+  <data name="NoVoterFound" xml:space="preserve">
     <value>Aucun Client Trouvé</value>
   </data>
-  <data name="NoCustomerFoundWithId" xml:space="preserve">
+  <data name="NoVoterFoundWithId" xml:space="preserve">
     <value>Aucun client n’a été trouvé avec l’id</value>
   </data>
   <data name="NoDocumentFound" xml:space="preserve">

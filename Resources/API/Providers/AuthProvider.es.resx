@@ -138,10 +138,10 @@
   <data name="InternalServerErrorCreateAdminAccount" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar crear una cuenta para el administrador</value>
   </data>
-  <data name="InternalServerErrorCreateCustomerAccount" xml:space="preserve">
+  <data name="InternalServerErrorCreateVoterAccount" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar crear una cuenta para el usuario</value>
   </data>
-  <data name="InternalServerErrorCustomerLogin" xml:space="preserve">
+  <data name="InternalServerErrorVoterLogin" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar iniciar sesión para el usuario</value>
   </data>
   <data name="InvalidLoginCredentials" xml:space="preserve">

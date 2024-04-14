@@ -14,7 +14,7 @@ public class User
 
     public string PasswordSalt { get; set; }
 
-    public CustomerCountry Country { get; set; }
+    public VoterCountry Country { get; set; }
 
     public DateTime LastLoggedIn { get; set; }
 

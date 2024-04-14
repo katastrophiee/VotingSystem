@@ -29,7 +29,7 @@ public partial class ViewVoter
 
     public int AdminId { get; set; }
 
-    public AdminGetCustomerResponse CustomerDetails { get; set; }
+    public AdminGetVoterResponse VoterDetails { get; set; }
 
     public AdminVerifyIdRequest VerifyIdRequest { get; set; } = new();
 
@@ -37,32 +37,32 @@ public partial class ViewVoter
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
 
-        await FetchCustomerDetails();
+        await FetchVoterDetails();
     }
 
     private async Task VerifyId()
     {
         VerifyIdRequest.AdminId = AdminId;
-        VerifyIdRequest.DocumentId = CustomerDetails.CurrentIdDocument.Id;
+        VerifyIdRequest.DocumentId = VoterDetails.CurrentIdDocument.Id;
 
-        var verifyIdResult = await ApiRequestService.AdminVerifyCustomerIdDocument(VerifyIdRequest);
+        var verifyIdResult = await ApiRequestService.SendAsync<bool>("Admin/PostAdminVerifyId", HttpMethod.Post, VerifyIdRequest);
 
         if (verifyIdResult.Error != null)
             Errors.Add(verifyIdResult.Error);
         else
-            await FetchCustomerDetails();
+            await FetchVoterDetails();
 
         StateHasChanged();
     }
 
-    private async Task FetchCustomerDetails()
+    private async Task FetchVoterDetails()
     {
-        var customerDetails = await ApiRequestService.AdminGetCustomerDetails(UserId, AdminId);
+        var voterDetails = await ApiRequestService.SendAsync<AdminGetVoterResponse>($"Admin/GetVoterDetails?voterId={UserId}&adminId={AdminId}", HttpMethod.Get);
 
-        if (customerDetails.Error == null)
-            CustomerDetails = customerDetails.Data;
+        if (voterDetails.Error == null)
+            VoterDetails = voterDetails.Data;
         else
-            Errors.Add(customerDetails.Error);
+            Errors.Add(voterDetails.Error);
     }
 }
 

@@ -6,13 +6,13 @@ namespace VotingSystem.API.Interfaces.Provider;
 
 public interface IAdminProvider
 {
-    Task<Response<List<AdminGetVotersResponse>>> GetCustomers(AdminGetCustomersRequest request);
+    Task<Response<List<AdminGetVotersResponse>>> GetVoters(AdminGetVotersRequest request);
 
-    Task<Response<AdminGetCustomerResponse>> GetCustomerDetails(int customerId, int adminId);
+    Task<Response<AdminGetVoterResponse>> GetVoterDetails(int voterId, int adminId);
 
     Task<Response<bool>> AdminVerifyId(AdminVerifyIdRequest request);
 
     Task<Response<bool>> AddElection(AddElectionRequest request);
 
-    Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int adminId);
+    Task<Response<GetCandidateResponse>> GetCandidate(int voterId, int adminId);
 }

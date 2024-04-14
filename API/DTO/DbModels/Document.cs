@@ -6,7 +6,7 @@ public class Document
 {
     public int Id { get; set; }
 
-    public int CustomerId { get; set; }
+    public int VoterId { get; set; }
 
     public byte[] FileContent { get; set; }
 

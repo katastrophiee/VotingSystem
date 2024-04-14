@@ -32,7 +32,7 @@ RequestLocalizationOptions GetLocalizationOptions()
 }
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
-builder.Services.AddScoped<ICustomerProvider, CustomerProvider>();
+builder.Services.AddScoped<IVoterProvider, VoterProvider>();
 builder.Services.AddScoped<IAdminProvider, AdminProvider>();
 builder.Services.AddScoped<IDocumentProvider, DocumentProvider>();
 builder.Services.AddScoped<IElectionProvider, ElectionProvider>();
