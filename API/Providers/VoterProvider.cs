@@ -111,6 +111,7 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
                 var candidateId = candidate.CandidateId;
                 var candidateName = candidate.Name;
 
+                // TO DO - FIX
                 //electionid and optionId not being saved to election options
 
                 var ongoingElections = await _dbContext.Election.Where(e =>

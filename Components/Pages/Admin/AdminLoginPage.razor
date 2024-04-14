@@ -5,6 +5,21 @@
     </button>
 </div>
 
+@if (Cultures != null)
+{
+    <h2>@Localizer["ChangeLanguage"]</h2>
+    <form class="form-inline">
+        @* mr-2 is bootstrap class for margin right 2 px *@
+        <select class="form-control mr-2" @bind="SelectedCulture">
+            @foreach (var culture in Cultures)
+            {
+                <option value="@culture.Key">@culture.Value</option>
+            }
+        </select>
+        <button @onclick="() => ChangeCulture(SelectedCulture)">@Localizer["ChangeLanguage"]</button>
+    </form>
+}
+
 @if (Errors.Any())
 {
     <ErrorPopup Errors="@Errors" />

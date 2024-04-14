@@ -29,6 +29,7 @@ public partial class VoteInPerson
 
     //TO DO
     //make all razor file methods private
+
     private string? qrImage;
     private int timeLeft = 10;
     private bool isTimerRunning = false;

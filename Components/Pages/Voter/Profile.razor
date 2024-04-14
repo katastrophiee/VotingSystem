@@ -29,7 +29,9 @@ else
             @if (CurrentIdDocument is null)
             {
                 <div>@Localizer["NotVerifiedUploadId"]</div>
-                //Needs changing to add localisation
+
+                //TO DO
+                //Needs changing to add localisation for the place holder text on file inputs
                 <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
                 @if(ShowUpdateButton)
                 {
@@ -64,7 +66,9 @@ else
                 {
                     <div class="seperated">@Localizer["UploadNewId"]</div>
                 }
-                //Needs changing to add localisation
+
+                //TO DO
+                //Needs changing to add localisation for the place holder text on file inputs
                 <InputFile @ref="UploadedIdDocumentFile" OnChange="ShowUploadButton" class="file-uploader"></InputFile>
                 @if (ShowUpdateButton)
                 {

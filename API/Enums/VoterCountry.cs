@@ -4,6 +4,9 @@ namespace VotingSystem.API.Enums;
 
 //TO DO
 // Add localisation for enum display names
+
+//TO DO
+//Add other voting systems
 public enum VoterCountry
 {
     //First past the post

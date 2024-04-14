@@ -26,7 +26,8 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<AuthProvider> _localizer = localizer;
 
-    //Move all to config
+    //TO DO
+    //Move all to config + add config table in db
     private readonly string SecretKey = "Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=";
     private readonly string Issuer = "LocalVotingSystemApp_v1.0";
     private readonly string Audience = "LocalVotingSystem";
@@ -150,7 +151,9 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         }
         catch (Exception ex) 
         {
+            //TO DO
             // add admins page to create other admin accounts
+
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],

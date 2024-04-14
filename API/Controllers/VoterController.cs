@@ -11,6 +11,8 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
 {
     private readonly IVoterProvider _voterProvider = voterProvider;
 
+    //TO DO
+    //Add roles for API calls
     //[Authorize(Roles = ("Voter, Candidate"))]
     [HttpGet]
     public async Task<ActionResult> GetVoterDetails(int voterId)

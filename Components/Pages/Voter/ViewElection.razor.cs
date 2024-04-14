@@ -55,7 +55,6 @@ public partial class ViewElection
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
 
-        // Make the API request to get an election
         var getElectionResponse = await ApiRequestService.SendAsync<GetElectionResponse>($"Election/GetElection?electionId={ElectionId}&voterId={VoterId}", HttpMethod.Get);
         if (getElectionResponse.Error == null)
         {
@@ -77,7 +76,6 @@ public partial class ViewElection
         var addVoterVoteResponse = await ApiRequestService.SendAsync<bool>("Vote/AddVoterVote", HttpMethod.Post, AddVoterVoteRequest);
         if (addVoterVoteResponse.Error == null)
         {
-            //Page needs adding
             NavigationManager.NavigateTo("/view-elections");
         }
         else

@@ -126,9 +126,6 @@ public partial class Profile
         if (document.Error == null)
         {
             CurrentIdDocument = document.Data;
-
-            // TO DO
-            //get current id, check expirey date, option to upload new/different id if expires in 3 months
         }
         else
         {

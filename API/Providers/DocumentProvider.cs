@@ -109,7 +109,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
 
             // TO DO
             // add task for admins to verify the uploaded id, then sets the account to verified
-            // ensure admins set the expirey date for the id by viewing it
+            // ensure expiry date not null
 
             return new(true);
         }

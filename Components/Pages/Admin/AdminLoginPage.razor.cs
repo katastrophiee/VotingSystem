@@ -22,6 +22,9 @@ public partial class AdminLoginPage
     [Inject]
     public IStringLocalizer<AdminLoginPage> Localizer { get; set; }
 
+    [Inject]
+    public IConfiguration Configuration { get; set; }
+
     public LoginRequest LoginRequest { get; set; }
     public LoginResponse LoginResult { get; set; }
     public List<ErrorResponse> Errors { get; set; } = [];
@@ -36,9 +39,13 @@ public partial class AdminLoginPage
 
     public bool ShowLoading { get; set; } = false;
 
+    public string SelectedCulture = Thread.CurrentThread.CurrentCulture.Name;
+    private Dictionary<string, string?> Cultures;
+
     protected override void OnInitialized()
     {
         LoginRequest = new();
+        Cultures = Configuration.GetSection("Cultures").GetChildren().ToDictionary(x => x.Key, x => x.Value);
     }
 
     private async Task HandleLogin()
@@ -62,6 +69,32 @@ public partial class AdminLoginPage
         {
             Errors.Add(loginResponse.Error);
             ShowLoading = false;
+        }
+    }
+
+    private void ChangeCulture(string culture)
+    {
+        if (!string.IsNullOrEmpty(culture))
+        {
+            var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+
+            var query = $"?culture={Uri.EscapeDataString(SelectedCulture)}&redirectUri={Uri.EscapeDataString(uri)}";
+
+            //TO DO
+            // Fix the loging out issye for when users change their language, or add a warning that they will be logged out, i dont care at this point
+            //Ensure its also added to the other places ChangeCulture is added
+
+            //var authToken = await _localStorage.GetItemAsync<string>("authToken");
+            //var isAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
+
+            //var voterId = isAdmin 
+            //    ? await _localStorage.GetItemAsync<int>("adminUserId") 
+            //    : await _localStorage.GetItemAsync<int>("currentVoterId");
+
+            NavigationManager.NavigateTo($"api/Culture/SetCulture" + query, forceLoad: true);
+
+            //logs out the user for some reason
+            //NavigationManager.NavigateTo("settings");
         }
     }
 }
