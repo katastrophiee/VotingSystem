@@ -3,9 +3,6 @@
 namespace VotingSystem.API.Enums;
 
 //TO DO
-// Add localisation for enum display names
-
-//TO DO
 //Add other voting systems
 public enum VoterCountry
 {
@@ -34,5 +31,6 @@ public enum VoterCountry
     UnitedStates = 7,
 
     // Misc
+    [Display(Name = "Unknown")]
     Unknown = 255
 }

@@ -68,7 +68,7 @@
                 }
             </div>
 
-            <h2>@Localizer["OngoingElectionsIn"] @VoterDetails.Country.EnumDisplayName()</h2>
+            <h2>@Localizer["OngoingElectionsIn"] @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</h2>
             @if (OngoingElections.Count != 0)
             {
                 <table>
@@ -111,6 +111,8 @@
                 </div>
             }
 
+            //TO DO
+            //This string is not being found in the resource file - fix
             <h2>@Localizer["YourVotes"]</h2>
             @if (VotingHistory.Count != 0)
             {

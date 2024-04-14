@@ -123,6 +123,9 @@
   <data name="Active" xml:space="preserve">
     <value>Actif</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australie</value>
+  </data>
   <data name="Candidate" xml:space="preserve">
     <value>Candidat</value>
   </data>
@@ -132,11 +135,17 @@
   <data name="Country" xml:space="preserve">
     <value>Pays</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>Angleterre</value>
+  </data>
   <data name="False" xml:space="preserve">
     <value>Faux</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Prénom</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlande</value>
   </data>
   <data name="IsCandidate" xml:space="preserve">
     <value>Est candidat</value>
@@ -156,8 +165,14 @@
   <data name="NewUser" xml:space="preserve">
     <value>Nouvel utilisateur</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlande du Nord</value>
+  </data>
   <data name="NoVotersFound" xml:space="preserve">
     <value>Aucun électeur trouvé !</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Écosse</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Rechercher</value>
@@ -167,6 +182,12 @@
   </data>
   <data name="True" xml:space="preserve">
     <value>Vrai</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>États-Unis</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Utilisateur</value>
@@ -179,5 +200,8 @@
   </data>
   <data name="Voters" xml:space="preserve">
     <value>Électeurs</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Pays de Galles</value>
   </data>
 </root>

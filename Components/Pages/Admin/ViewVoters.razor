@@ -25,7 +25,7 @@ else
                     <option value="">-- @Localizer["Select"] --</option>
                     @foreach (var country in Enum.GetValues(typeof(VoterCountry)).Cast<VoterCountry>().Where(c => c != VoterCountry.Unknown))
                     {
-                        <option value="@country">@country.EnumDisplayName()</option>
+                        <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
                     }
                 </InputSelect>
             </div>
@@ -73,7 +73,7 @@ else
                     <td>@voter.VoterId</td>
                     <td>@voter.FirstName</td>
                     <td>@voter.LastName</td>
-                    <td>@voter.Country.EnumDisplayName()</td>
+                    <td>@voter.Country.LocalisedEnumDisplayName(Localizer)</td>
                     <td>@voter.LastLoggedIn.FormatDateTime()</td>
                     <td>@voter.NewUser</td>
                     <td>@voter.IsActive</td>

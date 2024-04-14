@@ -120,6 +120,9 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australie</value>
+  </data>
   <data name="Candidate" xml:space="preserve">
     <value>Candidat</value>
   </data>
@@ -135,6 +138,12 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>Angleterre</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlande</value>
+  </data>
   <data name="LengthOfCandidacy" xml:space="preserve">
     <value>Durée de la candidature</value>
   </data>
@@ -147,13 +156,28 @@
   <data name="NoCandidatesInArea" xml:space="preserve">
     <value>Il n’y a pas de candidats dans votre région sur la plateforme.</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlande du Nord</value>
+  </data>
   <data name="RunningInElectionsAmount" xml:space="preserve">
     <value>Nombre d’élections en cours</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Écosse</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>États-Unis</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>Voir</value>
   </data>
   <data name="ViewCandidate" xml:space="preserve">
     <value>Voir le candidat</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Pays de Galles</value>
   </data>
 </root>

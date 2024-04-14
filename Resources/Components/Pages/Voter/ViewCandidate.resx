@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
   <data name="CandidacyStartDate" xml:space="preserve">
     <value>Start Date of Candidacy</value>
   </data>
@@ -141,19 +144,40 @@
   <data name="EndDate" xml:space="preserve">
     <value>End Date</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>England</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Ireland</value>
+  </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Northern Island</value>
+  </data>
   <data name="OngoingEnteredElections" xml:space="preserve">
     <value>Ongoing Entered Elections</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Scotland</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Start Date</value>
   </data>
+  <data name="United States" xml:space="preserve">
+    <value>United States</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
   <data name="ViewCandidate" xml:space="preserve">
     <value>View Candidate</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Wales</value>
   </data>
 </root>

@@ -120,6 +120,9 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
   <data name="Candidate" xml:space="preserve">
     <value>Candidate</value>
   </data>
@@ -135,6 +138,12 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>England</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Ireland</value>
+  </data>
   <data name="LengthOfCandidacy" xml:space="preserve">
     <value>Length of Candidacy</value>
   </data>
@@ -147,13 +156,28 @@
   <data name="NoCandidatesInArea" xml:space="preserve">
     <value>There are no candidates on the platform in your area.</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Northern Island</value>
+  </data>
   <data name="RunningInElectionsAmount" xml:space="preserve">
     <value>Running In Elections Amount</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Scotland</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>United States</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>View</value>
   </data>
   <data name="ViewCandidate" xml:space="preserve">
     <value>View Candidate</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Wales</value>
   </data>
 </root>

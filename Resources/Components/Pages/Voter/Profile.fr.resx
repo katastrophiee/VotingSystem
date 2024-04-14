@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Australia" xml:space="preserve">
+    <value>Australie</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="England" xml:space="preserve">
+    <value>Angleterre</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Prénom</value>
@@ -144,6 +150,9 @@
   <data name="IdUploaded" xml:space="preserve">
     <value>Votre pièce d’identité est téléchargée ! Tout ce que vous avez à faire est d’attendre qu’un membre de notre équipe la vérifie et ensuite vous êtes prêt à voter.</value>
   </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlande</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Nom de famille</value>
   </data>
@@ -159,6 +168,9 @@
   <data name="NeedReverifying" xml:space="preserve">
     <value>Après le téléchargement, votre compte devra être revérifié.</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlande du Nord</value>
+  </data>
   <data name="NotVerifiedUploadId" xml:space="preserve">
     <value>Vous n’êtes pas vérifié ! Téléchargez une forme valide de pièce d’identité pour que nos administrateurs la vérifient ici :</value>
   </data>
@@ -168,11 +180,20 @@
   <data name="RejectionReason" xml:space="preserve">
     <value>Raison du rejet</value>
   </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Écosse</value>
+  </data>
   <data name="SubmitAnother" xml:space="preserve">
     <value>Veuillez en soumettre une autre ici et nous l’examinerons :</value>
   </data>
   <data name="TryDifferentIdForm" xml:space="preserve">
     <value>Essayez une autre forme de pièce d’identité ou prenez une meilleure photo.</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>États-Unis</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Mettre à jour</value>
@@ -185,5 +206,8 @@
   </data>
   <data name="User" xml:space="preserve">
     <value>Utilisateur</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Pays de Galles</value>
   </data>
 </root>

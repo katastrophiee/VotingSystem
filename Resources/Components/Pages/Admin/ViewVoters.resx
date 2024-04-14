@@ -123,6 +123,9 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
   <data name="Candidate" xml:space="preserve">
     <value>Candidate</value>
   </data>
@@ -132,11 +135,17 @@
   <data name="Country" xml:space="preserve">
     <value>Country</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>England</value>
+  </data>
   <data name="False" xml:space="preserve">
     <value>False</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Ireland</value>
   </data>
   <data name="IsCandidate" xml:space="preserve">
     <value>Is Candidate</value>
@@ -156,8 +165,14 @@
   <data name="NewUser" xml:space="preserve">
     <value>New User</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Northern Island</value>
+  </data>
   <data name="NoVotersFound" xml:space="preserve">
     <value>No voters found!</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Scotland</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -167,6 +182,12 @@
   </data>
   <data name="True" xml:space="preserve">
     <value>True</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>United States</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
@@ -179,5 +200,8 @@
   </data>
   <data name="Voters" xml:space="preserve">
     <value>Voters</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Wales</value>
   </data>
 </root>

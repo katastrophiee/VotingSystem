@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using VotingSystem.API.DTO.ComponentTypes;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
@@ -30,26 +31,8 @@ public partial class ViewElection
     public static int VoterId { get; set; }
     public GetElectionResponse Election { get; set; }
 
-    public List<ElectionOptionWithState> ElectionOptions { get; set; }
+    public List<ElectionOptionWithState> ElectionOptions { get; set; } = [];
     public AddVoterVoteRequest AddVoterVoteRequest { get; set; } = new();
-
-    public class ElectionOptionWithState : ElectionOption
-    {
-        public bool IsChecked { get; set; }
-
-        public ElectionOptionWithState()
-        {
-        }
-
-        public ElectionOptionWithState(ElectionOption option)
-        {
-            OptionId = option.OptionId;
-            OptionName = option.OptionName;
-            OptionDescription = option.OptionDescription;
-            ElectionId = option.ElectionId;
-            IsChecked = false;
-        }
-    }
 
     protected override async Task OnInitializedAsync()
     {

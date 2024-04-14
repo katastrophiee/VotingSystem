@@ -120,6 +120,9 @@
   <data name="AlreadyVoted" xml:space="preserve">
     <value>Vous avez déjà voté à cette élection.</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australie</value>
+  </data>
   <data name="DateYouVoted" xml:space="preserve">
     <value>Date à laquelle vous avez voté</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="EndDate" xml:space="preserve">
     <value>Date de fin</value>
+  </data>
+  <data name="England" xml:space="preserve">
+    <value>Angleterre</value>
   </data>
   <data name="GetStarted" xml:space="preserve">
     <value>Commencer</value>
@@ -150,6 +156,9 @@
   <data name="IntroUploadValidIdentification" xml:space="preserve">
     <value>Téléchargez une forme d’identification valide dans votre région et attendez qu’un membre de notre équipe la vérifie.</value>
   </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlande</value>
+  </data>
   <data name="Loading" xml:space="preserve">
     <value>Chargement…</value>
   </data>
@@ -158,6 +167,9 @@
   </data>
   <data name="NoOngoingElections" xml:space="preserve">
     <value>Il n’y a pas d’élections en cours dans votre région.</value>
+  </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlande du Nord</value>
   </data>
   <data name="Notifications" xml:space="preserve">
     <value>Notifications</value>
@@ -175,14 +187,26 @@ Vous pouvez le faire ici :</value>
   <data name="Profile" xml:space="preserve">
     <value>Profil</value>
   </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Écosse</value>
+  </data>
   <data name="StartDate" xml:space="preserve">
     <value>Date de début</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>États-Unis</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
   </data>
   <data name="Vote" xml:space="preserve">
     <value>Vote</value>
   </data>
   <data name="VoteHere" xml:space="preserve">
     <value>Votez ici</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Pays de Galles</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Bienvenue</value>

@@ -117,17 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Country</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>England</value>
+  </data>
   <data name="False" xml:space="preserve">
     <value>False</value>
   </data>
   <data name="IdAlreadyBeenReviewed" xml:space="preserve">
     <value>This ID has already been reviewed.</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Ireland</value>
   </data>
   <data name="IsThisIdValid" xml:space="preserve">
     <value>Is the ID valid?</value>
@@ -138,6 +147,12 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Northern Island</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Scotland</value>
+  </data>
   <data name="SelectVisibleIdExpiryDate" xml:space="preserve">
     <value>Select the visible ID expiry date</value>
   </data>
@@ -146,6 +161,12 @@
   </data>
   <data name="True" xml:space="preserve">
     <value>True</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>United States</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="Unverified" xml:space="preserve">
     <value>Unverified</value>
@@ -158,5 +179,8 @@
   </data>
   <data name="Voter" xml:space="preserve">
     <value>Voter</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Wales</value>
   </data>
 </root>

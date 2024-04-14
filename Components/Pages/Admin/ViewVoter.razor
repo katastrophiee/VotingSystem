@@ -17,7 +17,7 @@ else
         <h2>@Localizer["Voter"] ID: @UserId</h2>
         <div>@Localizer["Name"]: @VoterDetails.FirstName @VoterDetails.LastName</div>
         <div>@Localizer["Email"]: @VoterDetails.Email</div>
-        <div>@Localizer["Country"]: @VoterDetails.Country.EnumDisplayName()</div>
+        <div>@Localizer["Country"]: @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</div>
         @if (VoterDetails.CurrentIdDocument is null)
         {
             <div>

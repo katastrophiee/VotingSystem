@@ -40,7 +40,7 @@ else
                     <td>@election.ElectionDescription</td>
                     <td>@election.StartDate.FormatDateTime()</td>
                     <td>@election.EndDate.FormatDateTime()</td>
-                    <td>@election.Country.EnumDisplayName()</td>
+                    <td>@election.Country.LocalisedEnumDisplayName(Localizer)</td>
                 </tr>
             }
         </table>

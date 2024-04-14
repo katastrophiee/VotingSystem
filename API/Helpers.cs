@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 
 namespace VotingSystem;
@@ -10,6 +10,20 @@ public static class Helpers
         var fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
         var attrib = fieldInfo?.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute;
         return attrib?.Name ?? enumObj.ToString();
+    }
+
+    public static string LocalisedEnumDisplayName(this Enum enumObj, IStringLocalizer localizer)
+    {
+        var fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
+        if (fieldInfo?.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() is DisplayAttribute attrib)
+        {
+            var localizedDisplayName = localizer[attrib.Name ?? ""];
+            return !string.IsNullOrEmpty(localizedDisplayName) ? localizedDisplayName : enumObj.ToString();
+        }
+        else
+        {
+            return enumObj.ToString();
+        }
     }
 
     public static string FormatDateTime(this DateTime dateTime)

@@ -117,17 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Australia" xml:space="preserve">
+    <value>Australie</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Pays</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="England" xml:space="preserve">
+    <value>Angleterre</value>
+  </data>
   <data name="False" xml:space="preserve">
     <value>Faux</value>
   </data>
   <data name="IdAlreadyBeenReviewed" xml:space="preserve">
     <value>Cette identité a déjà été examinée.</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlande</value>
   </data>
   <data name="IsThisIdValid" xml:space="preserve">
     <value>L’identité est-elle valide ?</value>
@@ -138,6 +147,12 @@
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
   </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlande du Nord</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Écosse</value>
+  </data>
   <data name="SelectVisibleIdExpiryDate" xml:space="preserve">
     <value>Sélectionnez la date d’expiration visible de l’identité</value>
   </data>
@@ -146,6 +161,12 @@
   </data>
   <data name="True" xml:space="preserve">
     <value>Vrai</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>États-Unis</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Inconnu</value>
   </data>
   <data name="Unverified" xml:space="preserve">
     <value>Non vérifié</value>
@@ -158,5 +179,8 @@
   </data>
   <data name="Voter" xml:space="preserve">
     <value>Électeur</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Pays de Galles</value>
   </data>
 </root>
