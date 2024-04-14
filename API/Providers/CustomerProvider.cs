@@ -291,4 +291,47 @@ public class CustomerProvider(DBContext dbContext, IStringLocalizer<CustomerProv
             });
         }
     }
+
+    public async Task<Response<bool>> GetInPersonVotingEligibility(int voterId)
+    {
+        try
+        {
+            var user = await _dbContext.Customer.FirstOrDefaultAsync(c => c.Id == voterId);
+            if (user is null || user.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoCustomerFound"],
+                    Description = $"{_localizer["NoCustomerFoundWithId"]} {voterId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (!user.IsVerified)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["UserNotVerified"],
+                    Description = $"{_localizer["UserNotVerifiedWithId"]} {voterId}",
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
+
+            if (!user.IsActive)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["UserNotActive"],
+                    Description = $"{_localizer["UserNotActiveWithId"]} {voterId}",
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetInPersonVotingEligibility"]} {voterId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }

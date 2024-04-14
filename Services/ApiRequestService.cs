@@ -742,5 +742,32 @@ public class ApiRequestService(HttpClient httpClient) : IApiRequestService
             });
         }
     }
+
+    public async Task<Response<bool>> GetInPersonVotingEligibility(int voterId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"Customer/GetInPersonVotingEligibility?voterId={voterId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new(true);
+            }
+            else
+            {
+                return new(await response.Content.ReadFromJsonAsync<ErrorResponse>());
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse
+            {
+                Title = "Internal Server Error",
+                Description = $"An unknown error occurred when trying to get in person voting eligibility for voter {voterId}",
+                StatusCode = 500,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }
 

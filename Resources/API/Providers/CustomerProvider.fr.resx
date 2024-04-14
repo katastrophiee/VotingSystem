@@ -135,6 +135,9 @@
   <data name="InternalServerErrorGetCustomerAccountDetails" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération du client</value>
   </data>
+  <data name="InternalServerErrorGetInPersonVotingEligibility" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de récupération de l’éligibilité de l’électeur pour l’identifiant de l’électeur</value>
+  </data>
   <data name="InternalServerErrorMakeCustomerACandidate" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de conversion en candidat pour le client</value>
   </data>
@@ -164,5 +167,17 @@
   </data>
   <data name="NoNameOrDescriptionProvidedUpdateWithId" xml:space="preserve">
     <value>Aucun nom ou description de candidat n’a été fourni lors de la tentative de mise à jour du candidat</value>
+  </data>
+  <data name="UserNotActive" xml:space="preserve">
+    <value>Utilisateur non actif</value>
+  </data>
+  <data name="UserNotActiveWithId" xml:space="preserve">
+    <value>Vous n’êtes pas actif pour voter pour l’identifiant de l’électeur</value>
+  </data>
+  <data name="UserNotVerified" xml:space="preserve">
+    <value>Utilisateur non vérifié</value>
+  </data>
+  <data name="UserNotVerifiedWithId" xml:space="preserve">
+    <value>Vous n’êtes pas vérifié pour voter pour l’identifiant de l’électeur</value>
   </data>
 </root>

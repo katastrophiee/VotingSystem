@@ -17,4 +17,5 @@ public interface ICustomerProvider
 
     Task<Response<bool>> UpdateCandidate(UpdateCandidateRequest request);
 
+    Task<Response<bool>> GetInPersonVotingEligibility(int voterId);
 }

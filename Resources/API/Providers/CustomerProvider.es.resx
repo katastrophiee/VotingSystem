@@ -135,6 +135,9 @@
   <data name="InternalServerErrorGetCustomerAccountDetails" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar recuperar al cliente</value>
   </data>
+  <data name="InternalServerErrorGetInPersonVotingEligibility" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar recuperar la elegibilidad del votante para la identificación del votante</value>
+  </data>
   <data name="InternalServerErrorMakeCustomerACandidate" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar convertir al cliente en candidato</value>
   </data>
@@ -164,5 +167,17 @@
   </data>
   <data name="NoNameOrDescriptionProvidedUpdateWithId" xml:space="preserve">
     <value>No se proporcionó un nombre o descripción de candidato al intentar actualizar al candidato</value>
+  </data>
+  <data name="UserNotActive" xml:space="preserve">
+    <value>Usuario no activo</value>
+  </data>
+  <data name="UserNotActiveWithId" xml:space="preserve">
+    <value>No estás activo para votar por la identificación del votante</value>
+  </data>
+  <data name="UserNotVerified" xml:space="preserve">
+    <value>Usuario no verificado</value>
+  </data>
+  <data name="UserNotVerifiedWithId" xml:space="preserve">
+    <value>No estás verificado para votar por la identificación del votante</value>
   </data>
 </root>

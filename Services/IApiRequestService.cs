@@ -59,4 +59,6 @@ public interface IApiRequestService
     Task<Response<GetCandidateResponse>> GetCandidate(int customerId, int candidateId);
 
     Task<Response<bool>> PutUpateCandidate(UpdateCandidateRequest request);
+
+    Task<Response<bool>> GetInPersonVotingEligibility(int voterId);
 }

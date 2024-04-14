@@ -71,4 +71,14 @@ public class CustomerController(ICustomerProvider customerProvider) : Controller
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [HttpGet]
+    public async Task<ActionResult> GetInPersonVotingEligibility(int voterId)
+    {
+        var response = await _customerProvider.GetInPersonVotingEligibility(voterId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

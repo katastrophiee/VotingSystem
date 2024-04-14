@@ -1,6 +1,4 @@
 ﻿@page "/view-voter/userId={userId:int}"
-@using VotingSystem.API.Enums
-@using VotingSystem.Components.Pages.Shared
 
 <h1>@Localizer["Voter"]</h1>
 @if (Errors.Any())
@@ -13,6 +11,7 @@ else if (CustomerDetails is null)
 }
 else
 {
+    // allow them to mark user as inactive and state they are not eligble to votr, i.e reason
     <div class="content-container profile-data">
         <h2>@Localizer["Voter"] ID: @UserId</h2>
         <div>@Localizer["Name"]: @CustomerDetails.FirstName @CustomerDetails.LastName</div>

@@ -1,0 +1,33 @@
+﻿@page "/vote-in-person"
+
+<PageTitle>@Localizer["VoteInPerson"]</PageTitle>
+
+<h3>@Localizer["VoteInPerson"]</h3>
+
+@if (Errors.Any())
+{
+    <ErrorPopup Errors="@Errors" />
+}
+@* else if (VotedInElectionIds == null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+} *@
+else if (!VotingEligibility)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else
+{
+    <div class="content-container">
+        @Localizer["WhenGoingToVote"]
+        <div>
+            <button @onclick="GenerateQRCode">Generate QR Code</button>
+        </div>
+    </div>
+
+    @if (qrImage != null)
+    {
+        <p>@Localizer["QrCodeExpiresIn"] @timeLeft @Localizer["Seconds"]</p>
+        <img src="@qrImage" />
+    }
+}
