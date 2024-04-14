@@ -138,6 +138,9 @@
   <data name="IdRejected" xml:space="preserve">
     <value>Votre pièce d’identité la plus récente a été rejetée par nos administrateurs.</value>
   </data>
+  <data name="IdRejectedReason" xml:space="preserve">
+    <value>Motif du rejet de l’identifiant</value>
+  </data>
   <data name="IdUploaded" xml:space="preserve">
     <value>Votre pièce d’identité est téléchargée ! Tout ce que vous avez à faire est d’attendre qu’un membre de notre équipe la vérifie et ensuite vous êtes prêt à voter.</value>
   </data>

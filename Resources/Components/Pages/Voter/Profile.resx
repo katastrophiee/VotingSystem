@@ -138,6 +138,9 @@
   <data name="IdRejected" xml:space="preserve">
     <value>Your most recent uploaded ID got reject by our admins.</value>
   </data>
+  <data name="IdRejectedReason" xml:space="preserve">
+    <value>Id rejected reason</value>
+  </data>
   <data name="IdUploaded" xml:space="preserve">
     <value>Your ID is uploaded! All you need to do is wait for a member of our team to verify it and then you're ready to vote.</value>
   </data>

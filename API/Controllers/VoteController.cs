@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.Interfaces.Provider;
 
@@ -10,6 +11,7 @@ public class VoteController(IVoteProvider voteProvider) : Controller
 {
     private readonly IVoteProvider _voteProvider = voteProvider;
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpPost]
     public async Task<ActionResult> AddVoterVote(AddVoterVoteRequest request)
     {
@@ -20,6 +22,7 @@ public class VoteController(IVoteProvider voteProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetVoterVotingHistory(int voterId)
     {

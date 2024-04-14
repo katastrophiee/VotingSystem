@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.Interfaces.Provider;
 
@@ -10,6 +11,7 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
 {
     private readonly IElectionProvider _electionProvider = electionProvider;
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetVoterOngoingElections(int voterId)
     {
@@ -20,6 +22,7 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetVoterVotedInElections(int voterId)
     {
@@ -30,6 +33,7 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetRecentlyEndedElections(int voterId)
     {
@@ -40,6 +44,7 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetVoterUpcomingElections(int voterId)
     {
@@ -50,6 +55,7 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetElection(int electionId, int voterId)
     {
@@ -60,6 +66,7 @@ public class ElectionController(IElectionProvider electionProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpPost]
     public async Task<ActionResult> PostGetElections(GetElectionsRequest request)
     {

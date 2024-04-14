@@ -1,13 +1,19 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Blazored.LocalStorage;
+using Microsoft.Extensions.Localization;
+using System.Net.Http.Headers;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Responses;
 
 namespace VotingSystem.Services;
 
-public class ApiRequestService(HttpClient httpClient, IStringLocalizer<ApiRequestService> localizer) : IApiRequestService
+public class ApiRequestService(
+    HttpClient httpClient,
+    IStringLocalizer<ApiRequestService> localizer,
+    ILocalStorageService localStorage) : IApiRequestService
 {
     private readonly HttpClient _httpClient = httpClient;
     private readonly IStringLocalizer<ApiRequestService> _localizer = localizer;
+    private readonly ILocalStorageService _localStorage = localStorage;
 
     public async Task<Response<T>> SendAsync<T>(string endpoint, HttpMethod method, object? data = null, string? queryString = null)
     {
@@ -19,6 +25,12 @@ public class ApiRequestService(HttpClient httpClient, IStringLocalizer<ApiReques
                 Method = method,
                 RequestUri = new Uri(_httpClient.BaseAddress ?? new(""), fullEndpoint)
             };
+
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
 
             if (data != null)
             {

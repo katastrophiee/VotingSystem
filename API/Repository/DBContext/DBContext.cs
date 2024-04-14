@@ -13,6 +13,8 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<Election> Election { get; set; }
     public DbSet<Admin> Admin { get; set; }
     public DbSet<VoteDetails> VoteDetails { get; set; }
+    public DbSet<Roles> Roles { get; set; }
+    public DbSet<UserRole> UserRole { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,5 +24,7 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
         modelBuilder.ApplyConfiguration(new ElectionEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new AdminEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new VoteDetailsEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new RolesEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
     }
 }

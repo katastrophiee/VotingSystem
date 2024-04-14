@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.Interfaces.Provider;
@@ -41,6 +42,7 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult> PostCreateAdminAccount(CreateAdminAccountRequest request)
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.Interfaces.Provider;
 
@@ -10,6 +11,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
 {
     private readonly IAdminProvider _adminProvider = adminProvider;
 
+    [Authorize(Roles = "Admin, Observer")]
     [HttpPost]
     public async Task<ActionResult> GetVoters(AdminGetVotersRequest request)
     {
@@ -20,6 +22,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Admin, Observer")]
     [HttpGet]
     public async Task<ActionResult> GetVoterDetails(int voterId, int adminId)
     {
@@ -30,6 +33,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Admin, Observer")]
     [HttpPost]
     public async Task<ActionResult> PostAdminVerifyId(AdminVerifyIdRequest request)
     {
@@ -40,6 +44,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Admin, Observer")]
     [HttpPost]
     public async Task<ActionResult> PostAddElection(AddElectionRequest request)
     {
@@ -50,6 +55,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Admin, Observer")]
     [HttpGet]
     public async Task<ActionResult> GetCandidate(int voterId, int adminId)
     {

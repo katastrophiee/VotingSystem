@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.Interfaces.Provider;
 
@@ -11,9 +12,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
 {
     private readonly IVoterProvider _voterProvider = voterProvider;
 
-    //TO DO
-    //Add roles for API calls
-    //[Authorize(Roles = ("Voter, Candidate"))]
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetVoterDetails(int voterId)
     {
@@ -24,6 +23,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpPut]
     public async Task<ActionResult> PutUpdateVoterProfile(UpdateVoterProfileRequest request)
     {
@@ -34,6 +34,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetActiveCandidates(int voterId)
     {
@@ -44,6 +45,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpPut]
     public async Task<ActionResult> PutMakeVoterACandidate(BecomeCandidateRequest request)
     {
@@ -54,6 +56,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetCandidate(int voterId, int candidateId)
     {
@@ -64,6 +67,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpPut]
     public async Task<ActionResult> PutUpateCandidate(UpdateCandidateRequest request)
     {
@@ -74,6 +78,7 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetInPersonVotingEligibility(int voterId)
     {

@@ -138,6 +138,9 @@
   <data name="IdRejected" xml:space="preserve">
     <value>Tu identificación más reciente fue rechazada por nuestros administradores.</value>
   </data>
+  <data name="IdRejectedReason" xml:space="preserve">
+    <value>Motivo del rechazo de la identificación</value>
+  </data>
   <data name="IdUploaded" xml:space="preserve">
     <value>Tu identificación está subida! Todo lo que necesitas hacer es esperar a que un miembro de nuestro equipo la verifique y luego estarás listo para votar.</value>
   </data>

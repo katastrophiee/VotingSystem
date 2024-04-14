@@ -150,4 +150,10 @@
   <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>The username or password is incorrect.</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User Not Found</value>
+  </data>
+  <data name="UserNotFoundWithId" xml:space="preserve">
+    <value>User not found when trying to get roles for user</value>
+  </data>
 </root>

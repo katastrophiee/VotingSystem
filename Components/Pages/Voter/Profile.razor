@@ -45,7 +45,7 @@ else
                     @if (CurrentIdDocument.IdRejected is not null && CurrentIdDocument.IdRejected is true)
                     {
                         <div>@Localizer["IdRejected"]</div>
-                        <div>@Localizer["IdRejected"]: @CurrentIdDocument.RejectionReason</div>
+                        <div>@Localizer["IdRejectedReason"]: @CurrentIdDocument.RejectionReason</div>
                         <div>@Localizer["TryDifferentIdForm"]</div>
                     }
                     else if (CurrentIdDocument.IdRejected is null)

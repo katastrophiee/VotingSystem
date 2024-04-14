@@ -88,7 +88,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         _dbContext.Voter.Update(voter);
         await _dbContext.SaveChangesAsync();
 
-        var accessToken = GenerateAccessToken(voter.Id);
+        var accessToken = await GenerateAccessToken(voter.Id, false);
 
         return new(new LoginResponse()
         {
@@ -140,7 +140,16 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
 
             var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Username == request.Username);
 
-            var accessToken = GenerateAccessToken(voter.Id);
+            var roles = new UserRole()
+            {
+                UserId = voter.Id,
+                RoleIds = [(int)Enums.Roles.Voter]
+            };
+
+            _dbContext.UserRole.Add(roles);
+            await _dbContext.SaveChangesAsync();
+
+            var accessToken = await GenerateAccessToken(voter.Id, false);
 
             return new(new LoginResponse()
             {
@@ -181,13 +190,23 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         return Convert.ToBase64String(key);
     }
 
-    private string GenerateAccessToken(int userId)
+    private async Task<string> GenerateAccessToken(int userId, bool isAdmin)
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+
+        //TO DO
+        //Check foreaches using enum values converts to the display name
+
+        var userRoles = await _dbContext.UserRole.Where(r => r.UserId == userId && r.IsAdmin == isAdmin).FirstOrDefaultAsync();
+
+        foreach (var role in userRoles.RoleIds)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, ((Enums.Roles)role).EnumDisplayName()));
+        }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -201,6 +220,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
 
     public static string GenerateSalt(int size = 32)
     {
@@ -259,7 +279,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         _dbContext.Admin.Update(admin);
         await _dbContext.SaveChangesAsync();
 
-        var accessToken = GenerateAccessToken(admin.Id);
+        var accessToken = await GenerateAccessToken(admin.Id, true);
 
         return new(new LoginResponse()
         {
@@ -307,7 +327,19 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
 
             var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Username == request.Username);
 
-            var accessToken = GenerateAccessToken(admin.Id);
+            //TO DO
+            //Add a shit ton of null checks for calls to ensure no nulls
+
+            var roles = new UserRole()
+            {
+                UserId = admin.Id,
+                RoleIds = [(int)Enums.Roles.Admin]
+            };
+
+            _dbContext.UserRole.Add(roles);
+            await _dbContext.SaveChangesAsync();
+
+            var accessToken = await GenerateAccessToken(admin.Id, true);
 
             return new(new LoginResponse()
             {
@@ -326,5 +358,5 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 AdditionalDetails = ex.Message
             });
         }
-    }
+    } 
 }

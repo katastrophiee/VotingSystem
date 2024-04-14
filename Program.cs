@@ -1,6 +1,9 @@
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
+using System.Text;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Providers;
 using VotingSystem.API.Repository.DBContext;
@@ -40,6 +43,24 @@ builder.Services.AddScoped<IVoteProvider, VoteProvider>();
 
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "LocalVotingSystemApp_v1.0",
+            ValidateAudience = true,
+            ValidAudience = "LocalVotingSystem",
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=")),
+            ValidateIssuerSigningKey = true,
+        };
+    });
+
 builder.Services.AddHttpClient<IApiRequestService, ApiRequestService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:44389/api/");
@@ -64,6 +85,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAntiforgery();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseRequestLocalization(GetLocalizationOptions());
 app.MapControllers();
 

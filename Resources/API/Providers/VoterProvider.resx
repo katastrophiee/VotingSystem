@@ -180,4 +180,10 @@
   <data name="UserNotVerifiedWithId" xml:space="preserve">
     <value>You are not verified to vote for the voter id</value>
   </data>
+  <data name="NoRolesFound" xml:space="preserve">
+    <value>No Roles Found</value>
+  </data>
+  <data name="NoRolesFoundWithId" xml:space="preserve">
+    <value>No roles found for voter id</value>
+  </data>
 </root>

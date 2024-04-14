@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.Interfaces.Provider;
 
@@ -10,6 +11,7 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
 {
     private readonly IDocumentProvider _documentProvider = documentProvider;
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpPost]
     public async Task<ActionResult> PostUploadVoterDocument(Document document)
     {
@@ -20,6 +22,7 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetVoterDocuments(int voterId)
     {
@@ -30,6 +33,7 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
             : BadRequest(response.Error);
     }
 
+    [Authorize(Roles = "Voter, Candidate")]
     [HttpGet]
     public async Task<ActionResult> GetCurrentVoterDocument(int voterId)
     {

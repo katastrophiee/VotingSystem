@@ -178,6 +178,23 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
             _dbContext.Voter.Update(voter);
             await _dbContext.SaveChangesAsync();
 
+            var roles = await _dbContext.UserRole.Where(r => r.UserId == request.VoterId).FirstOrDefaultAsync();
+            if (roles is null)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoRolesFound"],
+                    Description = $"{_localizer["NoRolesFoundWithId"]} {request.VoterId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            //TO DO
+            // Add option for voter to revoke candidacy
+
+            roles.RoleIds.ToList().Add((int)Enums.Roles.Candidate);
+
+            _dbContext.UserRole.Add(roles);
+            await _dbContext.SaveChangesAsync();
+
             return new(true);
         }
         catch (Exception ex)
