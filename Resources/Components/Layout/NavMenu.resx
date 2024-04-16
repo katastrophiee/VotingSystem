@@ -141,10 +141,13 @@
   <data name="ViewTasks" xml:space="preserve">
     <value>View Tasks</value>
   </data>
-	<data name="VoteInPerson" xml:space="preserve">
+  <data name="VoteInPerson" xml:space="preserve">
     <value>Vote In Person</value>
   </data>
   <data name="ViewVoters" xml:space="preserve">
     <value>View Voters</value>
+  </data>
+  <data name="ViewAdmins" xml:space="preserve">
+    <value>View Admins</value>
   </data>
 </root>

@@ -9,7 +9,7 @@ public class AddVoterVoteRequest
 
     public int VoterId { get; set; }
 
-    public VoterCountry Country { get; set; }
+    public UserCountry Country { get; set; }
 
     public List<ElectionOption> Choices { get; set; }
 

@@ -135,6 +135,9 @@
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
   </data>
+  <data name="ViewAdmins" xml:space="preserve">
+    <value>Voir les administrateurs</value>
+  </data>
   <data name="ViewCandidates" xml:space="preserve">
     <value>Voir les candidats</value>
   </data>

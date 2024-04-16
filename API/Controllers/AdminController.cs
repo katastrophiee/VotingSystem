@@ -13,7 +13,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
 
     [Authorize(Roles = "Admin, Observer")]
     [HttpPost]
-    public async Task<ActionResult> GetVoters(AdminGetVotersRequest request)
+    public async Task<ActionResult> PostGetVoters(AdminGetVotersRequest request)
     {
         var response = await _adminProvider.GetVoters(request);
 
@@ -46,7 +46,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
 
     [Authorize(Roles = "Admin, Observer")]
     [HttpPost]
-    public async Task<ActionResult> PostAddElection(AddElectionRequest request)
+    public async Task<ActionResult> PostAddElection(AdminAddElectionRequest request)
     {
         var response = await _adminProvider.AddElection(request);
 
@@ -60,6 +60,98 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     public async Task<ActionResult> GetCandidate(int voterId, int adminId)
     {
         var response = await _adminProvider.GetCandidate(voterId, adminId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPost]
+    public async Task<ActionResult> PostGetAdmins(AdminGetAdminRequest request)
+    {
+        var response = await _adminProvider.GetAdmins(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    //TO DO
+    //Add all details returned by this to viewadmin page
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpGet]
+    public async Task<ActionResult> GetAdmin(int currentAdminId, int requestedAdminId)
+    {
+        var response = await _adminProvider.GetAdmin(currentAdminId, requestedAdminId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPut]
+    public async Task<ActionResult> PutUpdateAdmin(AdminUpdateAdminRequest request)
+    {
+        var response = await _adminProvider.UpdateAdmin(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    //TO DO
+    //Change all add methods to return the ID of the created object and navigate to it once done
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPost]
+    public async Task<ActionResult> PostAddTask(AdminAddTaskRequest request)
+    {
+        var response = await _adminProvider.AddTask(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPost]
+    public async Task<ActionResult> PostGetTasks(AdminGetTasksRequest request)
+    {
+        var response = await _adminProvider.GetTasks(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpGet]
+    public async Task<ActionResult> GetTask(int taskId, int adminId)
+    {
+        var response = await _adminProvider.GetTask(taskId, adminId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteTask(int taskId, int adminId)
+    {
+        var response = await _adminProvider.DeleteTask(taskId, adminId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPut]
+    public async Task<ActionResult> PutUpdateTask(AdminUpdateTaskRequest request)
+    {
+        var response = await _adminProvider.UpdateTask(request);
 
         return response.Error is null
             ? Ok(response.Data)

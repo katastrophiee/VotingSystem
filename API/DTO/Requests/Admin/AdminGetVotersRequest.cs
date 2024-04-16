@@ -8,7 +8,7 @@ public class AdminGetVotersRequest
 
     public int? VoterId { get; set; }
 
-    public VoterCountry? Country { get; set; }
+    public UserCountry? Country { get; set; }
 
     public bool? IsCandidate { get; set; } = null;
 

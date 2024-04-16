@@ -132,6 +132,9 @@
   <data name="Candidate" xml:space="preserve">
     <value>Candidate</value>
   </data>
+  <data name="CannotAddOptionAlreadyAdded" xml:space="preserve">
+    <value>Cannot add this candidate as an option as they have already been added</value>
+  </data>
   <data name="CannotAddOptionNoCandidate" xml:space="preserve">
     <value>You cannot add an option with a candidate ID when no candidate with that ID exists. Remove the ID and add an option without it if there is no associated candidate</value>
   </data>

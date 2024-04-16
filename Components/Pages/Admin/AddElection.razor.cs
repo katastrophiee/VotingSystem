@@ -6,13 +6,14 @@ using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
+using VotingSystem.API.DTO.Responses.Admin;
 using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
 
 public partial class AddElection
 {
-    private AddElectionRequest AddElectionRequest = new([])
+    private AdminAddElectionRequest AddElectionRequest = new([])
     {
         StartDate = DateTime.Now,
         EndDate = DateTime.Now
@@ -37,6 +38,8 @@ public partial class AddElection
     public int AdminId { get; set; }
 
     public bool ShowAddOptionError { get; set; } = false;
+
+    public bool ShowOptionAlreadyAddedError { get; set; } = false;
 
     public int ElectionOptionId { get; set; } = 0;
 
@@ -147,10 +150,10 @@ public partial class AddElection
 
     private async Task<bool> AutofillCandidate(int candidateId)
     {
-        var candidate = await ApiRequestService.SendAsync<GetCandidateResponse>($"Admin/GetCandidate?voterId={candidateId}&adminId={AdminId}", HttpMethod.Get);
+        var candidate = await ApiRequestService.SendAsync<AdminGetCandidateResponse>($"Admin/GetCandidate?voterId={candidateId}&adminId={AdminId}", HttpMethod.Get);
         if (candidate.Error == null)
         {
-            NewOption.OptionName = candidate.Data.Name;
+            NewOption.OptionName = candidate.Data.CandidateName;
             NewOption.OptionDescription = candidate.Data.Description;
             return true;
         }
@@ -164,9 +167,16 @@ public partial class AddElection
 
         if (candidateExists)
         {
-            NewOption.OptionId = ElectionOptionId++;
-            AddElectionRequest.ElectionOptions.Add(NewOption);
-            NewOption = new();
+            if (AddElectionRequest.ElectionOptions.Select(o => o.ElectionId == NewOption.CandidateId) != null)
+            {
+                ShowOptionAlreadyAddedError = true;
+            }
+            else
+            {
+                NewOption.OptionId = ElectionOptionId++;
+                AddElectionRequest.ElectionOptions.Add(NewOption);
+                NewOption = new();
+            }
         }
         else
         {

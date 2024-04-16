@@ -11,7 +11,7 @@ public class GetCandidateResponse
 
     public string Description { get; set; }
 
-    public VoterCountry Country { get; set; }
+    public UserCountry Country { get; set; }
 
     public DateTime StartDateOfCandidacy { get; set; }
 

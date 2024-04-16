@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace VotingSystem;
 
@@ -42,7 +45,7 @@ public static class Helpers
         return null;
     }
 
-    public static string GetDateTimeDurationToCurrentDate(this DateTime startDate)
+    public static string LocalisedGetDateTimeDurationToCurrentDate(this DateTime startDate, IStringLocalizer localizer)
     {
         DateTime currentDate = DateTime.Now;
 
@@ -55,6 +58,24 @@ public static class Helpers
             months += 12;
         }
 
-        return $"{years} years and {months} months";
+        return $"{years} {localizer["YearsAnd"]} {months} {localizer["Months"]}";
+    }
+
+
+    public static string Pbkdf2HashString(this string password, ref string salt)
+    {
+        const int SaltSize = 128 / 8;
+
+        if (string.IsNullOrEmpty(salt))
+        {
+            var newSalt = new byte[SaltSize];
+            RandomNumberGenerator.Fill(newSalt);
+
+            salt = Encoding.UTF8.GetString(newSalt);
+        }
+
+        var saltBytes = Encoding.UTF8.GetBytes(salt);
+        var key = KeyDerivation.Pbkdf2(password, saltBytes, KeyDerivationPrf.HMACSHA256, 100000, SaltSize);
+        return Convert.ToBase64String(key);
     }
 }

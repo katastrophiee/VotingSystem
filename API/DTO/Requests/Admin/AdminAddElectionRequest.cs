@@ -3,7 +3,7 @@ using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.Requests.Admin;
 
-public class AddElectionRequest
+public class AdminAddElectionRequest
 {
     public int AdminId { get; set; }
 
@@ -15,17 +15,17 @@ public class AddElectionRequest
 
     public DateTime EndDate { get; set; }
 
-    public VoterCountry Country { get; set; }
+    public UserCountry Country { get; set; }
 
     public ElectionType ElectionType { get; set; }
 
     public List<ElectionOption> ElectionOptions { get; set; }
 
-    public AddElectionRequest()
+    public AdminAddElectionRequest()
     {
     }
 
-    public AddElectionRequest(List<ElectionOption> electionOptions)
+    public AdminAddElectionRequest(List<ElectionOption> electionOptions)
     {
         ElectionOptions = electionOptions;
     }

@@ -4,7 +4,7 @@ namespace VotingSystem.API.Enums;
 
 //TO DO
 //Add other voting systems
-public enum VoterCountry
+public enum UserCountry
 {
     //First past the post
     [Display(Name = "England")]

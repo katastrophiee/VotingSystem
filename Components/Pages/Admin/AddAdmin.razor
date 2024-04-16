@@ -1,0 +1,49 @@
+﻿@page "/add-admin"
+
+<h3>@Localizer["AddAdmin"]</h3>
+
+@if (Errors.Count > 0)
+{
+    <ErrorPopup Errors="Errors" />
+}
+
+<EditForm Model="@AddAdminRequest" OnValidSubmit="async () => await HandleValidSubmit()">
+    <DataAnnotationsValidator />
+
+    <div>
+        <label for="username">@Localizer["Username"]:</label>
+        <InputText id="username" @bind-Value="AddAdminRequest.Username" required />
+    </div>
+
+    <div>
+        <label for="email">@Localizer["Email"]:</label>
+        <InputText id="email" @bind-Value="AddAdminRequest.Email" required />
+    </div>
+
+    <div>
+        <label for="password">@Localizer["Password"]:</label>
+        <InputText id="password" @bind-Value="AddAdminRequest.Password" required />
+    </div>
+
+    <div>
+        <label for="displayName">@Localizer["DisplayName"]:</label>
+        <InputText id="displayName" @bind-Value="AddAdminRequest.DisplayName" required />
+    </div>
+
+    <div>
+        <label for="country">@Localizer["Country"]:</label>
+        <InputSelect id="country" @bind-Value="AddAdminRequest.Country">
+            @foreach (var country in Enum.GetValues(typeof(UserCountry)).Cast<UserCountry>().Where(c => c != UserCountry.Unknown))
+            {
+                <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <label for="isActive">@Localizer["IsActive"]:</label>
+        <InputCheckbox id="isActive" @bind-Value="AddAdminRequest.IsActive" />
+    </div>
+
+    <button type="submit">@Localizer["AddAdmin"]</button>
+</EditForm>

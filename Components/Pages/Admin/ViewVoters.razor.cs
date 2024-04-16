@@ -21,7 +21,7 @@ public partial class ViewVoters
 
     public List<ErrorResponse> Errors { get; set; } = [];
 
-    public static int AdminId { get; set; }
+    public int AdminId { get; set; }
 
     public List<AdminGetVotersResponse> VotersResult { get; set; } = [];
 
@@ -41,8 +41,7 @@ public partial class ViewVoters
         GetVotersRequest.IsCandidate = IsCandidateString.StringToNullableBool();
         GetVotersRequest.IsVerified = IsVerifiedString.StringToNullableBool();
 
-        var votersResult = await ApiRequestService.SendAsync<List<AdminGetVotersResponse>>("Admin/GetVoters", HttpMethod.Post, GetVotersRequest);
-
+        var votersResult = await ApiRequestService.SendAsync<List<AdminGetVotersResponse>>("Admin/PostGetVoters", HttpMethod.Post, GetVotersRequest);
         if (votersResult.Error == null)
             VotersResult = votersResult.Data;
         else

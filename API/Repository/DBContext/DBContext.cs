@@ -15,6 +15,7 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
     public DbSet<VoteDetails> VoteDetails { get; set; }
     public DbSet<Roles> Roles { get; set; }
     public DbSet<UserRole> UserRole { get; set; }
+    public DbSet<AdminTask> AdminTask { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,5 +27,6 @@ public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
         modelBuilder.ApplyConfiguration(new VoteDetailsEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RolesEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new TaskEntityTypeConfiguration());
     }
 }

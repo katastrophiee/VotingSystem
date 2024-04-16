@@ -14,7 +14,7 @@ public class Election
 
     public DateTime EndDate { get; set; }
 
-    public VoterCountry Country { get; set; }
+    public UserCountry Country { get; set; }
 
     public List<ElectionOption> ElectionOptions { get; set; }
 

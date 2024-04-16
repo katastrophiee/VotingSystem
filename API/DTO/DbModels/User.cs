@@ -14,9 +14,7 @@ public class User
 
     public string PasswordSalt { get; set; }
 
-    public VoterCountry Country { get; set; }
-
-    public DateTime LastLoggedIn { get; set; }
+    public UserCountry Country { get; set; }
 
     public bool IsActive { get; set; }
 }

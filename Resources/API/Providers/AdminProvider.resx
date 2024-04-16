@@ -183,4 +183,34 @@
   <data name="NoElectionOptionsWithId" xml:space="preserve">
     <value>No election options were provided when trying to add election for admin</value>
   </data>
+  <data name="InternalServerErrorAddTask" xml:space="preserve">
+    <value>An unknown error occured when trying to add task for admin id</value>
+  </data>
+  <data name="InternalServerErrorDeleteTask" xml:space="preserve">
+    <value>An unknown error occured when trying to delete task with id</value>
+  </data>
+  <data name="InternalServerErrorGetAdmin" xml:space="preserve">
+    <value>An unknown error occured when trying to admin with id</value>
+  </data>
+  <data name="InternalServerErrorGetAdmins" xml:space="preserve">
+    <value>An unknown error occured when trying to admins for admin id</value>
+  </data>
+  <data name="InternalServerErrorGetTask" xml:space="preserve">
+    <value>An unknown error occured when trying to get task with id</value>
+  </data>
+  <data name="InternalServerErrorGetTasks" xml:space="preserve">
+    <value>An unknown error occured when trying to get tasks for admin id</value>
+  </data>
+  <data name="InternalServerErrorUpdateAdmin" xml:space="preserve">
+    <value>An unknown error occured when trying to update admin with id</value>
+  </data>
+  <data name="InternalServerErrorUpdateTask" xml:space="preserve">
+    <value>An unknown error occured when trying to update task with id</value>
+  </data>
+  <data name="NoTaskFound" xml:space="preserve">
+    <value>No Task Found</value>
+  </data>
+  <data name="NoTaskFoundWithId" xml:space="preserve">
+    <value>No task was found with the task id</value>
+  </data>
 </root>

@@ -126,6 +126,12 @@
   <data name="EmailOrUsernameAlreadyUsed" xml:space="preserve">
     <value>El correo electrónico o el nombre de usuario ya están en uso</value>
   </data>
+  <data name="ErrorWhenAddingAdmin" xml:space="preserve">
+    <value>Error al agregar administrador</value>
+  </data>
+  <data name="ErrowWhenAddingAdminWithId" xml:space="preserve">
+    <value>Ocurrió un error al agregar el administrador y no se encontró ningún administrador</value>
+  </data>
   <data name="InactiveAccount" xml:space="preserve">
     <value>Cuenta Inactiva</value>
   </data>
@@ -146,6 +152,12 @@
   </data>
   <data name="InvalidLoginCredentials" xml:space="preserve">
     <value>Credenciales de Inicio de Sesión Inválidas</value>
+  </data>
+  <data name="NoAdminFound" xml:space="preserve">
+    <value>No Se Encontró Administrador</value>
+  </data>
+  <data name="NoAdminFoundWithId" xml:space="preserve">
+    <value>No se encontró un administrador con el id de administrador</value>
   </data>
   <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>El nombre de usuario o la contraseña son incorrectos.</value>

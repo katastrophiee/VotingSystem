@@ -39,6 +39,9 @@ public partial class AdminLoginPage
 
     public bool ShowLoading { get; set; } = false;
 
+    //TO DO
+    // add to static factory method
+
     public string SelectedCulture = Thread.CurrentThread.CurrentCulture.Name;
     private Dictionary<string, string?> Cultures;
 

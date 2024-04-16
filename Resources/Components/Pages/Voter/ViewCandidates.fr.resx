@@ -150,6 +150,9 @@
   <data name="Loading" xml:space="preserve">
     <value>Chargement…</value>
   </data>
+  <data name="Months" xml:space="preserve">
+    <value>mois</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
   </data>
@@ -179,5 +182,8 @@
   </data>
   <data name="Wales" xml:space="preserve">
     <value>Pays de Galles</value>
+  </data>
+  <data name="YearsAnd" xml:space="preserve">
+    <value>années et</value>
   </data>
 </root>

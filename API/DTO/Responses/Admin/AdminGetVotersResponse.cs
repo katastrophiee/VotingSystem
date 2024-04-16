@@ -10,7 +10,7 @@ namespace VotingSystem.API.DTO.Responses.Admin
 
         public string LastName { get; set; }
 
-        public VoterCountry Country { get; set; }
+        public UserCountry Country { get; set; }
 
         public DateTime LastLoggedIn { get; set; }
 

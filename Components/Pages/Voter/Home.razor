@@ -10,7 +10,7 @@
 
 @if (!IsAdmin)
 {
-    @if (Errors.Any())
+    @if (Errors.Count() > 0)
     {
         <ErrorPopup Errors="@Errors" />
     }

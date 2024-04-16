@@ -13,7 +13,7 @@ public class AdminGetVoterResponse
 
     public string LastName { get; set; }
 
-    public VoterCountry Country { get; set; }
+    public UserCountry Country { get; set; }
 
     public bool NewUser { get; set; }
 

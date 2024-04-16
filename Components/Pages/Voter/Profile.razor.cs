@@ -26,7 +26,7 @@ public partial class Profile
     public bool ShowUpdateButton { get; set; } = false;
 
     public GetVoterAccountDetailsResponse? VoterDetails { get; set; }
-    public UpdateVoterProfileRequest? UpdateVoterProfileRequest { get; set; }
+    public UpdateVoterProfileRequest? UpdateVoterProfileRequest { get; set; } = new();
     public List<ErrorResponse> Errors { get; set; } = [];
 
     public InputFile UploadedIdDocumentFile;
@@ -35,18 +35,26 @@ public partial class Profile
 
     public Document? CurrentIdDocument { get; set; } = null;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchVoterDetails();
+        await SetCurrentIdDocument();
+    }
+
     public async Task Update()
     {
         if (UpdateVoterProfileRequest is not null &&
-            (UpdateVoterProfileRequest.Email != VoterDetails.Email ||
-            UpdateVoterProfileRequest.FirstName != VoterDetails.FirstName ||
-            UpdateVoterProfileRequest.LastName != VoterDetails.LastName ||
-            UpdateVoterProfileRequest.Country != VoterDetails.Country))
+            (UpdateVoterProfileRequest.Email != VoterDetails?.Email ||
+            UpdateVoterProfileRequest.FirstName != VoterDetails?.FirstName ||
+            UpdateVoterProfileRequest.LastName != VoterDetails?.LastName ||
+            UpdateVoterProfileRequest.Country != VoterDetails?.Country))
         {
             var response = await ApiRequestService.SendAsync<bool>("Voter/PutUpdateVoterProfile", HttpMethod.Put, UpdateVoterProfileRequest);
             if (response.Error != null)
             {
-                UpdateVoterProfileRequest = new(VoterDetails);
+                if (VoterDetails is not null)
+                    UpdateVoterProfileRequest = new(VoterDetails);
+
                 Errors.Add(response.Error);
             }
             else
@@ -55,12 +63,6 @@ public partial class Profile
             }
         }
         Editable = false;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await FetchVoterDetails();
-        await SetCurrentIdDocument();
     }
 
     private async Task FetchVoterDetails()

@@ -12,5 +12,5 @@ public interface IAuthProvider
 
     Task<Response<LoginResponse>> AdminLogin(LoginRequest request);
 
-    Task<Response<LoginResponse>> CreateAdminAccount(CreateAdminAccountRequest request);
+    Task<Response<LoginResponse>> CreateAdminAccount(AdminCreateAdminAccountRequest request);
 }

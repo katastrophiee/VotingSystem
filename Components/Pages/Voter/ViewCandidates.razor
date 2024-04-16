@@ -4,7 +4,7 @@
 
 <h1>@Localizer["ViewCandidate"]</h1>
 
-@if (Errors.Any())
+@if (Errors.Count() > 0)
 {
     <ErrorPopup Errors="@Errors" />
 }
@@ -12,7 +12,7 @@ else if (VoterDetails == null)
 {
     <h1><em>@Localizer["ViewCandidate"]</em></h1>
 }
-else if (VoterDetails.Country == VoterCountry.Unknown)
+else if (VoterDetails.Country == UserCountry.Unknown)
 {
     <div class="warning-container">
         @Localizer["CannotGetCandidatesNoRegion"]
@@ -44,7 +44,7 @@ else
                     <td>@candidate.CandidateId</td>
                     <td>@candidate.Name</td>
                     <td>@candidate.Description</td>
-                    <td>@candidate.StartDateOfCandidacy.GetDateTimeDurationToCurrentDate()</td>
+                    <td>@candidate.StartDateOfCandidacy.LocalisedGetDateTimeDurationToCurrentDate(Localizer)</td>
                     <td>@candidate.OngoingEnteredElectionsIds.Count()</td>
                     <td>
                         <NavLink class="button-styled-nav-link" href="@($"view-candidate/candidateId={candidate.CandidateId}")">

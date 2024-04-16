@@ -27,7 +27,7 @@
         <InputSelect id="country" @bind-Value="AddElectionRequest.Country">
             @* TO DO - need to add validation once election types are added to only show appropriate types *@
             <option value="">@Localizer["SelectACountry"]</option>
-            @foreach (var country in Enum.GetValues<VoterCountry>())
+            @foreach (var country in Enum.GetValues<UserCountry>())
             {
                 <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
             }
@@ -51,6 +51,10 @@
         @if (ShowAddOptionError)
         {
             <div>@Localizer["CannotAddOptionNoCandidate"]</div>
+        }
+        @if (ShowOptionAlreadyAddedError)
+        {
+            <div>@Localizer["CannotAddOptionAlreadyAdded"]</div>
         }
 
         <h3>@Localizer["ElectionOptions"]</h3>

@@ -63,7 +63,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
     private async Task<Response<LoginResponse>> LoginAsVoter(Voter voter, string password)
     {
         var passwordSalt = voter.PasswordSalt;
-        var pbkdf2HashedPassword = Pbkdf2HashString(password, ref passwordSalt);
+        var pbkdf2HashedPassword = password.Pbkdf2HashString(ref passwordSalt);
 
         if (!string.Equals(pbkdf2HashedPassword, voter.Password))
         {
@@ -117,7 +117,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             }
 
             var passwordSalt = GenerateSalt();
-            var pbkdf2HashedPassword = Pbkdf2HashString(request.Password, ref passwordSalt);
+            var pbkdf2HashedPassword = request.Password.Pbkdf2HashString(ref passwordSalt);
 
             var newVoter = new Voter()
             {
@@ -127,7 +127,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 PasswordSalt = passwordSalt,
                 FirstName = "",
                 LastName = "",
-                Country = VoterCountry.Unknown,
+                Country = UserCountry.Unknown,
                 NewUser = true,
                 IsCandidate = false,
                 IsActive = true,
@@ -143,7 +143,8 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             var roles = new UserRole()
             {
                 UserId = voter.Id,
-                RoleIds = [(int)Enums.Roles.Voter]
+                RoleIds = [(int)Enums.Roles.Voter],
+                IsAdmin = false
             };
 
             _dbContext.UserRole.Add(roles);
@@ -171,23 +172,6 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 AdditionalDetails = ex.Message
             });
         }
-    }
-
-    private static string Pbkdf2HashString(string password, ref string salt)
-    {
-        const int SaltSize = 128 / 8;
-
-        if (string.IsNullOrEmpty(salt))
-        {
-            var newSalt = new byte[SaltSize];
-            RandomNumberGenerator.Fill(newSalt);
-
-            salt = Encoding.UTF8.GetString(newSalt);
-        }
-
-        var saltBytes = Encoding.UTF8.GetBytes(salt);
-        var key = KeyDerivation.Pbkdf2(password, saltBytes, KeyDerivationPrf.HMACSHA256, 100000, SaltSize);
-        return Convert.ToBase64String(key);
     }
 
     private async Task<string> GenerateAccessToken(int userId, bool isAdmin)
@@ -259,7 +243,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
     private async Task<Response<LoginResponse>> LoginAsAdmin(Admin admin, string password)
     {
         var passwordSalt = admin.PasswordSalt;
-        var pbkdf2HashedPassword = Pbkdf2HashString(password, ref passwordSalt);
+        var pbkdf2HashedPassword = password.Pbkdf2HashString(ref passwordSalt);
 
         if (!string.Equals(pbkdf2HashedPassword, admin.Password))
         {
@@ -286,10 +270,19 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         });
     }
 
-    public async Task<Response<LoginResponse>> CreateAdminAccount(CreateAdminAccountRequest request)
+    public async Task<Response<LoginResponse>> CreateAdminAccount(AdminCreateAdminAccountRequest request)
     {
         try
         {
+            var requestingAdmin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Id == request.RequestingAdminId);
+            if (requestingAdmin is null || requestingAdmin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.RequestingAdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
             var existingAdmin = await _dbContext.Admin
               .Where(v => v.Username == request.Username || v.Email == request.Email)
               .ToListAsync();
@@ -305,7 +298,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             }
 
             var passwordSalt = GenerateSalt();
-            var pbkdf2HashedPassword = Pbkdf2HashString(request.Password, ref passwordSalt);
+            var pbkdf2HashedPassword = request.Password.Pbkdf2HashString(ref passwordSalt);
 
             var newAdmin = new Admin()
             {
@@ -315,14 +308,21 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 PasswordSalt = passwordSalt,
                 DisplayName = request.DisplayName,
                 Country = request.Country,
-                IsActive = true,
-                LastLoggedIn = DateTime.UtcNow,
+                IsActive = request.IsActive,
+                LastLoggedIn = null,
             };
 
             _dbContext.Admin.Add(newAdmin);
             await _dbContext.SaveChangesAsync();
 
             var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Username == request.Username);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["ErrorWhenAddingAdmin"],
+                    Description = $"{_localizer["ErrowWhenAddingAdminWithId"]}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
 
             //TO DO
             //Add a shit ton of null checks for calls to ensure no nulls
@@ -330,7 +330,8 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             var roles = new UserRole()
             {
                 UserId = admin.Id,
-                RoleIds = [(int)Enums.Roles.Admin]
+                RoleIds = [(int)Enums.Roles.Admin],
+                IsAdmin = true
             };
 
             _dbContext.UserRole.Add(roles);

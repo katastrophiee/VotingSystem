@@ -1,0 +1,53 @@
+﻿@page "/view-admin/adminId={adminId:int}"
+
+@if (Errors.Count > 0)
+{
+    <ErrorPopup Errors="Errors" />
+}
+@if (GetAdminResponse is null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else
+{
+    <h1>@Localizer["ViewAdmin"]</h1>
+    <h2>@Localizer["Admin"] ID: @AdminId</h2>
+    @if (!Editable)
+    {
+        <div class="content-container profile-data">
+            <div>@Localizer["DisplayName"]: @GetAdminResponse.DisplayName</div>
+            <div>@Localizer["Email"]: @GetAdminResponse.Email</div>
+            <div>@Localizer["Country"]: @GetAdminResponse.Country.LocalisedEnumDisplayName(Localizer)</div>
+        </div>
+
+        <button @onclick="() => Editable = true">@Localizer["ChangeDetails"]</button>
+    }
+    else
+    {
+        <div class="content-container">
+            <EditForm Model="@UpdateAdminRequest" OnValidSubmit="async () => await Update()">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <label for="firstName">@Localizer["DisplayName"]:</label>
+                <InputText id="firstName" @bind-Value="UpdateAdminRequest.DisplayName" />
+
+                <label for="email">@Localizer["Email"]:</label>
+                <InputText id="email" @bind-Value="UpdateAdminRequest.Email" />
+
+                <div class="form-group">
+                    <label for="country">@Localizer["Country"]:</label>
+                    <InputSelect id="country" @bind-Value="UpdateAdminRequest.Country">
+                        @foreach (var country in Enum.GetValues(typeof(UserCountry)).Cast<UserCountry>().Where(c => c != UserCountry.Unknown))
+                        {
+                            <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <button @onclick="() => Editable = false">@Localizer["Cancel"]</button>
+                <button type="submit">@Localizer["Update"]</button>
+            </EditForm>
+        </div>
+    }
+}

@@ -3,8 +3,11 @@ using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.Requests.Admin
 {
-    public class CreateAdminAccountRequest
+    public class AdminCreateAdminAccountRequest
     {
+        [Required]
+        public int RequestingAdminId { get; set; }
+
         [Required]
         public string Username { get; set; }
 
@@ -19,6 +22,9 @@ namespace VotingSystem.API.DTO.Requests.Admin
         public string DisplayName { get; set; }
 
         [Required]
-        public VoterCountry Country { get; set; }
+        public UserCountry Country { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

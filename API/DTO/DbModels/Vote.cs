@@ -16,6 +16,6 @@ namespace VotingSystem.API.DTO.DbModels
 
         public int VoterId { get; set; }
 
-        public VoterCountry Country { get; set; }
+        public UserCountry Country { get; set; }
     }
 }

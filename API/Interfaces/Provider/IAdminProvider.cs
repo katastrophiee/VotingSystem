@@ -12,7 +12,23 @@ public interface IAdminProvider
 
     Task<Response<bool>> AdminVerifyId(AdminVerifyIdRequest request);
 
-    Task<Response<bool>> AddElection(AddElectionRequest request);
+    Task<Response<bool>> AddElection(AdminAddElectionRequest request);
 
-    Task<Response<GetCandidateResponse>> GetCandidate(int voterId, int adminId);
+    Task<Response<AdminGetCandidateResponse>> GetCandidate(int voterId, int adminId);
+
+    Task<Response<IEnumerable<AdminGetAdminResponse>>> GetAdmins(AdminGetAdminRequest request);
+
+    Task<Response<AdminGetAdminResponse>> GetAdmin(int currentAdminId, int requestedAdminId);
+
+    Task<Response<bool>> UpdateAdmin(AdminUpdateAdminRequest request);
+
+    Task<Response<bool>> AddTask(AdminAddTaskRequest request);
+
+    Task<Response<IEnumerable<AdminGetTaskResponse>>> GetTasks(AdminGetTasksRequest request);
+
+    Task<Response<AdminGetTaskResponse>> GetTask(int taskId, int adminId);
+
+    Task<Response<bool>> DeleteTask(int taskId, int adminId);
+
+    Task<Response<bool>> UpdateTask(AdminUpdateTaskRequest request);
 }

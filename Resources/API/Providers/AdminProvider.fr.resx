@@ -141,12 +141,6 @@
   <data name="InternalServerErrorGetVoters" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de récupération des clients pour l’administrateur</value>
   </data>
-  <data name="NoAdminFound" xml:space="preserve">
-    <value>Aucun Administrateur Trouvé</value>
-  </data>
-  <data name="NoAdminFoundWithId" xml:space="preserve">
-    <value>Aucun administrateur n’a été trouvé avec l’id d’administrateur</value>
-  </data>
   <data name="NoVoterFound" xml:space="preserve">
     <value>Aucun Client Trouvé</value>
   </data>
@@ -182,5 +176,41 @@
   </data>
   <data name="NoElectionOptionsWithId" xml:space="preserve">
     <value>Aucune option d’élection n’a été fournie lors de la tentative d’ajout d’une élection pour l’administrateur</value>
+  </data>
+  <data name="InternalServerErrorAddTask" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’ajouter une tâche pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorDeleteTask" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de supprimer la tâche avec id</value>
+  </data>
+  <data name="InternalServerErrorGetAdmin" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’administrer avec id</value>
+  </data>
+  <data name="InternalServerErrorGetAdmins" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’administrateurs pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorGetTask" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’obtenir une tâche avec id</value>
+  </data>
+  <data name="InternalServerErrorGetTasks" xml:space="preserve">
+    <value>ne erreur inconnue s’est produite lors de la tentative d’obtenir des tâches pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorUpdateAdmin" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de mise à jour de l’administrateur avec id</value>
+  </data>
+  <data name="InternalServerErrorUpdateTask" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de mise à jour de la tâche avec id</value>
+  </data>
+  <data name="NoTaskFound" xml:space="preserve">
+    <value>Aucune tâche trouvée</value>
+  </data>
+  <data name="NoTaskFoundWithId" xml:space="preserve">
+    <value>Aucune tâche n’a été trouvée avec l’id de la tâche</value>
+  </data>
+  <data name="NoAdminFound" xml:space="preserve">
+    <value>Aucun Administrateur Trouvé</value>
+  </data>
+  <data name="NoAdminFoundWithId" xml:space="preserve">
+    <value>Aucun administrateur n’a été trouvé avec l’id d’administrateur</value>
   </data>
 </root>

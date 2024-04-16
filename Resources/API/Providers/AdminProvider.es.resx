@@ -183,4 +183,34 @@
   <data name="NoElectionOptionsWithId" xml:space="preserve">
     <value>No se proporcionaron opciones de elección al intentar agregar una elección para el administrador</value>
   </data>
+  <data name="InternalServerErrorAddTask" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar agregar tarea para el id de administrador</value>
+  </data>
+  <data name="InternalServerErrorDeleteTask" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar eliminar la tarea con id</value>
+  </data>
+  <data name="InternalServerErrorGetAdmin" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar administrar con id</value>
+  </data>
+  <data name="InternalServerErrorGetAdmins" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar administradores para el id de administrador</value>
+  </data>
+  <data name="InternalServerErrorGetTask" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar obtener la tarea con id</value>
+  </data>
+  <data name="InternalServerErrorGetTasks" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar obtener tareas para el id de administrador</value>
+  </data>
+  <data name="InternalServerErrorUpdateAdmin" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar actualizar el administrador con id</value>
+  </data>
+  <data name="InternalServerErrorUpdateTask" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar actualizar la tarea con id</value>
+  </data>
+  <data name="NoTaskFound" xml:space="preserve">
+    <value>No se encontró la tarea</value>
+  </data>
+  <data name="NoTaskFoundWithId" xml:space="preserve">
+    <value>No se encontró ninguna tarea con el id de la tarea</value>
+  </data>
 </root>

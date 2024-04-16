@@ -126,6 +126,12 @@
   <data name="EmailOrUsernameAlreadyUsed" xml:space="preserve">
     <value>The email or username is already in use</value>
   </data>
+  <data name="ErrorWhenAddingAdmin" xml:space="preserve">
+    <value>Error When Adding Admin</value>
+  </data>
+  <data name="ErrowWhenAddingAdminWithId" xml:space="preserve">
+    <value>An error occured when adding the admin and no admin was found</value>
+  </data>
   <data name="InactiveAccount" xml:space="preserve">
     <value>Inactive Account</value>
   </data>
@@ -146,6 +152,12 @@
   </data>
   <data name="InvalidLoginCredentials" xml:space="preserve">
     <value>Invalid Login Credentials</value>
+  </data>
+  <data name="NoAdminFound" xml:space="preserve">
+    <value>No Admin Found</value>
+  </data>
+  <data name="NoAdminFoundWithId" xml:space="preserve">
+    <value>No admin was found with the admin id</value>
   </data>
   <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>The username or password is incorrect.</value>

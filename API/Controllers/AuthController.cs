@@ -44,7 +44,7 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<ActionResult> PostCreateAdminAccount(CreateAdminAccountRequest request)
+    public async Task<ActionResult> PostCreateAdminAccount(AdminCreateAdminAccountRequest request)
     {
         var response = await _authProvider.CreateAdminAccount(request);
 

@@ -12,7 +12,7 @@ namespace VotingSystem.API.Repository.EntityTypeConfiguration
         {
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Country).HasConversion(dbIn => (byte)dbIn, dbOut => (VoterCountry)dbOut);
+            builder.Property(e => e.Country).HasConversion(dbIn => (byte)dbIn, dbOut => (UserCountry)dbOut);
 
             builder.Property(e => e.ElectionType).HasConversion(dbIn => (byte)dbIn, dbOut => (ElectionType)dbOut);
 

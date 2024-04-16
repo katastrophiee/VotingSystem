@@ -1,0 +1,62 @@
+﻿@page "/view-task/taskId={taskId:int}"
+
+@if (Errors.Count() > 0)
+{
+    <ErrorPopup Errors="Errors" />
+}
+else if (Task is null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else
+{
+    <h1>@Localizer["ViewTask"]</h1>
+    <h2>@Localizer["Task"] ID: @Task.Id</h2>
+    
+    @if (!Editable)
+    {
+        <div class="content-container profile-data">
+            <div>@(Localizer["ForVoterId"] + ": " + (Task.ForVoterId != null ? Task.ForVoterId.ToString() : Localizer["Unassigned"]))</div>
+            <div>@(Localizer["ForAdminId"] + ": " + (Task.ForAdminId != null ? Task.ForAdminId.ToString() : Localizer["Unassigned"]))</div>
+            <div>@Localizer["Name"]: @Task.Name</div>
+            <div>@Localizer["Description"]: @Task.Description</div>
+            <div>@Localizer["TaskStatus"]: @Task.TaskStatus.LocalisedEnumDisplayName(Localizer)</div>
+            <div>@Localizer["CreatedAt"]: @Task.CreatedAt.FormatDateTime()</div>
+            <div>@(Localizer["LastEdited"] + ": " + (Task.LastEdited == null ? Localizer["NotEdited"] : Task.LastEdited.Value.FormatDateTime()))</div>
+            <div>@(Localizer["AssignedToAdminId"] + ": " + (Task.AssignedToAdminId != null ? Task.AssignedToAdminId.ToString() : Localizer["Unassigned"]))</div>
+            <div>@(Localizer["CreatedByAdminId"] + ": " + (Task.CreatedByAdminId != null ? Task.CreatedByAdminId.ToString() : Localizer["NotCreatedByAdmin"]))</div>
+            <div>@Localizer["AdditionalNotes"]: @Task.AdditionalNotes</div>
+        </div>
+
+        <button @onclick="() => Editable = true">@Localizer["EditTask"]</button>
+    }
+    else
+    {
+        <div class="content-container">
+            <EditForm Model="Task" OnValidSubmit="async () => await HandleValidSubmit()">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <InputNumber @bind-Value="Task.ForVoterId" class="form-control" placeholder="For Voter Id" />
+                <InputNumber @bind-Value="Task.ForAdminId" class="form-control" placeholder="For Admin Id" />
+                <InputText @bind-Value="Task.Name" class="form-control" placeholder="Name" />
+                <InputTextArea @bind-Value="Task.Description" class="form-control" placeholder="Description" />
+
+                <label for="taskStatus">Task Status:</label>
+                <InputSelect @bind-Value="Task.TaskStatus" id="taskStatus" class="form-control">
+                    @foreach (var status in Enum.GetValues<API.Enums.TaskStatus>())
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </InputSelect>
+
+                <InputNumber @bind-Value="Task.AssignedToAdminId" class="form-control" placeholder="Assigned To Admin Id" />
+
+                <label for="additionalNotes">Additional Notes:</label>
+                <InputTextArea @bind-Value="Task.AdditionalNotes" id="additionalNotes" class="form-control" />
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </EditForm>
+        </div>
+    }
+}

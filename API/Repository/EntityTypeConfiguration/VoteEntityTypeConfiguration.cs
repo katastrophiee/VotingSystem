@@ -11,6 +11,6 @@ public class VoteEntityTypeConfiguration : IEntityTypeConfiguration<Vote>
     {
         builder.HasKey(e => e.Id);
 
-        builder.Property(e => e.Country).HasConversion(dbIn => (byte)dbIn, dbOut => (VoterCountry)dbOut);
+        builder.Property(e => e.Country).HasConversion(dbIn => (byte)dbIn, dbOut => (UserCountry)dbOut);
     }
 }
