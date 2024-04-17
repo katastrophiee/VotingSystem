@@ -18,6 +18,8 @@ else
             <div>@Localizer["DisplayName"]: @GetAdminResponse.DisplayName</div>
             <div>@Localizer["Email"]: @GetAdminResponse.Email</div>
             <div>@Localizer["Country"]: @GetAdminResponse.Country.LocalisedEnumDisplayName(Localizer)</div>
+            <div>@Localizer["LastLoggedIn"]: @GetAdminResponse.LastLoggedIn</div>
+            <div>@Localizer["IsActive"]: @GetAdminResponse.IsActive</div>
         </div>
 
         <button @onclick="() => Editable = true">@Localizer["ChangeDetails"]</button>
@@ -44,6 +46,9 @@ else
                         }
                     </InputSelect>
                 </div>
+
+                <label for="email">@Localizer["IsActive"]:</label>
+                <InputCheckbox @bind-Value="@UpdateAdminRequest.IsActive" />
 
                 <button @onclick="() => Editable = false">@Localizer["Cancel"]</button>
                 <button type="submit">@Localizer["Update"]</button>

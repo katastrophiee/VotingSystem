@@ -67,7 +67,7 @@ public partial class Profile
 
     private async Task FetchVoterDetails()
     {
-        var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails?voterId={UserId}", HttpMethod.Get);
+        var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails", HttpMethod.Get, queryString: $"voterId={UserId}");
         if (voterDetails.Error == null)
         {
             //Trim as white space is being added
@@ -111,23 +111,23 @@ public partial class Profile
     private async Task UploadIdentificationDocument()
     {
 
-        var successfulUpload = await ApiRequestService.SendAsync<bool>("Document/PostUploadVoterDocument", HttpMethod.Post, UploadedIdDocument);
+        var response = await ApiRequestService.SendAsync<int>("Document/PostUploadVoterDocument", HttpMethod.Post, UploadedIdDocument);
 
-        if (successfulUpload.Error != null)
-            Errors.Add(successfulUpload.Error);
+        if (response.Error != null)
+            Errors.Add(response.Error);
         else
             await SetCurrentIdDocument();
-        
 
         ShowUpdateButton = false;
     }
 
     private async Task SetCurrentIdDocument()
     {
-        var document = await ApiRequestService.SendAsync<Document>($"Document/GetCurrentVoterDocument?voterId={UserId}", HttpMethod.Get);
+        var document = await ApiRequestService.SendAsync<Document?>($"Document/GetCurrentVoterDocument", HttpMethod.Get, queryString: $"voterId={UserId}");
         if (document.Error == null)
         {
-            CurrentIdDocument = document.Data;
+            if (document.Data is not null)
+                CurrentIdDocument = document.Data;
         }
         else
         {

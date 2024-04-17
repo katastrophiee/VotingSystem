@@ -1,6 +1,7 @@
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 using System.Text;
@@ -30,9 +31,10 @@ RequestLocalizationOptions GetLocalizationOptions()
     var localizationOptions = new RequestLocalizationOptions()
         .AddSupportedCultures(supportedCultures)
         .AddSupportedUICultures(supportedCultures);
-
     return localizationOptions;
 }
+
+builder.Services.AddSingleton(builder.Configuration.GetSection("Jwt"));
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IVoterProvider, VoterProvider>();
@@ -53,11 +55,11 @@ builder.Services.AddAuthentication(options =>
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = "LocalVotingSystemApp_v1.0",
+            ValidIssuer = builder.Configuration.GetSection("Jwt").GetValue<string>("Issuer"),
             ValidateAudience = true,
-            ValidAudience = "LocalVotingSystem",
+            ValidAudience = builder.Configuration.GetSection("Jwt").GetValue<string>("Audience"),
             ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt").GetValue<string>("Key") ?? "")),
             ValidateIssuerSigningKey = true,
         };
     });

@@ -213,4 +213,10 @@
   <data name="NoAdminFoundWithId" xml:space="preserve">
     <value>Aucun administrateur n’a été trouvé avec l’id d’administrateur</value>
   </data>
+  <data name="NoElectionFound" xml:space="preserve">
+    <value>Aucune élection trouvée</value>
+  </data>
+  <data name="NoElectionFoundWithId" xml:space="preserve">
+    <value>Aucune élection n’a été trouvée avec l’identifiant</value>
+  </data>
 </root>

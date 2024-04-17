@@ -35,9 +35,9 @@ public partial class AddTask
     private async Task HandleValidSubmit()
     {
         AddTaskRequest.AdminId = AdminId;
-        var response = await ApiRequestService.SendAsync<bool>("Admin/PostAddTask", HttpMethod.Post, AddTaskRequest);
+        var response = await ApiRequestService.SendAsync<int>("Admin/PostAddTask", HttpMethod.Post, AddTaskRequest);
         if (response.Error == null)
-            NavigationManager.NavigateTo("/view-tasks");
+            NavigationManager.NavigateTo($"/view-task/taskId={response.Data}");
         else
             Errors.Add(response.Error);
     }

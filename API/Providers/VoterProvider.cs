@@ -102,7 +102,7 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
             var candidates = await _dbContext.Voter.Where(c =>
                 c.IsCandidate == true
                 && c.IsActive == true
-                && c.IsVerified == true).ToListAsync();
+                && c.IsVerified == true).ToListAsync() ?? [];
             
             var response = candidates.Select(c => new GetCandidateResponse(c)).ToList();
 
@@ -238,7 +238,7 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
             var ongoingElections = await _dbContext.Election.Where(e =>
                 e.Country == voter.Country
                 && e.StartDate <= DateTime.Now
-                && e.EndDate > DateTime.Now).ToListAsync();
+                && e.EndDate > DateTime.Now).ToListAsync() ?? [];
 
             var ongoingEnteredElectionsIds = ongoingElections
                 .Where(e => e.ElectionOptions.Any(o => o.CandidateId == voterId))

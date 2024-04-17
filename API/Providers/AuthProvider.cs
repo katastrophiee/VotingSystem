@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,16 +20,11 @@ namespace VotingSystem.API.Providers;
 //https://learn.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
 //https://learn.microsoft.com/en-us/aspnet/aspnet/overview/owin-and-katana/an-overview-of-project-katana
 
-public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> localizer) : IAuthProvider
+public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> localizer, IConfigurationSection jwtValues) : IAuthProvider
 {
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<AuthProvider> _localizer = localizer;
-
-    //TO DO
-    //Move all to config + add config table in db
-    private readonly string SecretKey = "Q3J5cHRvZ3JhcGhpY2FsbHlTZWN1cmVSYW5kb21TdHJpbmc=";
-    private readonly string Issuer = "LocalVotingSystemApp_v1.0";
-    private readonly string Audience = "LocalVotingSystem";
+    private readonly IConfigurationSection _jwtValues = jwtValues;
 
     public async Task<Response<LoginResponse>> VoterLogin(LoginRequest request)
     {
@@ -161,9 +155,6 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         }
         catch (Exception ex) 
         {
-            //TO DO
-            // add admins page to create other admin accounts
-
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
@@ -189,12 +180,12 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             claims.Add(new Claim(ClaimTypes.Role, ((Enums.Roles)role).EnumDisplayName()));
         }
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtValues.GetValue<string>("Key") ?? ""));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: Issuer,
-            audience: Audience,
+            issuer: _jwtValues.GetValue<string>("Issuer"),
+            audience: _jwtValues.GetValue<string>("Audience"),
             claims: claims,
             expires: DateTime.Now.AddMinutes(30),
             signingCredentials: creds);
@@ -254,6 +245,14 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 StatusCode = StatusCodes.Status400BadRequest,
             });
         }
+
+        if (!admin.IsActive)
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InactiveAccount"],
+                Description = _localizer["AccountNotActive"],
+                StatusCode = StatusCodes.Status401Unauthorized,
+            });
 
         admin.LastLoggedIn = DateTime.UtcNow;
 
@@ -323,9 +322,6 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                     Description = $"{_localizer["ErrowWhenAddingAdminWithId"]}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
-
-            //TO DO
-            //Add a shit ton of null checks for calls to ensure no nulls
 
             var roles = new UserRole()
             {

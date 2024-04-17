@@ -213,4 +213,10 @@
   <data name="NoTaskFoundWithId" xml:space="preserve">
     <value>No task was found with the task id</value>
   </data>
+  <data name="NoElectionFound" xml:space="preserve">
+    <value>No Election Found</value>
+  </data>
+  <data name="NoElectionFoundWithId" xml:space="preserve">
+    <value>No election was found with the id</value>
+  </data>
 </root>

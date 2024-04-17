@@ -38,13 +38,13 @@ public partial class VoteInPerson
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
 
-        var votingEligibility = await ApiRequestService.SendAsync<bool>($"Voter/GetInPersonVotingEligibility?voterId={VoterId}", HttpMethod.Get);
+        var votingEligibility = await ApiRequestService.SendAsync<bool>($"Voter/GetInPersonVotingEligibility", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (votingEligibility.Error is null)
             VotingEligibility = votingEligibility.Data;
         else
             Errors.Add(votingEligibility.Error);
 
-        var votedInElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterVotedInElections?voterId={VoterId}", HttpMethod.Get);
+        var votedInElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterVotedInElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (votedInElections.Error is null)
             VotedInElectionIds = votedInElections.Data.Select(v => v.ElectionId).ToList();
         else

@@ -144,6 +144,12 @@
   <data name="Ireland" xml:space="preserve">
     <value>Irlande</value>
   </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Est actif</value>
+  </data>
+  <data name="LastLoggedIn" xml:space="preserve">
+    <value>Dernière connexion</value>
+  </data>
   <data name="Loading" xml:space="preserve">
     <value>Chargement…</value>
   </data>

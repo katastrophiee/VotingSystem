@@ -13,7 +13,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<DocumentProvider> _localizer = localizer;
 
-    public async Task<Response<Document>> GetCurrentVoterDocument(int voterId)
+    public async Task<Response<Document?>> GetCurrentVoterDocument(int voterId)
     {
         try
         {
@@ -30,7 +30,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
               .Where(v => v.VoterId == voterId && v.MostRecentId == true)
               .FirstOrDefaultAsync();
 
-            return new(currentDocument ?? new());
+            return new(currentDocument);
         }
         catch (Exception ex)
         {
@@ -75,7 +75,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
         }
     }
 
-    public async Task<Response<bool>> PostUploadVoterDocument(Document document)
+    public async Task<Response<int>> UploadVoterDocument(Document document)
     {
         try
         {
@@ -107,11 +107,12 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
             _dbContext.Voter.Update(voter);
             await _dbContext.SaveChangesAsync();
 
+            var addedDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.VoterId == document.VoterId && c.MostRecentId == true);
             // TO DO
             // add task for admins to verify the uploaded id, then sets the account to verified
             // ensure expiry date not null
 
-            return new(true);
+            return new(addedDocument.Id);
         }
         catch (Exception ex)
         {

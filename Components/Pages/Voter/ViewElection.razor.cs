@@ -38,7 +38,7 @@ public partial class ViewElection
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
 
-        var getElectionResponse = await ApiRequestService.SendAsync<GetElectionResponse>($"Election/GetElection?electionId={ElectionId}&voterId={VoterId}", HttpMethod.Get);
+        var getElectionResponse = await ApiRequestService.SendAsync<GetElectionResponse>($"Election/GetElection", HttpMethod.Get, queryString: $"electionId={ElectionId}&voterId={VoterId}");
         if (getElectionResponse.Error == null)
         {
             Election = getElectionResponse.Data;
@@ -56,7 +56,7 @@ public partial class ViewElection
         AddVoterVoteRequest.Choices = ElectionOptions.Where(o => o.IsChecked == true).Select(o => new ElectionOption(o)).ToList();
         AddVoterVoteRequest.ElectionTypeAdditionalInfo = "";
 
-        var addVoterVoteResponse = await ApiRequestService.SendAsync<bool>("Vote/AddVoterVote", HttpMethod.Post, AddVoterVoteRequest);
+        var addVoterVoteResponse = await ApiRequestService.SendAsync<int>("Vote/AddVoterVote", HttpMethod.Post, AddVoterVoteRequest);
         if (addVoterVoteResponse.Error == null)
         {
             NavigationManager.NavigateTo("/view-elections");

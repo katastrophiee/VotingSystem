@@ -31,41 +31,39 @@ public partial class Home
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            IsAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
-            StateHasChanged();
-        }
+
+        StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()
     {
+        VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
+        IsAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
+
         if (!IsAdmin)
         {
-            VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
-
-            var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails?voterId={VoterId}", HttpMethod.Get);
+            var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails", HttpMethod.Get, queryString: $"voterId={VoterId}");
             if (voterDetails.Error == null)
                 VoterDetails = voterDetails.Data;
             else
                 Errors.Add(voterDetails.Error);
 
-            var votingHistory = await ApiRequestService.SendAsync<List<GetVotingHistoryResponse>>($"Vote/GetVoterVotingHistory?voterId={VoterId}", HttpMethod.Get);
+            var votingHistory = await ApiRequestService.SendAsync<List<GetVotingHistoryResponse>>($"Vote/GetVoterVotingHistory", HttpMethod.Get, queryString: $"voterId={VoterId}");
             if (votingHistory.Error == null)
                 VotingHistory = votingHistory.Data;
             else
                 Errors.Add(votingHistory.Error);
 
-            var ongoingElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterOngoingElections?voterId={VoterId}", HttpMethod.Get);
+            var ongoingElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterOngoingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
             if (ongoingElections.Error == null)
                 OngoingElections = ongoingElections.Data;
             else
                 Errors.Add(ongoingElections.Error);
 
-            var currentIdDocument = await ApiRequestService.SendAsync<Document>($"Document/GetCurrentVoterDocument?voterId={VoterId}", HttpMethod.Get);
+            var currentIdDocument = await ApiRequestService.SendAsync<Document?>($"Document/GetCurrentVoterDocument", HttpMethod.Get, queryString: $"voterId={VoterId}");
             if (currentIdDocument.Error == null)
             {
-                if (currentIdDocument.Data.Id != 0)
+                if (currentIdDocument.Data is not null)
                     IdExpireyDate = currentIdDocument.Data.ExpiryDate;
             }
             else

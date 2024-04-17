@@ -47,7 +47,7 @@ public partial class ViewAdmin
 
     private async Task FetchAdminDetails()
     {
-        var admin = await ApiRequestService.SendAsync<AdminGetAdminResponse>($"Admin/GetAdmin?currentAdminId={CurrentAdminId}&requestedAdminId={AdminId}", HttpMethod.Get);
+        var admin = await ApiRequestService.SendAsync<AdminGetAdminResponse>($"Admin/GetAdmin", HttpMethod.Get, queryString: $"currentAdminId={CurrentAdminId}&requestedAdminId={AdminId}");
         if (admin.Error == null)
         {
             //Trim as white space is being added
@@ -55,6 +55,7 @@ public partial class ViewAdmin
             admin.Data.DisplayName = admin.Data.DisplayName.Trim();
             GetAdminResponse = admin.Data;
             UpdateAdminRequest = new(GetAdminResponse);
+            StateHasChanged();
         }
         else
         {
@@ -67,7 +68,8 @@ public partial class ViewAdmin
         if (UpdateAdminRequest is not null &&
             (UpdateAdminRequest.Email != GetAdminResponse?.Email ||
             UpdateAdminRequest.DisplayName != GetAdminResponse?.DisplayName ||
-            UpdateAdminRequest.Country != GetAdminResponse?.Country))
+            UpdateAdminRequest.Country != GetAdminResponse?.Country ||
+            UpdateAdminRequest.IsActive != GetAdminResponse?.IsActive))
         {
             var response = await ApiRequestService.SendAsync<bool>("Admin/PutUpdateAdmin", HttpMethod.Put, UpdateAdminRequest);
             if (response.Error != null)

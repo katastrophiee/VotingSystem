@@ -57,7 +57,7 @@ public partial class ViewVoter
 
     private async Task FetchVoterDetails()
     {
-        var voterDetails = await ApiRequestService.SendAsync<AdminGetVoterResponse>($"Admin/GetVoterDetails?voterId={UserId}&adminId={AdminId}", HttpMethod.Get);
+        var voterDetails = await ApiRequestService.SendAsync<AdminGetVoterResponse>($"Admin/GetVoterDetails", HttpMethod.Get, queryString: $"voterId={UserId}&adminId={AdminId}");
 
         if (voterDetails.Error == null)
             VoterDetails = voterDetails.Data;

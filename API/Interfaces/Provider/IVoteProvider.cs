@@ -7,5 +7,5 @@ public interface IVoteProvider
 {
     Task<Response<IEnumerable<GetVotingHistoryResponse>>> GetVoterVotingHistory(int voterId);
 
-    Task<Response<bool>> AddVoterVote(AddVoterVoteRequest request);
+    Task<Response<int>> AddVoterVote(AddVoterVoteRequest request);
 }

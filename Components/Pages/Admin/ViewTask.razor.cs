@@ -53,7 +53,7 @@ public partial class ViewTask
     {
         Errors.Clear();
 
-        var task = await ApiRequestService.SendAsync<AdminGetTaskResponse>($"Admin/GetTask?taskId={taskId}&adminId={AdminId}", HttpMethod.Get);
+        var task = await ApiRequestService.SendAsync<AdminGetTaskResponse>($"Admin/GetTask", HttpMethod.Get, queryString: $"taskId={taskId}&adminId={AdminId}");
         if (task.Error == null)
         {
             task.Data.Name = task.Data.Name.Trim();

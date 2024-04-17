@@ -213,4 +213,10 @@
   <data name="NoTaskFoundWithId" xml:space="preserve">
     <value>No se encontró ninguna tarea con el id de la tarea</value>
   </data>
+  <data name="NoElectionFound" xml:space="preserve">
+    <value>No se encontró ninguna elección</value>
+  </data>
+  <data name="NoElectionFoundWithId" xml:space="preserve">
+    <value>No se encontró ninguna elección con el id</value>
+  </data>
 </root>

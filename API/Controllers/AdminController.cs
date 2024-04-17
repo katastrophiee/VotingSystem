@@ -77,8 +77,6 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             : BadRequest(response.Error);
     }
 
-    //TO DO
-    //Add all details returned by this to viewadmin page
     [Authorize(Roles = "Admin, Observer")]
     [HttpGet]
     public async Task<ActionResult> GetAdmin(int currentAdminId, int requestedAdminId)
@@ -101,8 +99,6 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             : BadRequest(response.Error);
     }
 
-    //TO DO
-    //Change all add methods to return the ID of the created object and navigate to it once done
     [Authorize(Roles = "Admin, Observer")]
     [HttpPost]
     public async Task<ActionResult> PostAddTask(AdminAddTaskRequest request)

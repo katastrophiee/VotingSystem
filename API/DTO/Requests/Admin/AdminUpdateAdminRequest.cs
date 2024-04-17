@@ -17,7 +17,7 @@ public class AdminUpdateAdminRequest
 
     public UserCountry? Country { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public AdminUpdateAdminRequest()
     {

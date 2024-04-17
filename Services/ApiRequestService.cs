@@ -15,7 +15,7 @@ public class ApiRequestService(
     private readonly IStringLocalizer<ApiRequestService> _localizer = localizer;
     private readonly ILocalStorageService _localStorage = localStorage;
 
-    public async Task<Response<T>> SendAsync<T>(string endpoint, HttpMethod method, object? data = null, string? queryString = null)
+    public async Task<Response<T>> SendAsync<T>(string endpoint, HttpMethod method, object? data = null, string? queryString = null, bool isNullable = false)
     {
         try
         {
@@ -41,6 +41,9 @@ public class ApiRequestService(
 
             if (response.IsSuccessStatusCode)
             {
+                if ((int)response.StatusCode == StatusCodes.Status204NoContent && isNullable)
+                    return new(null);
+
                 var result = await response.Content.ReadFromJsonAsync<T>();
                 
                 if (result != null)

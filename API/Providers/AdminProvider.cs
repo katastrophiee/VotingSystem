@@ -34,7 +34,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 (request.Country == null || c.Country == request.Country) &&
                 (request.IsCandidate == null || c.IsCandidate == request.IsCandidate) &&
                 (request.IsVerified == null || c.IsVerified == request.IsVerified))
-               .ToListAsync();
+               .ToListAsync() ?? [];
 
             var response = new List<AdminGetVotersResponse>();
             voters?.ForEach(voter => response.Add(new(voter)));
@@ -78,7 +78,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             var response = new AdminGetVoterResponse(voter);
 
             var currentIdDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.VoterId == voterId && c.MostRecentId == true);
-            if (currentIdDocument != null)
+            if (currentIdDocument is not null)
                 response.CurrentIdDocument = currentIdDocument;
 
             return new(response);
@@ -109,7 +109,6 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 });
 
             var document = await _dbContext.Document.FirstOrDefaultAsync(d => d.Id == request.DocumentId);
-
             if (document is null)
                 return new(new ErrorResponse()
                 {
@@ -159,7 +158,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
         }
     }
 
-    public async Task<Response<bool>> AddElection(AdminAddElectionRequest request)
+    public async Task<Response<int>> AddElection(AdminAddElectionRequest request)
     {
         try
         {
@@ -228,7 +227,16 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             _dbContext.Election.Add(election);
             await _dbContext.SaveChangesAsync();
 
-            return new(true);
+            var addedElection = await _dbContext.Election.FirstOrDefaultAsync(c => c.ElectionName == request.ElectionName && c.StartDate == request.StartDate && c.EndDate == request.EndDate);
+            if (addedElection is null || addedElection.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionFound"],
+                    Description = $"{_localizer["NoElectionFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            return new(addedElection.Id);
         }
         catch (Exception ex)
         {
@@ -306,7 +314,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                (request.AdminId == null || a.Id == request.AdminId) &&
                (request.Country == null || a.Country == request.Country) &&
                (request.IsActive == null || a.IsActive == request.IsActive))
-              .ToListAsync();
+              .ToListAsync() ?? [];
 
             var response = admins.Select(a => new AdminGetAdminResponse(a));
 
@@ -399,8 +407,8 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             if (request.Country != null)
                 adminToUpdate.Country = request.Country.Value;
 
-            if (request.IsActive != null)
-                adminToUpdate.IsActive = request.IsActive.Value;
+            if (request.IsActive != adminToUpdate.IsActive)
+                adminToUpdate.IsActive = request.IsActive;
 
             _dbContext.Admin.Update(adminToUpdate);
             await _dbContext.SaveChangesAsync();
@@ -419,7 +427,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
         }
     }
 
-    public async Task<Response<bool>> AddTask(AdminAddTaskRequest request)
+    public async Task<Response<int>> AddTask(AdminAddTaskRequest request)
     {
         try
         {
@@ -448,7 +456,16 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             _dbContext.AdminTask.Add(newTask);
             await _dbContext.SaveChangesAsync();
 
-            return new(true);
+            var addedTask = await _dbContext.AdminTask.FirstOrDefaultAsync(c => c.CreatedByAdminId == admin.Id && c.Name == request.Name && c.CreatedAt == newTask.CreatedAt);
+            if (addedTask is null || addedTask.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoTaskFound"],
+                    Description = $"{_localizer["NoTaskFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            return new(addedTask.Id);
         }
         catch (Exception ex)
         {
@@ -482,7 +499,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 (request.Name == null || c.Name == request.Name) &&
                 (request.TaskStatus == null || c.TaskStatus == request.TaskStatus) &&
                 (request.AssignedToAdminId == null || c.AssignedToAdminId == request.AssignedToAdminId))
-               .ToListAsync();
+               .ToListAsync() ?? [];
 
             var response = tasks.Select(t => new AdminGetTaskResponse(t));
 

@@ -7,7 +7,7 @@ namespace VotingSystem.API.Controllers;
 [ApiController]
 public class CultureController : Controller
 {
-    public async Task<IActionResult> SetCulture(string culture, string redirectUri)
+    public IActionResult SetCulture(string culture, string redirectUri)
     {
         if (!string.IsNullOrWhiteSpace(culture))
         {

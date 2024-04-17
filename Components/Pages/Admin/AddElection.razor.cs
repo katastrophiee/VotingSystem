@@ -57,12 +57,12 @@ public partial class AddElection
         var isValidRequest = ValidateAddElectionRequest();
         if (isValidRequest.Error is null)
         { 
-            var response = await ApiRequestService.SendAsync<bool>("Admin/PostAddElection", HttpMethod.Post, AddElectionRequest);
+            var response = await ApiRequestService.SendAsync<int>("Admin/PostAddElection", HttpMethod.Post, AddElectionRequest);
 
             if (response.Error == null)
             {
                 //TO DO - add this page
-                NavigationManager.NavigateTo("/admin-view-elections");
+                NavigationManager.NavigateTo("/view-elections");
             }
             else
                 Errors.Add(response.Error);
@@ -150,7 +150,7 @@ public partial class AddElection
 
     private async Task<bool> AutofillCandidate(int candidateId)
     {
-        var candidate = await ApiRequestService.SendAsync<AdminGetCandidateResponse>($"Admin/GetCandidate?voterId={candidateId}&adminId={AdminId}", HttpMethod.Get);
+        var candidate = await ApiRequestService.SendAsync<AdminGetCandidateResponse>($"Admin/GetCandidate", HttpMethod.Get, queryString: $"voterId={candidateId}&adminId={AdminId}");
         if (candidate.Error == null)
         {
             NewOption.OptionName = candidate.Data.CandidateName;

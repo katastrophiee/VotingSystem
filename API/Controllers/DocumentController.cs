@@ -15,7 +15,7 @@ public class DocumentController(IDocumentProvider documentProvider) : Controller
     [HttpPost]
     public async Task<ActionResult> PostUploadVoterDocument(Document document)
     {
-        var response = await _documentProvider.PostUploadVoterDocument(document);
+        var response = await _documentProvider.UploadVoterDocument(document);
 
         return response.Error is null
             ? Ok(response.Data)

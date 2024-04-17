@@ -33,7 +33,7 @@ public partial class ViewCandidate
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
 
-        var candidate = await ApiRequestService.SendAsync<GetCandidateResponse>($"Voter/GetCandidate?voterId={VoterId}&candidateId={CandidateId}", HttpMethod.Get);
+        var candidate = await ApiRequestService.SendAsync<GetCandidateResponse>($"Voter/GetCandidate", HttpMethod.Get, queryString: $"voterId={VoterId}&candidateId={CandidateId}");
         if (candidate.Error == null)
             Candidate = candidate.Data;
         else

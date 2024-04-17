@@ -30,7 +30,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
                 .Where(v => v.Country == voter.Country
                 && v.StartDate <= DateTime.Now
                 && v.EndDate > DateTime.Now)
-                .ToListAsync();
+                .ToListAsync() ?? [];
 
             var response = ongoingElections.Select(e => new GetElectionResponse(e)).ToList();
 
@@ -76,13 +76,13 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
 
             var electionInRegion = await _dbContext.Election
                 .Where(e => e.Country == voter.Country)
-                .ToListAsync();
+                .ToListAsync() ?? [];
 
-            var voterVotes = await _dbContext.Vote.Where(v => v.VoterId == voterId).ToListAsync();
+            var voterVotes = await _dbContext.Vote.Where(v => v.VoterId == voterId).ToListAsync() ?? [];
 
             var votedInElectionInRegion = electionInRegion
                 .Where(e => voterVotes.Any(v => v.ElectionId == e.Id))
-                .ToList();
+                .ToList() ?? [];
 
             var response = votedInElectionInRegion.Select(e => new GetElectionResponse(e)).ToList();
 
@@ -117,7 +117,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
                 e.Country == voter.Country
                 && e.EndDate < DateTime.Now
                 && e.EndDate <= DateTime.Now.AddMonths(3))
-               .ToListAsync();
+               .ToListAsync() ?? [];
 
             var response = recentElectionInRegion.Select(e => new GetElectionResponse(e)).ToList();
 
@@ -152,7 +152,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
                 e.Country == voter.Country
                 && e.StartDate > DateTime.Now
                 && e.StartDate <= DateTime.Now.AddMonths(3))
-               .ToListAsync();
+               .ToListAsync() ?? [];
 
             var response = upcomingElectionInRegion.Select(e => new GetElectionResponse(e)).ToList();
 
@@ -192,12 +192,12 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
+            var response = new GetElectionResponse(election);
+
             var vote = await _dbContext.Vote
                   .Where(v => v.VoterId == voterId
                   && v.ElectionId == election.Id)
                   .FirstOrDefaultAsync();
-
-            var response = new GetElectionResponse(election);
 
             if (vote is not null)
                 response.HasVoted = true;

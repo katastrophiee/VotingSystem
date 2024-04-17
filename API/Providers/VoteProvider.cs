@@ -48,7 +48,7 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
         }
     }
 
-    public async Task<Response<bool>> AddVoterVote(AddVoterVoteRequest request)
+    public async Task<Response<int>> AddVoterVote(AddVoterVoteRequest request)
     {
         try
         {
@@ -91,12 +91,12 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             _dbContext.Vote.Add(vote);
             await _dbContext.SaveChangesAsync();
 
-            var voterVote = await _dbContext.Vote.Where(v =>
+            var addedVote = await _dbContext.Vote.Where(v =>
                 v.ElectionId == election.Id
                 && v.VoterId == voter.Id)
                 .FirstOrDefaultAsync();
 
-            if (voterVote is null || voterVote.Id == 0)
+            if (addedVote is null || addedVote.Id == 0)
                 return new(new ErrorResponse()
                 {
                     Title = _localizer["NoVoteFound"],
@@ -106,7 +106,7 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
 
             var voteDetails = new VoteDetails()
             {
-                VoteId = voterVote.Id,
+                VoteId = addedVote.Id,
                 ElectionType = election.ElectionType,
                 Choices = request.Choices,
                 ElectionTypeAdditionalInfo = request.ElectionTypeAdditionalInfo
@@ -115,7 +115,7 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
             _dbContext.VoteDetails.Add(voteDetails);
             await _dbContext.SaveChangesAsync();
 
-            return new(true);
+            return new(addedVote.Id);
         }
         catch (Exception ex)
         {

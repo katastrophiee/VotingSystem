@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <label for="country">@Localizer["Country"]:</label>--
+            <label for="country">@Localizer["Country"]:</label>
             <InputSelect @bind-Value="GetAdminRequest.Country" id="country">
                 <option value="">-- @Localizer["Select"] --</option>
                 @foreach (var country in Enum.GetValues(typeof(UserCountry)).Cast<UserCountry>().Where(c => c != UserCountry.Unknown))

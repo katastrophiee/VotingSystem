@@ -35,7 +35,7 @@ public partial class BecomeCandidate
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
 
-        var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails?voterId={VoterId}", HttpMethod.Get);
+        var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (voterDetails.Error == null)
         {
             //Trim as white space is being added to existing strings
@@ -49,7 +49,7 @@ public partial class BecomeCandidate
 
             if (voterDetails.Data.IsCandidate)
             {
-                var candidateDetails = await ApiRequestService.SendAsync<GetCandidateResponse>($"Voter/GetCandidate?voterId={VoterId}&candidateId={VoterId}", HttpMethod.Get);
+                var candidateDetails = await ApiRequestService.SendAsync<GetCandidateResponse>($"Voter/GetCandidate", HttpMethod.Get, queryString: $"voterId={VoterId}&candidateId={VoterId}");
                 if (candidateDetails.Error == null)
                 {
                     UpdateCandidateRequest.VoterId = VoterId;

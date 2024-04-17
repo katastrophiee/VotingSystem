@@ -40,7 +40,7 @@ public partial class AdminProfile
 
     private async Task FetchAdminDetails()
     {
-        var admin = await ApiRequestService.SendAsync<AdminGetAdminResponse>($"Admin/GetAdmin?currentAdminId={UserId}&requestedAdminId={UserId}", HttpMethod.Get);
+        var admin = await ApiRequestService.SendAsync<AdminGetAdminResponse>($"Admin/GetAdmin", HttpMethod.Get, queryString: $"currentAdminId={UserId}&requestedAdminId={UserId}");
         if (admin.Error == null)
         {
             //Trim as white space is being added
