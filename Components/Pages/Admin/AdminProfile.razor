@@ -32,11 +32,20 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <label for="firstName">@Localizer["DisplayName"]:</label>
-                <InputText id="firstName" @bind-Value="UpdateAdminRequest.DisplayName" />
+                <div class="form-group">
+                    <label for="firstName">@Localizer["DisplayName"]:</label>
+                    <InputText id="firstName" @bind-Value="UpdateAdminRequest.DisplayName" />
+                </div>
 
-                <label for="email">@Localizer["Email"]:</label>
-                <InputText id="email" @bind-Value="UpdateAdminRequest.Email" />
+                <div class="form-group">
+                    <label for="email">@Localizer["Email"]:</label>
+                    <InputText id="email" @bind-Value="UpdateAdminRequest.Email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">@Localizer["Password"]:</label>
+                    <InputText id="password" @bind-Value="UpdateAdminRequest.Password" />
+                </div>
 
                 <div class="form-group">
                     <label for="country">@Localizer["Country"]:</label>

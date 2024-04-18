@@ -47,7 +47,8 @@ public partial class Profile
             (UpdateVoterProfileRequest.Email != VoterDetails?.Email ||
             UpdateVoterProfileRequest.FirstName != VoterDetails?.FirstName ||
             UpdateVoterProfileRequest.LastName != VoterDetails?.LastName ||
-            UpdateVoterProfileRequest.Country != VoterDetails?.Country))
+            UpdateVoterProfileRequest.Country != VoterDetails?.Country ||
+            UpdateVoterProfileRequest.Password is not null))
         {
             var response = await ApiRequestService.SendAsync<bool>("Voter/PutUpdateVoterProfile", HttpMethod.Put, UpdateVoterProfileRequest);
             if (response.Error != null)

@@ -40,6 +40,11 @@ public partial class VoterLoginPage
 
     public bool ShowLoading { get; set; } = false;
 
+    public bool ChangePassword { get; set; } = false;
+
+    public bool EnterCode { get; set; } = false;
+
+    public UpdatePasswordRequest UpdatePasswordRequest { get; set; } = new();
 
     protected override void OnInitialized()
     {
@@ -108,6 +113,20 @@ public partial class VoterLoginPage
 
             //logs out the user for some reason
             //NavigationManager.NavigateTo("settings");
+        }
+    }
+
+    private async Task HandleForgotPassword()
+    {
+        Errors.Clear();
+        var response = await ApiRequestService.SendAsync<LoginResponse>("Auth/PutUpdatePasswordRequest", HttpMethod.Put, UpdatePasswordRequest);
+        if (response.Error is not null)
+        {
+            Errors.Add(response.Error);
+        }
+        else
+        {
+            await HandleLoginResponse(response.Data);
         }
     }
 }

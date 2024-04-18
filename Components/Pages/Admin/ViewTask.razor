@@ -25,7 +25,10 @@ else
             <div>@(Localizer["LastEdited"] + ": " + (Task.LastEdited == null ? Localizer["NotEdited"] : Task.LastEdited.Value.FormatDateTime()))</div>
             <div>@(Localizer["AssignedToAdminId"] + ": " + (Task.AssignedToAdminId != null ? Task.AssignedToAdminId.ToString() : Localizer["Unassigned"]))</div>
             <div>@(Localizer["CreatedByAdminId"] + ": " + (Task.CreatedByAdminId != null ? Task.CreatedByAdminId.ToString() : Localizer["NotCreatedByAdmin"]))</div>
-            <div>@Localizer["AdditionalNotes"]: @Task.AdditionalNotes</div>
+            <div>@Localizer["AdditionalNotes"]:</div>
+            <textarea readonly class="mb-2" style="width:100%; border:none; background-color:transparent;">
+                @Task.AdditionalNotes
+            </textarea>
         </div>
 
         <button @onclick="() => Editable = true">@Localizer["EditTask"]</button>
@@ -37,30 +40,50 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <InputNumber @bind-Value="UpdateTaskRequest.ForVoterId" class="form-control" placeholder="For Voter Id" />
-                <InputNumber @bind-Value="UpdateTaskRequest.ForAdminId" class="form-control" placeholder="For Admin Id" />
-                <InputText @bind-Value="UpdateTaskRequest.Name" class="form-control" placeholder="Name" />
-                <InputTextArea @bind-Value="UpdateTaskRequest.Description" class="form-control" placeholder="Description" />
+                <div class="form-group">
+                    <InputNumber @bind-Value="UpdateTaskRequest.ForVoterId" class="form-control" placeholder="For Voter Id" />
+                </div>
 
-                <label for="taskStatus">Task Status:</label>
-                <InputSelect @bind-Value="UpdateTaskRequest.TaskStatus" id="taskStatus" class="form-control">
-                    @foreach (var status in Enum.GetValues<API.Enums.TaskStatus>())
-                    {
-                        <option value="@status">@status</option>
-                    }
-                </InputSelect>
+                <div class="form-group">
+                    <InputNumber @bind-Value="UpdateTaskRequest.ForAdminId" class="form-control" placeholder="For Admin Id" />
+                </div>
 
-                <InputSelect @bind-Value="AssignedAdminIdString" id="assignedToAdminId" class="form-control">
-                    <option value="">@Localizer["Unassigned"]</option>
-                    <option value="AdminId">@Localizer["Me"]</option>
-                    @foreach (var admin in Admins)
-                    {
-                        <option value="@admin.AdminId">@admin.DisplayName</option>
-                    }
-                </InputSelect>
+                <div class="form-group">
+                    <InputText @bind-Value="UpdateTaskRequest.Name" class="form-control" placeholder="Name" />
+                </div>
 
-                <label for="additionalNotes">Additional Notes:</label>
-                <InputTextArea @bind-Value="UpdateTaskRequest.AdditionalNotes" id="additionalNotes" class="form-control" />
+                <div class="form-group">
+                    <InputTextArea @bind-Value="UpdateTaskRequest.Description" class="form-control" placeholder="Description" />
+                </div>
+
+                <div class="form-group">
+                    <label for="taskStatus">Task Status:</label>
+                    <InputSelect @bind-Value="UpdateTaskRequest.TaskStatus" id="taskStatus" class="form-control">
+                        @foreach (var status in Enum.GetValues<API.Enums.TaskStatus>())
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
+                    <InputSelect @bind-Value="AssignedAdminIdString" id="assignedToAdminId" class="form-control">
+                        <option value="">@Localizer["Unassigned"]</option>
+                        <option value="@AdminId">@Localizer["Me"]</option>
+                        @foreach (var admin in Admins)
+                        {
+                            <option value="@admin.AdminId">@admin.DisplayName</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
+                    <div>@Localizer["AdditionalNotes"]:</div>
+                    <textarea readonly class="mb-2" style="width:100%; border:none; background-color:transparent;">
+                        @Task.AdditionalNotes
+                    </textarea>
+                    <InputTextArea @bind-Value="NewAdditionalNote" id="additionalNotes" class="form-control" />
+                </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </EditForm>

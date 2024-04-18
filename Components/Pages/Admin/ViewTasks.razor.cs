@@ -55,6 +55,7 @@ public partial class ViewTasks
     private async Task SearchTasks()
     {
         GetTasksRequest.AdminId = AdminId;
+        GetTasksRequest.AssignedToAdminId = int.TryParse(AssignedAdminIdString, out int assignedToAdminId) ? assignedToAdminId : null;
         var tasks = await ApiRequestService.SendAsync<IEnumerable<AdminGetTaskResponse>>("Admin/PostGetTasks", HttpMethod.Post, GetTasksRequest);
         if (tasks.Error == null)
             Tasks = tasks.Data.ToList();

@@ -36,6 +36,8 @@ public partial class ViewTask
 
     public string AssignedAdminIdString { get; set; } = "";
 
+    public string? NewAdditionalNote { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
@@ -58,6 +60,7 @@ public partial class ViewTask
     {
         UpdateTaskRequest.AdminId = AdminId;
         UpdateTaskRequest.AssignedToAdminId = int.TryParse(AssignedAdminIdString, out int assignedToAdminId) ? assignedToAdminId : null;
+        UpdateTaskRequest.AdditionalNotes += NewAdditionalNote != null ? "\n" + NewAdditionalNote : "";
 
         var response = await ApiRequestService.SendAsync<bool>($"Admin/PutUpdateTask", HttpMethod.Put, UpdateTaskRequest);
         if (response.Error == null)
@@ -75,10 +78,11 @@ public partial class ViewTask
         {
             task.Data.Name = task.Data.Name.Trim();
             task.Data.Description = task.Data.Description.Trim();
-            task.Data.AdditionalNotes = task.Data.AdditionalNotes is null ? null : task.Data.AdditionalNotes.Trim();
+            task.Data.AdditionalNotes = task.Data.AdditionalNotes?.Trim();
             Task = task.Data;
             UpdateTaskRequest = new AdminUpdateTaskRequest(task.Data);
             AssignedAdminIdString = task.Data.AssignedToAdminId?.ToString() ?? "";
+            Editable = false;
         }
         else
         {

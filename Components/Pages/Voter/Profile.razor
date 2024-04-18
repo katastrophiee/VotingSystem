@@ -88,14 +88,25 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <label for="firstName">@Localizer["FirstName"]:</label>
-                <InputText id="firstName" @bind-Value="UpdateVoterProfileRequest.FirstName" />
+                <div class="form-group">
+                    <label for="firstName">@Localizer["FirstName"]:</label>
+                    <InputText id="firstName" @bind-Value="UpdateVoterProfileRequest.FirstName" />
+                </div>
 
-                <label for="lastName">@Localizer["LastName"]:</label>
-                <InputText id="lastName" @bind-Value="UpdateVoterProfileRequest.LastName" />
+                <div class="form-group">
+                    <label for="lastName">@Localizer["LastName"]:</label>
+                    <InputText id="lastName" @bind-Value="UpdateVoterProfileRequest.LastName" />
+                </div>
 
-                <label for="email">@Localizer["Email"]:</label>
-                <InputText id="email" @bind-Value="UpdateVoterProfileRequest.Email" />
+                <div class="form-group">
+                    <label for="email">@Localizer["Email"]:</label>
+                    <InputText id="email" @bind-Value="UpdateVoterProfileRequest.Email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">@Localizer["Password"]:</label>
+                    <InputText id="password" @bind-Value="UpdateVoterProfileRequest.Password" />
+                </div>
 
                 <div class="form-group">
                     <label for="country">@Localizer["Country"]:</label>
@@ -106,6 +117,7 @@ else
                         }
                     </InputSelect>
                 </div>
+
                 <button @onclick="() => Editable = false">@Localizer["Cancel"]</button>
                 <button type="submit">@Localizer["Update"]</button>
             </EditForm>

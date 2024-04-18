@@ -1,6 +1,6 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Security.Cryptography;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
@@ -68,6 +68,16 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
 
             if (request.Country is not null)
                 voter.Country = request.Country.Value;
+
+            if (request.Password != null)
+            {
+                string newSalt = GenerateSalt();
+                voter.PasswordSalt = newSalt;
+
+                var pbkdf2HashedPassword = request.Password.Pbkdf2HashString(ref newSalt);
+
+                voter.Password = pbkdf2HashedPassword;
+            }
 
             _dbContext.Voter.Update(voter);
             await _dbContext.SaveChangesAsync();
@@ -395,5 +405,14 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
                 AdditionalDetails = ex.Message
             });
         }
+    }
+
+    private static string GenerateSalt(int size = 32)
+    {
+        var buff = new byte[size];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(buff);
+
+        return Convert.ToBase64String(buff);
     }
 }

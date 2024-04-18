@@ -19,29 +19,63 @@
 }
 @if (!CreateAccount)
 {
-    <EditForm Model="LoginRequest" OnValidSubmit="async () => await HandleLogin()" FormName="loginForm" class="login-form">
-        <h1>@Localizer["Login"]</h1>
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="form-group">
-            <label for="username">@Localizer["Username"]:</label>
-            <InputText id="username" class="form-control" @bind-Value="LoginRequest.Username" />
-        </div>
-
-        <div class="form-group">
-            <label for="password">@Localizer["Password"]:</label>
-            <InputText id="password" type="password" class="form-control" @bind-Value="LoginRequest.Password" />
-        </div>
-
-        <button type="submit">@Localizer["Login"]</button>
-
-        <div class="form-group">@Localizer["NoAccount"]</div>
-        <button @onclick="() => CreateAccount = true">@Localizer["MakeOne"]</button>
-    </EditForm>
-    @if (ShowLoading)
+    if (!ChangePassword)
     {
-        <h1 class="centered-heading">@Localizer["Loading"]</h1>
+        <EditForm Model="LoginRequest" OnValidSubmit="async () => await HandleLogin()" FormName="loginForm" class="login-form">
+            <h1>@Localizer["Login"]</h1>
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="username">@Localizer["Username"]:</label>
+                <InputText id="username" class="form-control" @bind-Value="LoginRequest.Username" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">@Localizer["Password"]:</label>
+                <InputText id="password" type="password" class="form-control" @bind-Value="LoginRequest.Password" />
+            </div>
+
+            <button type="submit">@Localizer["Login"]</button>
+
+            <div class="form-group">@Localizer["ForgotPassword"]</div>
+            <button @onclick="() => ChangePassword = true">@Localizer["ChangeIt"]</button>
+
+            <div class="form-group">@Localizer["NoAccount"]</div>
+            <button @onclick="() => CreateAccount = true">@Localizer["MakeOne"]</button>
+        </EditForm>
+        @if (ShowLoading)
+        {
+            <h1 class="centered-heading">@Localizer["Loading"]</h1>
+        }
+    }
+    else
+    {
+        <EditForm Model="UpdatePasswordRequest" OnValidSubmit="async () => await HandleForgotPassword()">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="username">@Localizer["Username"]:</label>
+                <InputText id="username" class="form-control" @bind-Value="UpdatePasswordRequest.Username" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">@Localizer["Email"]:</label>
+                <InputText id="email" class="form-control" @bind-Value="UpdatePasswordRequest.Email" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">@Localizer["Password"]:</label>
+                <InputText id="password" class="form-control" @bind-Value="UpdatePasswordRequest.Password" />
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">@Localizer["ConfirmPassword"]:</label>
+                <InputText id="confirmPassword" class="form-control" @bind-Value="UpdatePasswordRequest.ConfirmPassword" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Reset Password</button>
+        </EditForm>
     }
 }
 else

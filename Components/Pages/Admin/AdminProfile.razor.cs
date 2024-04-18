@@ -60,7 +60,8 @@ public partial class AdminProfile
         if (UpdateAdminRequest is not null &&
             (UpdateAdminRequest.Email != GetAdminResponse?.Email ||
             UpdateAdminRequest.DisplayName != GetAdminResponse?.DisplayName ||
-            UpdateAdminRequest.Country != GetAdminResponse?.Country))
+            UpdateAdminRequest.Country != GetAdminResponse?.Country ||
+            UpdateAdminRequest.Password is not null))
         {
             var response = await ApiRequestService.SendAsync<bool>("Admin/PutUpdateAdmin", HttpMethod.Put, UpdateAdminRequest);
             if (response.Error != null)

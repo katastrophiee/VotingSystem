@@ -1,4 +1,5 @@
-﻿using VotingSystem.API.DTO.Responses;
+﻿using VotingSystem.API.DTO.ComponentTypes;
+using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.Requests;
@@ -14,6 +15,9 @@ public class UpdateVoterProfileRequest
     public string LastName { get; set; }
 
     public UserCountry? Country { get; set; }
+
+    [PasswordRules]
+    public string? Password { get; set; }
 
     public UpdateVoterProfileRequest()
     {

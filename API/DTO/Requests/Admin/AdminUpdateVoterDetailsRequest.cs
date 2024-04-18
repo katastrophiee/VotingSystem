@@ -1,4 +1,5 @@
-﻿using VotingSystem.API.DTO.Responses.Admin;
+﻿using VotingSystem.API.DTO.ComponentTypes;
+using VotingSystem.API.DTO.Responses.Admin;
 using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.Requests.Admin;
@@ -11,6 +12,7 @@ public class AdminUpdateVoterDetailsRequest
 
     public string? Email { get; set; }
 
+    [PasswordRules]
     public string? Password { get; set; }
 
     public string? FirstName { get; set; }

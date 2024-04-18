@@ -52,4 +52,14 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [HttpPut]
+    public async Task<ActionResult> PutUpdatePasswordRequest(UpdatePasswordRequest request)
+    {
+        var response = await _authProvider.PutUpdatePassword(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

@@ -46,9 +46,10 @@
         </div>
 
         <div>
+            <label for="assignedAdminId">@Localizer["AssignedAdminId"]:</label>
             <InputSelect @bind-Value="AssignedAdminIdString" id="assignedToAdminId" class="form-control">
                 <option value="">@Localizer["Unassigned"]</option>
-                <option value="AdminId">@Localizer["Me"]</option>
+                <option value="@AdminId">@Localizer["Me"]</option>
                 @foreach (var admin in Admins)
                 {
                     <option value="@admin.AdminId">@admin.DisplayName</option>

@@ -48,8 +48,6 @@ public partial class MainLayout
 
     private async Task HandleOnLogin(int userId)
     {
-        // TO DO
-        //need to add enforcement for password structure + strong pass
         if (userId != 0)
         {
             LoggedIn = true;

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using VotingSystem.API.DTO.ComponentTypes;
 using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.DTO.Requests.Admin
@@ -16,6 +17,7 @@ namespace VotingSystem.API.DTO.Requests.Admin
         public string Email { get; set; }
 
         [Required]
+        [PasswordRules]
         public string Password { get; set; }
 
         [Required]

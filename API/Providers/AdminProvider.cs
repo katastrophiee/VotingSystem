@@ -122,7 +122,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
 
             if (!request.IsRejected)
             {
-                if (document.ExpiryDate is null)
+                if (request.DocumentExpiryDate is null)
                     return new(new ErrorResponse()
                     {
                         Title = _localizer["NoExpiryDate"],
@@ -643,7 +643,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 task.AssignedToAdminId = request.AssignedToAdminId;
 
             if (request.AdditionalNotes != null)
-                task.AdditionalNotes = request.AdditionalNotes + "/n";
+                task.AdditionalNotes = request.AdditionalNotes + "\n";
 
             task.LastEdited = DateTime.Now;
 
@@ -668,8 +668,6 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
     {
         try
         {
-            //TO DO
-            // Add password changing of own password/email for voters and admins
             var admin = await _dbContext.Admin.FirstOrDefaultAsync(a => a.Id == request.AdminId);
             if (admin is null || admin.Id == 0)
                 return new(new ErrorResponse()

@@ -353,4 +353,53 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
             });
         }
     } 
+
+    public async Task<Response<LoginResponse>> PutUpdatePassword(UpdatePasswordRequest request)
+    {
+        try
+        {
+            var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Username == request.Username && c.Email == request.Email);
+            if (voter is null)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithUsername"]} {request.Username} {_localizer["AndEmail"]} {request.Email}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (request.Password != request.ConfirmPassword)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["PasswordsDoNotMatch"],
+                    Description = _localizer["PasswordsDoNotMatchDescription"],
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
+
+            var passwordSalt = GenerateSalt();
+            var pbkdf2HashedPassword = request.Password.Pbkdf2HashString(ref passwordSalt);
+            
+            voter.PasswordSalt = passwordSalt;
+            voter.Password = pbkdf2HashedPassword;
+
+            _dbContext.Voter.Update(voter);
+            await _dbContext.SaveChangesAsync();
+
+            return new(new LoginResponse()
+            {
+                UserId = voter.Id,
+                AccessToken = await GenerateAccessToken(voter.Id, false),
+                ExpiresIn = 30
+            });
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorUpdatePassword"]} {request.Username}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
 }

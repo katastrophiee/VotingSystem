@@ -35,5 +35,6 @@ public class AdminUpdateTaskRequest
         Description = task.Description;
         TaskStatus = task.TaskStatus;
         AssignedToAdminId = task.AssignedToAdminId;
+        AdditionalNotes = task.AdditionalNotes;
     }
 }

@@ -3,16 +3,19 @@ using VotingSystem.API.DTO.ComponentTypes;
 
 namespace VotingSystem.API.DTO.Requests;
 
-public class CreateVoterAccountRequest
+public class UpdatePasswordRequest
 {
     [Required]
     public string Username { get; set; }
 
     [Required]
-    [EmailAddress]
     public string Email { get; set; }
 
     [Required]
     [PasswordRules]
     public string Password { get; set; }
+
+    [Required]
+    [Compare("Password")]
+    public string ConfirmPassword { get; set; }
 }
