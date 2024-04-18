@@ -35,6 +35,27 @@ public partial class BecomeCandidate
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
 
+        await GetVoterDetails();
+    }
+
+    private async Task GetCandidateDetails()
+    {
+        var candidateDetails = await ApiRequestService.SendAsync<GetCandidateResponse>($"Voter/GetCandidate", HttpMethod.Get, queryString: $"voterId={VoterId}&candidateId={VoterId}");
+        if (candidateDetails.Error == null)
+        {
+            UpdateCandidateRequest.VoterId = VoterId;
+            UpdateCandidateRequest.CandidateName = candidateDetails.Data.Name;
+            UpdateCandidateRequest.CandidateDescription = candidateDetails.Data.Description;
+            StateHasChanged();
+        }
+        else
+        {
+            Errors.Add(candidateDetails.Error);
+        }
+    }
+
+    private async Task GetVoterDetails()
+    {
         var voterDetails = await ApiRequestService.SendAsync<GetVoterAccountDetailsResponse>($"Voter/GetVoterDetails", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (voterDetails.Error == null)
         {
@@ -48,19 +69,9 @@ public partial class BecomeCandidate
             BecomeCandidateRequest.VoterId = VoterId;
 
             if (voterDetails.Data.IsCandidate)
-            {
-                var candidateDetails = await ApiRequestService.SendAsync<GetCandidateResponse>($"Voter/GetCandidate", HttpMethod.Get, queryString: $"voterId={VoterId}&candidateId={VoterId}");
-                if (candidateDetails.Error == null)
-                {
-                    UpdateCandidateRequest.VoterId = VoterId;
-                    UpdateCandidateRequest.CandidateName = candidateDetails.Data.Name;
-                    UpdateCandidateRequest.CandidateDescription = candidateDetails.Data.Description;
-                }
-                else
-                {
-                    Errors.Add(candidateDetails.Error);
-                }
-            }
+                await GetCandidateDetails();
+
+            StateHasChanged();
         }
         else
         {
@@ -71,9 +82,8 @@ public partial class BecomeCandidate
     public async Task HandleValidSubmit()
     {
         var response = await ApiRequestService.SendAsync<bool>("Voter/PutMakeVoterACandidate", HttpMethod.Put, BecomeCandidateRequest);
-
         if (response.Error == null)
-            NavigationManager.NavigateTo("/view-candidate");
+            await GetVoterDetails();
         else
             Errors.Add(response.Error);
     }
@@ -81,9 +91,17 @@ public partial class BecomeCandidate
     public async Task HandleUpdateCandidate()
     {
         var response = await ApiRequestService.SendAsync<bool>("Voter/PutUpateCandidate", HttpMethod.Put, UpdateCandidateRequest);
-
         if (response.Error == null)
-            NavigationManager.NavigateTo($"/view-candidate/userId={VoterId}");
+            await GetVoterDetails();
+        else
+            Errors.Add(response.Error);
+    }
+
+    public async Task WithdrawCandidacy()
+    {
+        var response = await ApiRequestService.SendAsync<bool>("Voter/PutRevokeCandidacy", HttpMethod.Put, queryString: $"candidateId={VoterId}");
+        if (response.Error == null)
+            await GetVoterDetails();
         else
             Errors.Add(response.Error);
     }

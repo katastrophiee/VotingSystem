@@ -46,8 +46,14 @@
         </div>
 
         <div>
-            <label for="assignedToAdminId">@Localizer["AssignedToAdmin"] ID:</label>
-            <InputNumber @bind-Value="GetTasksRequest.AssignedToAdminId" id="taskStatus" />
+            <InputSelect @bind-Value="AssignedAdminIdString" id="assignedToAdminId" class="form-control">
+                <option value="">@Localizer["Unassigned"]</option>
+                <option value="AdminId">@Localizer["Me"]</option>
+                @foreach (var admin in Admins)
+                {
+                    <option value="@admin.AdminId">@admin.DisplayName</option>
+                }
+            </InputSelect>
         </div>
 
         <button type="submit">@Localizer["Search"]</button>

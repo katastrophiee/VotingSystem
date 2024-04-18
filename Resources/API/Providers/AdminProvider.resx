@@ -219,4 +219,16 @@
   <data name="NoElectionFoundWithId" xml:space="preserve">
     <value>No election was found with the id</value>
   </data>
+  <data name="NoExpiryDate" xml:space="preserve">
+    <value>No Expiry Date</value>
+  </data>
+  <data name="NoExpiryDateDescription" xml:space="preserve">
+    <value>No expiry date was provided when trying to verify id </value>
+  </data>
+  <data name="NoCandidateDetailsProvided" xml:space="preserve">
+    <value>No Candidate Details Provided</value>
+  </data>
+  <data name="NoCandidateDetailsProvidedWithId" xml:space="preserve">
+    <value>Either the candidate name or description was not provided when trying to update voter </value>
+  </data>
 </root>

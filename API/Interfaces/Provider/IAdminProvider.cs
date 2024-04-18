@@ -31,4 +31,6 @@ public interface IAdminProvider
     Task<Response<bool>> DeleteTask(int taskId, int adminId);
 
     Task<Response<bool>> UpdateTask(AdminUpdateTaskRequest request);
+
+    Task<Response<bool>> UpdateVoterDetails(AdminUpdateVoterDetailsRequest request);
 }

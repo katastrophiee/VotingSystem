@@ -186,4 +186,7 @@
   <data name="NoRolesFoundWithId" xml:space="preserve">
     <value>No roles found for voter id</value>
   </data>
+  <data name="InternalServerErrorRevokeCandidacy" xml:space="preserve">
+    <value>An unknown error occured when trying to revoke candidacy for voter</value>
+  </data>
 </root>

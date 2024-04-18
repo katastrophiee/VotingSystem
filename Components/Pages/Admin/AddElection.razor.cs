@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
@@ -41,7 +40,7 @@ public partial class AddElection
 
     public bool ShowOptionAlreadyAddedError { get; set; } = false;
 
-    public int ElectionOptionId { get; set; } = 0;
+    public int ElectionOptionId { get; set; } = 1;
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,7 +60,7 @@ public partial class AddElection
 
             if (response.Error == null)
             {
-                //TO DO - add this page
+                //TO DO - add this page for admins as this is a customer page
                 NavigationManager.NavigateTo("/view-elections");
             }
             else
@@ -131,9 +130,9 @@ public partial class AddElection
     private async Task OnCandidateIdInput(ChangeEventArgs e)
     {
         ShowAddOptionError = false;
+        ShowOptionAlreadyAddedError = false;
         if (int.TryParse(e.Value?.ToString(), out int result))
         {
-            NewOption.CandidateId = result;
             var candidateExists = await AutofillCandidate(result);
             if (!candidateExists)
             {
@@ -143,6 +142,7 @@ public partial class AddElection
         }
         else
         {
+            NewOption.CandidateId = null;
             NewOption.OptionName = "";
             NewOption.OptionDescription = "";
         }
@@ -153,6 +153,7 @@ public partial class AddElection
         var candidate = await ApiRequestService.SendAsync<AdminGetCandidateResponse>($"Admin/GetCandidate", HttpMethod.Get, queryString: $"voterId={candidateId}&adminId={AdminId}");
         if (candidate.Error == null)
         {
+            NewOption.CandidateId = candidate.Data.CandidateId;
             NewOption.OptionName = candidate.Data.CandidateName;
             NewOption.OptionDescription = candidate.Data.Description;
             return true;
@@ -161,13 +162,13 @@ public partial class AddElection
         return false;
     }
 
-    private async void AddOption()
+    private async Task AddOption()
     {
         var candidateExists = await AutofillCandidate(NewOption.CandidateId ?? 0);
 
         if (candidateExists)
         {
-            if (AddElectionRequest.ElectionOptions.Select(o => o.ElectionId == NewOption.CandidateId) != null)
+            if (AddElectionRequest.ElectionOptions.Select(o => o.ElectionId == NewOption.CandidateId).Any())
             {
                 ShowOptionAlreadyAddedError = true;
             }
@@ -178,8 +179,17 @@ public partial class AddElection
                 NewOption = new();
             }
         }
+        else if (!candidateExists && NewOption.CandidateId is null)
+        {
+            NewOption.OptionId = ElectionOptionId++;
+            AddElectionRequest.ElectionOptions.Add(NewOption);
+            ShowAddOptionError = false;
+            ShowOptionAlreadyAddedError = false;
+            NewOption = new();
+        }
         else
         {
+            NewOption.CandidateId = null;
             ShowAddOptionError = true;
         }
         StateHasChanged();
@@ -188,5 +198,8 @@ public partial class AddElection
     private void RemoveOption(ElectionOption option)
     {
         AddElectionRequest.ElectionOptions.Remove(option);
+        ElectionOptionId--;
+        NewOption = new();
+        StateHasChanged();
     }
 }

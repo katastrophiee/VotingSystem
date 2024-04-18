@@ -88,4 +88,15 @@ public class VoterController(IVoterProvider voterProvider) : ControllerBase
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [Authorize(Roles = "Voter, Candidate")]
+    [HttpPut]
+    public async Task<ActionResult> PutRevokeCandidacy(int candidateId)
+    {
+        var response = await _voterProvider.RevokeCandidacy(candidateId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

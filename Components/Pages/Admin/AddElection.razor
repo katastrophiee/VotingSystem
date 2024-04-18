@@ -43,11 +43,11 @@
         <h3>@Localizer["AddElectionOption"]</h3>
         <div>
             <label for="candidateId">@Localizer["Candidate"] ID:</label>
-            <input type="number" @oninput="OnCandidateIdInput"/>
+            <input type="number" @bind-value="NewOption.CandidateId" @oninput="OnCandidateIdInput" />
         </div>
         <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder=@Localizer["OptionName"] />
         <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder=@Localizer["OptionDescription"] />
-        <button type="button" @onclick="AddOption">@Localizer["AddOption"]</button>
+        <button type="button" @onclick="async () => await AddOption()">@Localizer["AddOption"]</button>
         @if (ShowAddOptionError)
         {
             <div>@Localizer["CannotAddOptionNoCandidate"]</div>

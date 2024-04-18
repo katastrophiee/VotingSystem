@@ -32,15 +32,32 @@ public partial class ViewTask
 
     public bool Editable { get; set; } = false;
 
+    public List<AdminGetAdminResponse> Admins { get; set; } = [];
+
+    public string AssignedAdminIdString { get; set; } = "";
+
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
         await GetTask(TaskId);
+
+        var getAdminsRequest = new AdminGetAdminRequest()
+        {
+            RequestingAdminId = AdminId,
+            IsActive = true
+        };
+
+        var admins = await ApiRequestService.SendAsync<List<AdminGetAdminResponse>>($"Admin/PostGetAdmins", HttpMethod.Post, getAdminsRequest);
+        if (admins.Error == null)
+            Admins = admins.Data;
+        else
+            Errors.Add(admins.Error);
     }
 
     private async Task HandleValidSubmit()
     {
         UpdateTaskRequest.AdminId = AdminId;
+        UpdateTaskRequest.AssignedToAdminId = int.TryParse(AssignedAdminIdString, out int assignedToAdminId) ? assignedToAdminId : null;
 
         var response = await ApiRequestService.SendAsync<bool>($"Admin/PutUpdateTask", HttpMethod.Put, UpdateTaskRequest);
         if (response.Error == null)
@@ -61,6 +78,7 @@ public partial class ViewTask
             task.Data.AdditionalNotes = task.Data.AdditionalNotes is null ? null : task.Data.AdditionalNotes.Trim();
             Task = task.Data;
             UpdateTaskRequest = new AdminUpdateTaskRequest(task.Data);
+            AssignedAdminIdString = task.Data.AssignedToAdminId?.ToString() ?? "";
         }
         else
         {

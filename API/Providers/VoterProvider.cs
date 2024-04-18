@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
@@ -111,9 +112,6 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
                 var candidateId = candidate.CandidateId;
                 var candidateName = candidate.Name;
 
-                // TO DO - FIX
-                //electionid and optionId not being saved to election options
-
                 var ongoingElections = await _dbContext.Election.Where(e =>
                     e.Country == voter.Country
                     && e.StartDate <= DateTime.Now
@@ -187,12 +185,9 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            //TO DO
-            // Add option for voter to revoke candidacy
-
             roles.RoleIds.ToList().Add((int)Enums.Roles.Candidate);
 
-            _dbContext.UserRole.Add(roles);
+            _dbContext.UserRole.Update(roles);
             await _dbContext.SaveChangesAsync();
 
             return new(true);
@@ -347,6 +342,55 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
             {
                 Title = _localizer["InternalServerError"],
                 Description = $"{_localizer["InternalServerErrorGetInPersonVotingEligibility"]} {voterId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> RevokeCandidacy(int candidateId)
+    {
+        try
+        {
+            var candidate = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == candidateId);
+            if (candidate is null || candidate.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {candidateId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            candidate.IsCandidate = false;
+            candidate.CandidateName = null;
+            candidate.CandidateDescription = null;
+            candidate.DateOfCandidacy = null;
+
+            _dbContext.Voter.Update(candidate);
+            await _dbContext.SaveChangesAsync();
+
+            var roles = await _dbContext.UserRole.Where(r => r.UserId == candidateId).FirstOrDefaultAsync();
+            if (roles is null)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoRolesFound"],
+                    Description = $"{_localizer["NoRolesFoundWithId"]} {candidateId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            roles.RoleIds.ToList().Remove((int)Enums.Roles.Candidate);
+
+            _dbContext.UserRole.Update(roles);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorRevokeCandidacy"]} {candidateId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

@@ -153,4 +153,15 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPut]
+    public async Task<ActionResult> PutUpdateVoterDetails(AdminUpdateVoterDetailsRequest request)
+    {
+        var response = await _adminProvider.UpdateVoterDetails(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

@@ -20,6 +20,8 @@ public class AdminUpdateTaskRequest
 
     public int? AssignedToAdminId { get; set; }
 
+    public string? AdditionalNotes { get; set; }
+
     public AdminUpdateTaskRequest()
     {
     }

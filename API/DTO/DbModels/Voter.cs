@@ -18,7 +18,5 @@ public class Voter : User
 
     public bool IsVerified { get; set; }
 
-    public bool IsActive { get; set; }
-
     public DateTime LastLoggedIn { get; set; }
 }

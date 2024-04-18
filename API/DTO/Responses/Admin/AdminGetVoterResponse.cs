@@ -21,6 +21,12 @@ public class AdminGetVoterResponse
 
     public Document CurrentIdDocument { get; set; }
 
+    public bool IsCandidate { get; set; }
+
+    public string? CandidateName { get; set; }
+
+    public string? CandidateDescription { get; set; }
+
     public AdminGetVoterResponse()
     {
     }
@@ -34,5 +40,8 @@ public class AdminGetVoterResponse
         Country = voter.Country;
         NewUser = voter.NewUser;
         IsVerified = voter.IsVerified;
+        IsCandidate = voter.IsCandidate;
+        CandidateName = voter.CandidateName;
+        CandidateDescription = voter.CandidateDescription;
     }
 }

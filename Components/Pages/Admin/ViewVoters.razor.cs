@@ -43,7 +43,9 @@ public partial class ViewVoters
 
         var votersResult = await ApiRequestService.SendAsync<List<AdminGetVotersResponse>>("Admin/PostGetVoters", HttpMethod.Post, GetVotersRequest);
         if (votersResult.Error == null)
+        {
             VotersResult = votersResult.Data;
+        }
         else
             Errors.Add(votersResult.Error);
     }

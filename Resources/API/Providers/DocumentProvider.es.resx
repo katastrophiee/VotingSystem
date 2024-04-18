@@ -129,6 +129,12 @@
   <data name="InternalServerErrorPostUploadVoterDocument" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar subir el documento</value>
   </data>
+  <data name="NoDocumentFound" xml:space="preserve">
+    <value>No se encontró ningún documento</value>
+  </data>
+  <data name="NoDocumentFoundWithId" xml:space="preserve">
+    <value>No se encontró ningún documento con el id del documento</value>
+  </data>
   <data name="NoVoterFound" xml:space="preserve">
     <value>No se encontró al cliente</value>
   </data>

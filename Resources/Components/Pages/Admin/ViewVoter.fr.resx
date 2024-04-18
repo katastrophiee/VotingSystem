@@ -120,8 +120,23 @@
   <data name="Australia" xml:space="preserve">
     <value>Australie</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Candidate Name" xml:space="preserve">
+    <value>Nom du Candidat</value>
+  </data>
+  <data name="CandidateDescription" xml:space="preserve">
+    <value>Description du Candidat</value>
+  </data>
+  <data name="CandidateName" xml:space="preserve">
+    <value>Nom du Candidat</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Pays</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -132,14 +147,26 @@
   <data name="False" xml:space="preserve">
     <value>Faux</value>
   </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
   <data name="IdAlreadyBeenReviewed" xml:space="preserve">
     <value>Cette identité a déjà été examinée.</value>
   </data>
   <data name="Ireland" xml:space="preserve">
     <value>Irlande</value>
   </data>
+  <data name="IsCandidate" xml:space="preserve">
+    <value>Est Candidat</value>
+  </data>
   <data name="IsThisIdValid" xml:space="preserve">
     <value>L’identité est-elle valide ?</value>
+  </data>
+  <data name="IsVerified" xml:space="preserve">
+    <value>Est vérifié</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Nom de famille</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Chargement…</value>
@@ -147,11 +174,20 @@
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
   </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>Nouvel utilisateur</value>
+  </data>
   <data name="Northern Island" xml:space="preserve">
     <value>Irlande du Nord</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mot de Passe</value>
+  </data>
   <data name="Scotland" xml:space="preserve">
     <value>Écosse</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Sélectionnez</value>
   </data>
   <data name="SelectVisibleIdExpiryDate" xml:space="preserve">
     <value>Sélectionnez la date d’expiration visible de l’identité</value>
@@ -170,6 +206,9 @@
   </data>
   <data name="Unverified" xml:space="preserve">
     <value>Non vérifié</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Mettre à jour</value>
   </data>
   <data name="UserNeedsToEnterDetails" xml:space="preserve">
     <value>Cet utilisateur doit entrer ses détails avant que vous puissiez vérifier son identité.</value>

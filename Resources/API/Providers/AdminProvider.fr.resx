@@ -219,4 +219,16 @@
   <data name="NoElectionFoundWithId" xml:space="preserve">
     <value>Aucune élection n’a été trouvée avec l’identifiant</value>
   </data>
+  <data name="NoExpiryDate" xml:space="preserve">
+    <value>Pas de date d’expiration</value>
+  </data>
+  <data name="NoExpiryDateDescription" xml:space="preserve">
+    <value>Aucune date d’expiration n’a été fournie lors de la vérification de l’identifiant</value>
+  </data>
+  <data name="NoCandidateDetailsProvided" xml:space="preserve">
+    <value>Aucun détail sur le candidat fourni</value>
+  </data>
+  <data name="NoCandidateDetailsProvidedWithId" xml:space="preserve">
+    <value>Soit le nom du candidat, soit la description n’a pas été fournie lors de la mise à jour de l’électeur</value>
+  </data>
 </root>

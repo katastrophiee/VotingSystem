@@ -18,4 +18,6 @@ public interface IVoterProvider
     Task<Response<bool>> UpdateCandidate(UpdateCandidateRequest request);
 
     Task<Response<bool>> GetInPersonVotingEligibility(int voterId);
+
+    Task<Response<bool>> RevokeCandidacy(int voterId);
 }

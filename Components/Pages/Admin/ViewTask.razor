@@ -33,27 +33,34 @@ else
     else
     {
         <div class="content-container">
-            <EditForm Model="Task" OnValidSubmit="async () => await HandleValidSubmit()">
+            <EditForm Model="UpdateTaskRequest" OnValidSubmit="async () => await HandleValidSubmit()">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
-                <InputNumber @bind-Value="Task.ForVoterId" class="form-control" placeholder="For Voter Id" />
-                <InputNumber @bind-Value="Task.ForAdminId" class="form-control" placeholder="For Admin Id" />
-                <InputText @bind-Value="Task.Name" class="form-control" placeholder="Name" />
-                <InputTextArea @bind-Value="Task.Description" class="form-control" placeholder="Description" />
+                <InputNumber @bind-Value="UpdateTaskRequest.ForVoterId" class="form-control" placeholder="For Voter Id" />
+                <InputNumber @bind-Value="UpdateTaskRequest.ForAdminId" class="form-control" placeholder="For Admin Id" />
+                <InputText @bind-Value="UpdateTaskRequest.Name" class="form-control" placeholder="Name" />
+                <InputTextArea @bind-Value="UpdateTaskRequest.Description" class="form-control" placeholder="Description" />
 
                 <label for="taskStatus">Task Status:</label>
-                <InputSelect @bind-Value="Task.TaskStatus" id="taskStatus" class="form-control">
+                <InputSelect @bind-Value="UpdateTaskRequest.TaskStatus" id="taskStatus" class="form-control">
                     @foreach (var status in Enum.GetValues<API.Enums.TaskStatus>())
                     {
                         <option value="@status">@status</option>
                     }
                 </InputSelect>
 
-                <InputNumber @bind-Value="Task.AssignedToAdminId" class="form-control" placeholder="Assigned To Admin Id" />
+                <InputSelect @bind-Value="AssignedAdminIdString" id="assignedToAdminId" class="form-control">
+                    <option value="">@Localizer["Unassigned"]</option>
+                    <option value="AdminId">@Localizer["Me"]</option>
+                    @foreach (var admin in Admins)
+                    {
+                        <option value="@admin.AdminId">@admin.DisplayName</option>
+                    }
+                </InputSelect>
 
                 <label for="additionalNotes">Additional Notes:</label>
-                <InputTextArea @bind-Value="Task.AdditionalNotes" id="additionalNotes" class="form-control" />
+                <InputTextArea @bind-Value="UpdateTaskRequest.AdditionalNotes" id="additionalNotes" class="form-control" />
 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </EditForm>

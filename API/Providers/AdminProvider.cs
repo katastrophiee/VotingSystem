@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Security.Cryptography;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.DbModels.Admin;
 using VotingSystem.API.DTO.ErrorHandling;
@@ -70,8 +71,8 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoAdminFound"],
-                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {voterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -121,6 +122,14 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
 
             if (!request.IsRejected)
             {
+                if (document.ExpiryDate is null)
+                    return new(new ErrorResponse()
+                    {
+                        Title = _localizer["NoExpiryDate"],
+                        Description = $"{_localizer["NoExpiryDateDescription"]} {request.DocumentId}",
+                        StatusCode = StatusCodes.Status404NotFound
+                    });
+
                 document.ExpiryDate = request.DocumentExpiryDate;
 
                 var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == document.VoterId);
@@ -496,10 +505,11 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 (request.TaskId == null || c.Id == request.TaskId) &&
                 (request.ForVoterId == null || c.ForVoterId == request.ForVoterId) &&
                 (request.ForAdminId == null || c.ForAdminId == request.ForAdminId) &&
-                (request.Name == null || c.Name == request.Name) &&
+                (request.Name == null || c.Name.Contains(request.Name)) &&
                 (request.TaskStatus == null || c.TaskStatus == request.TaskStatus) &&
                 (request.AssignedToAdminId == null || c.AssignedToAdminId == request.AssignedToAdminId))
-               .ToListAsync() ?? [];
+                .ToListAsync() ?? [];
+
 
             var response = tasks.Select(t => new AdminGetTaskResponse(t));
 
@@ -632,6 +642,11 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             if (request.AssignedToAdminId != null)
                 task.AssignedToAdminId = request.AssignedToAdminId;
 
+            if (request.AdditionalNotes != null)
+                task.AdditionalNotes = request.AdditionalNotes + "/n";
+
+            task.LastEdited = DateTime.Now;
+
             _dbContext.AdminTask.Update(task);
             await _dbContext.SaveChangesAsync();
 
@@ -647,5 +662,108 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 AdditionalDetails = ex.Message
             });
         }
+    }
+
+    public async Task<Response<bool>> UpdateVoterDetails(AdminUpdateVoterDetailsRequest request)
+    {
+        try
+        {
+            //TO DO
+            // Add password changing of own password/email for voters and admins
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(a => a.Id == request.AdminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var voter = await _dbContext.Voter.Where(v => v.Id == request.VoterId).FirstOrDefaultAsync();
+            if (voter is null || voter.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoTaskFound"],
+                    Description = $"{_localizer["NoTaskFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (request.Email != null)
+                voter.Email = request.Email;
+
+            if (request.Password != null)
+            {
+                string newSalt = GenerateSalt();
+                voter.PasswordSalt = newSalt;
+
+                var pbkdf2HashedPassword = request.Password.Pbkdf2HashString(ref newSalt);
+
+                voter.Password = pbkdf2HashedPassword;
+            }
+
+            if (request.FirstName != null)
+                voter.FirstName = request.FirstName;
+
+            if (request.LastName != null)
+                voter.LastName = request.LastName;
+
+            if (request.Country != null)
+                voter.Country = request.Country.Value;
+
+            if (request.NewUser != null)
+                voter.NewUser = request.NewUser.Value;
+
+            if (request.IsVerified != null)
+                voter.IsVerified = request.IsVerified.Value;
+
+            if (request.IsCandidate != null)
+            {
+                if (request.IsCandidate is false)
+                {
+                    voter.IsCandidate = false;
+                    voter.CandidateName = null;
+                    voter.CandidateDescription = null;
+                }
+                else
+                {
+                    if (request.CandidateName == null || request.CandidateDescription == null)
+                        return new(new ErrorResponse()
+                        {
+                            Title = _localizer["NoCandidateDetailsProvided"],
+                            Description = $"{_localizer["NoCandidateDetailsProvidedWithId"]} {request.VoterId}",
+                            StatusCode = StatusCodes.Status404NotFound
+                        });
+
+                    voter.IsCandidate = true;
+                    voter.CandidateName = request.CandidateName;
+                    voter.CandidateDescription = request.CandidateDescription;
+                }
+
+            }
+
+            _dbContext.Voter.Update(voter);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorUpdateVoterDetails"]} {request.AdminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    private static string GenerateSalt(int size = 32)
+    {
+        var buff = new byte[size];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(buff);
+
+        return Convert.ToBase64String(buff);
     }
 }

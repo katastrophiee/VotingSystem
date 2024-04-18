@@ -129,6 +129,12 @@
   <data name="InternalServerErrorPostUploadVoterDocument" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de téléchargement du document</value>
   </data>
+  <data name="NoDocumentFound" xml:space="preserve">
+    <value>Aucun document trouvé</value>
+  </data>
+  <data name="NoDocumentFoundWithId" xml:space="preserve">
+    <value>Aucun document n’a été trouvé avec l’identifiant du document</value>
+  </data>
   <data name="NoVoterFound" xml:space="preserve">
     <value>Aucun client trouvé</value>
   </data>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using VotingSystem.API.DTO.DbModels;
+using VotingSystem.API.DTO.DbModels.Admin;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.Interfaces.Provider;
@@ -80,7 +81,6 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
         try
         {
             var voter = await _dbContext.Voter.FirstOrDefaultAsync(c => c.Id == document.VoterId);
-
             if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
@@ -108,9 +108,25 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
             await _dbContext.SaveChangesAsync();
 
             var addedDocument = await _dbContext.Document.FirstOrDefaultAsync(c => c.VoterId == document.VoterId && c.MostRecentId == true);
-            // TO DO
-            // add task for admins to verify the uploaded id, then sets the account to verified
-            // ensure expiry date not null
+            if (addedDocument is null || addedDocument.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoDocumentFound"],
+                    Description = $"{_localizer["NoDocumentFoundWithId"]} {document.VoterId}",
+                    StatusCode = StatusCodes.Status500InternalServerError
+                });
+
+            var task = new AdminTask()
+            {
+                ForVoterId = voter.Id,
+                Name = "Verify Voter ID",
+                Description = "Verify the uploaded voter ID",
+                TaskStatus = Enums.TaskStatus.New,
+                CreatedAt = DateTime.Now,
+            };
+
+            _dbContext.AdminTask.Add(task);
+            await _dbContext.SaveChangesAsync();
 
             return new(addedDocument.Id);
         }

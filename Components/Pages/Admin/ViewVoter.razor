@@ -5,7 +5,7 @@
 {
     <ErrorPopup Errors="@Errors" />
 }
-else if (VoterDetails is null)
+@if (VoterDetails is null)
 {
     <h1><em>@Localizer["Loading"]</em></h1>
 }
@@ -13,62 +13,157 @@ else
 {
     // TO DO
     // allow admins to mark voters/candidates as inactive and state they are not eligble to vote + i.e reason, dont allow them to vote or make QR codes then
-    <div class="content-container profile-data">
-        <h2>@Localizer["Voter"] ID: @UserId</h2>
-        <div>@Localizer["Name"]: @VoterDetails.FirstName @VoterDetails.LastName</div>
-        <div>@Localizer["Email"]: @VoterDetails.Email</div>
-        <div>@Localizer["Country"]: @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</div>
-        @if (VoterDetails.CurrentIdDocument is null)
-        {
-            <div>
-                @Localizer["UserNotUploadedId"]
-            </div>
-        }
-        else
-        {
-            @if (!string.IsNullOrEmpty(VoterDetails.FirstName)
-            && !string.IsNullOrEmpty(VoterDetails.LastName)
-            && VoterDetails.Country != UserCountry.Unknown)
+
+    @if (!IsEditable)
+    {
+        <div class="content-container profile-data">
+            <h2>@Localizer["Voter"] ID: @UserId</h2>
+            <div>@Localizer["Name"]: @VoterDetails.FirstName @VoterDetails.LastName</div>
+            <div>@Localizer["Email"]: @VoterDetails.Email</div>
+            <div>@Localizer["Country"]: @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</div>
+            <div>@Localizer["IsCandidate"]: @VoterDetails.IsCandidate</div>
+            @if (VoterDetails.IsCandidate)
             {
-                @if (!VoterDetails.IsVerified)
-                {
-                    <div>@Localizer["Unverified"] ID:</div>
-                }
-                <DocumentRenderer Document=@VoterDetails.CurrentIdDocument></DocumentRenderer>
-                @if (VoterDetails.CurrentIdDocument.IdRejected is null)
-                {
-                    <EditForm Model="VerifyIdRequest" OnValidSubmit="async () => await VerifyId()">
-                        @if (VoterDetails.CurrentIdDocument.RejectedByAdminId is null)
-                        {
-                            <div class="separated">@Localizer["IsThisIdValid"]</div>
-                            <InputSelect @bind-Value="VerifyIdRequest.IsRejected">
-                                <option value="false">@Localizer["True"]</option>
-                                <option value="true">@Localizer["False"]</option>
-                            </InputSelect>
-                            @if (!VerifyIdRequest.IsRejected)
-                            {
-                                <div>
-                                    @Localizer["SelectVisibleIdExpiryDate"]:
-                                    <InputDate @bind-Value="VerifyIdRequest.DocumentExpiryDate" />
-                                </div>
-                            }
-                            else
-                            {
-                                <InputText @bind-Value="VerifyIdRequest.RejectionReason" />
-                            }
-                            <button type="submit">@Localizer["Submit"]</button>
-                        }
-                        else
-                        {
-                            <div class="separated">@Localizer["IdAlreadyBeenReviewed"]</div>
-                        }
-                    </EditForm>
-                }
+                <div>@Localizer["CandidateName"]: @VoterDetails.CandidateName</div>
+                <div>@Localizer["CandidateDescription"]: @VoterDetails.CandidateDescription</div>
+            }
+            @if (VoterDetails.CurrentIdDocument is null)
+            {
+                <div>
+                    @Localizer["UserNotUploadedId"]
+                </div>
             }
             else
             {
-                <div class="separated">@Localizer["UserNeedsToEnterDetails"]</div>
+                @if (!string.IsNullOrEmpty(VoterDetails.FirstName)
+                && !string.IsNullOrEmpty(VoterDetails.LastName)
+                && VoterDetails.Country != UserCountry.Unknown)
+                {
+                    @if (!VoterDetails.IsVerified)
+                    {
+                        <div>@Localizer["Unverified"] ID:</div>
+                    }
+                    <DocumentRenderer Document=@VoterDetails.CurrentIdDocument></DocumentRenderer>
+                    @if (VoterDetails.CurrentIdDocument.IdRejected is null)
+                    {
+                        <EditForm Model="VerifyIdRequest" OnValidSubmit="async () => await VerifyId()">
+                            @if (VoterDetails.CurrentIdDocument.RejectedByAdminId is null)
+                            {
+                                <div class="separated">@Localizer["IsThisIdValid"]</div>
+                                <InputSelect @bind-Value="VerifyIdRequest.IsRejected">
+                                    <option value="false">@Localizer["True"]</option>
+                                    <option value="true">@Localizer["False"]</option>
+                                </InputSelect>
+                                @if (!VerifyIdRequest.IsRejected)
+                                {
+                                    <div>
+                                        @Localizer["SelectVisibleIdExpiryDate"]:
+                                        <InputDate @bind-Value="VerifyIdRequest.DocumentExpiryDate" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <InputText @bind-Value="VerifyIdRequest.RejectionReason" />
+                                }
+                                <button type="submit">@Localizer["Submit"]</button>
+                            }
+                            else
+                            {
+                                <div class="separated">@Localizer["IdAlreadyBeenReviewed"]</div>
+                            }
+                        </EditForm>
+                    }
+                }
+                else
+                {
+                    <div class="separated">@Localizer["UserNeedsToEnterDetails"]</div>
+                }
             }
-        }
-    </div>
+            <button @onclick="() => IsEditable = true">@Localizer["Edit"]</button>
+        </div>
+    }
+    else
+    {
+        <div class="content-container profile-data">
+            <h2>@Localizer["Voter"] ID: @UserId</h2>
+            <EditForm Model=UpdateVoterDetailsRequest OnValidSubmit="async () => await UpdateVoterDetails()">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label for="email">@Localizer["Email"]:</label>
+                    <InputText id="email" @bind-Value="UpdateVoterDetailsRequest.Email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">@Localizer["Password"]:</label>
+                    <InputText id="email" @bind-Value="UpdateVoterDetailsRequest.Password" />
+                </div>
+
+                <div class="form-group">
+                    <label for="firstName">@Localizer["FirstName"]:</label>
+                    <InputText id="firstName" @bind-Value="UpdateVoterDetailsRequest.FirstName" />
+                </div>
+
+                @* TO DO - Add form group to seperate on all edit forms *@
+                <div class="form-group">
+                    <label for="firstName">@Localizer["LastName"]:</label>
+                    <InputText id="firstName" @bind-Value="UpdateVoterDetailsRequest.LastName" />
+                </div>
+
+                <div class="form-group">
+                    <label for="country">@Localizer["Country"]:</label>
+                    <InputSelect id="country" @bind-Value="UpdateVoterDetailsRequest.Country">
+                        @foreach (var country in Enum.GetValues(typeof(UserCountry)).Cast<UserCountry>().Where(c => c != UserCountry.Unknown))
+                        {
+                            <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div>
+                    <label for="isVerified">@Localizer["NewUser"]:</label>
+                    <InputSelect @bind-Value="NewUserString" id="isVerified">
+                        <option value="">-- @Localizer["Select"] --</option>
+                        <option value="true">@Localizer["True"]</option>
+                        <option value="false">@Localizer["False"]</option>
+                    </InputSelect>
+                </div>
+
+                <div>
+                    <label for="isVerified">@Localizer["IsVerified"]:</label>
+                    <InputSelect @bind-Value="IsVerifiedString" id="isVerified">
+                        <option value="">-- @Localizer["Select"] --</option>
+                        <option value="true">@Localizer["True"]</option>
+                        <option value="false">@Localizer["False"]</option>
+                    </InputSelect>
+                </div>
+
+                <div>
+                    <label for="isVerified">@Localizer["IsCandidate"]:</label>
+                    <InputSelect @bind-Value="IsCandidateString" id="isVerified">
+                        <option value="">-- @Localizer["Select"] --</option>
+                        <option value="true">@Localizer["True"]</option>
+                        <option value="false">@Localizer["False"]</option>
+                    </InputSelect>
+                </div>
+
+                @if (IsCandidateString.StringToNullableBool() is not null && IsCandidateString.StringToNullableBool() == true)
+                {
+                    <div class="form-group">
+                        <label for="firstName">@Localizer["CandidateName"]:</label>
+                        <InputText id="firstName" @bind-Value="UpdateVoterDetailsRequest.CandidateName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">@Localizer["CandidateDescription"]:</label>
+                        <InputText id="firstName" @bind-Value="UpdateVoterDetailsRequest.CandidateDescription" />
+                    </div>
+                }
+
+                <button @onclick="() => IsEditable = false">@Localizer["Cancel"]</button>
+                <button type="submit">@Localizer["Update"]</button>
+            </EditForm>
+        </div>
+    }
 }
