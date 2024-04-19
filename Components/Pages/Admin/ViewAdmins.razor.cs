@@ -31,9 +31,6 @@ public partial class ViewAdmins
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
-
-        //TO DO
-        //Change endpoints to return IEnumerable instead of List
     }
 
     private async Task SearchAdmins()

@@ -9,7 +9,7 @@ public interface IVoterProvider
 
     Task<Response<bool>> PutUpdateVoterProfile(UpdateVoterProfileRequest request);
 
-    Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int voterId);
+    Task<Response<IEnumerable<GetCandidateResponse>>> GetActiveCandidates(int voterId);
 
     Task<Response<bool>> MakeVoterACandidate(BecomeCandidateRequest request);
 

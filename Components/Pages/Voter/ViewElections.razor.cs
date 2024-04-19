@@ -22,10 +22,10 @@ public partial class ViewElections
     public static int VoterId { get; set; }
 
     public GetVoterAccountDetailsResponse? VoterDetails { get; set; } 
-    public List<GetElectionResponse> VotedInElections { get; set; } = [];
-    public List<GetElectionResponse> OngoingElections { get; set; } = [];
-    public List<GetElectionResponse> UpcomingElections { get; set; } = [];
-    public List<GetElectionResponse> PreviousElections { get; set; } = [];
+    public IEnumerable<GetElectionResponse> VotedInElections { get; set; } = [];
+    public IEnumerable<GetElectionResponse> OngoingElections { get; set; } = [];
+    public IEnumerable<GetElectionResponse> UpcomingElections { get; set; } = [];
+    public IEnumerable<GetElectionResponse> PreviousElections { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,26 +38,25 @@ public partial class ViewElections
         else
             Errors.Add(voterDetails.Error);
 
-        var votedInElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterVotedInElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
+        var votedInElections = await ApiRequestService.SendAsync<IEnumerable<GetElectionResponse>>($"Election/GetVoterVotedInElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (votedInElections.Error == null)
             VotedInElections = votedInElections.Data;
         else
             Errors.Add(votedInElections.Error);
 
-        var ongoingElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterOngoingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
+        var ongoingElections = await ApiRequestService.SendAsync<IEnumerable<GetElectionResponse>>($"Election/GetVoterOngoingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (ongoingElections.Error == null)
             OngoingElections = ongoingElections.Data;
         else
             Errors.Add(ongoingElections.Error);
 
-        var upcomingElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterUpcomingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
-
+        var upcomingElections = await ApiRequestService.SendAsync<IEnumerable<GetElectionResponse>>($"Election/GetVoterUpcomingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (upcomingElections.Error == null)
             UpcomingElections = upcomingElections.Data;
         else
             Errors.Add(upcomingElections.Error);
 
-        var previousElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetRecentlyEndedElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
+        var previousElections = await ApiRequestService.SendAsync<IEnumerable<GetElectionResponse>>($"Election/GetRecentlyEndedElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (previousElections.Error == null)
             PreviousElections = previousElections.Data;
         else

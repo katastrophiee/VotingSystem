@@ -17,7 +17,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<AdminProvider> _localizer = localizer;
 
-    public async Task<Response<List<AdminGetVotersResponse>>> GetVoters(AdminGetVotersRequest request)
+    public async Task<Response<IEnumerable<AdminGetVotersResponse>>> GetVoters(AdminGetVotersRequest request)
     {
         try
         {
@@ -37,8 +37,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 (request.IsVerified == null || c.IsVerified == request.IsVerified))
                .ToListAsync() ?? [];
 
-            var response = new List<AdminGetVotersResponse>();
-            voters?.ForEach(voter => response.Add(new(voter)));
+            var response = voters.Select(v => new AdminGetVotersResponse(v));
 
             return new(response);
         }
@@ -510,7 +509,6 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 (request.AssignedToAdminId == null || c.AssignedToAdminId == request.AssignedToAdminId))
                 .ToListAsync() ?? [];
 
-
             var response = tasks.Select(t => new AdminGetTaskResponse(t));
 
             return new(response);
@@ -681,8 +679,8 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             if (voter is null || voter.Id == 0)
                 return new(new ErrorResponse()
                 {
-                    Title = _localizer["NoTaskFound"],
-                    Description = $"{_localizer["NoTaskFoundWithId"]} {request.AdminId}",
+                    Title = _localizer["NoVoterFound"],
+                    Description = $"{_localizer["NoVoterFoundWithId"]} {request.VoterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -763,5 +761,189 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
         rng.GetBytes(buff);
 
         return Convert.ToBase64String(buff);
+    }
+
+    public async Task<Response<IEnumerable<AdminGetElectionResponse>>> GetElections(AdminGetElectionsRequest request)
+    {
+        try
+        {
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Id == request.AdminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var elections = await _dbContext.Election.Where(c =>
+                (request.ElectionId == null || c.Id == request.ElectionId) &&
+                (request.ElectionName == null || c.ElectionName.Contains(request.ElectionName)) &&
+                (request.StartDate == null || c.StartDate == request.StartDate) &&
+                (request.EndDate == null || c.EndDate == request.EndDate) &&
+                (request.Country == null || c.Country == request.Country) &&
+                (request.ElectionType == null || c.ElectionType == request.ElectionType))
+                .ToListAsync() ?? [];
+
+            var response = elections.Select(e => new AdminGetElectionResponse(e));
+
+            return new(response);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetElections"]} {request.AdminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<AdminGetElectionResponse>> GetElection(int electionId, int adminId)
+    {
+        try
+        {
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Id == adminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var election = await _dbContext.Election.Where(c => c.Id == electionId).FirstOrDefaultAsync();
+            if (election is null || election.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionFound"],
+                    Description = $"{_localizer["NoElectionFoundWithId"]} {electionId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var response = new AdminGetElectionResponse(election);
+
+            return new(response);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetElections"]} {adminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> DeleteElection(int electionId, int adminId)
+    {
+        try
+        {
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Id == adminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var election = await _dbContext.Election.Where(c => c.Id == electionId).FirstOrDefaultAsync();
+            if (election is null || election.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionFound"],
+                    Description = $"{_localizer["NoElectionFoundWithId"]} {election}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            _dbContext.Election.Remove(election);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorDeleteElection"]} {adminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
+    public async Task<Response<bool>> PutUpdateElection(AdminUpdateElectionRequest request)
+    {
+        try
+        {
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(a => a.Id == request.AdminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var election = await _dbContext.Election.Where(v => v.Id == request.ElectionId).FirstOrDefaultAsync();
+            if (election is null || election.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionFound"],
+                    Description = $"{_localizer["NoTaskFoundWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (request.ElectionName != null)
+                election.ElectionName = request.ElectionName;
+
+            if (request.ElectionDescription != null)
+                election.ElectionDescription = request.ElectionDescription;
+
+            if (request.StartDate != null)
+                election.StartDate = request.StartDate.Value;
+
+            if (request.EndDate != null)
+                election.EndDate = request.EndDate.Value;
+
+            if (request.Country != null)
+                election.Country = request.Country.Value;
+
+            if (request.ElectionType != null)
+                election.ElectionType = request.ElectionType.Value;
+
+            if (request.ElectionOptions == null || request.ElectionOptions.Count == 0)
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionOptions"],
+                    Description = $"{_localizer["NoElectionOptionsWithId"]} {request.AdminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+
+            election.ElectionOptions = request.ElectionOptions;
+
+            _dbContext.Election.Update(election);
+            await _dbContext.SaveChangesAsync();
+
+            return new(true);
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorUpdateElection"]} {request.AdminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
     }
 }

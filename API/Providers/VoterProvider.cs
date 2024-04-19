@@ -96,7 +96,7 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
         }
     }
 
-    public async Task<Response<List<GetCandidateResponse>>> GetActiveCandidates(int voterId)
+    public async Task<Response<IEnumerable<GetCandidateResponse>>> GetActiveCandidates(int voterId)
     {
         try
         {

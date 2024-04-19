@@ -24,7 +24,7 @@ public partial class ViewCandidates
 
     public GetVoterAccountDetailsResponse? VoterDetails { get; set; }
 
-    public List<GetCandidateResponse> Candidates { get; set; }
+    public IEnumerable<GetCandidateResponse> Candidates { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,7 +36,7 @@ public partial class ViewCandidates
         else
             Errors.Add(voterDetails.Error);
 
-        var candidates = await ApiRequestService.SendAsync<List<GetCandidateResponse>>($"Voter/GetActiveCandidates", HttpMethod.Get, queryString: $"voterId={VoterId}");
+        var candidates = await ApiRequestService.SendAsync<IEnumerable<GetCandidateResponse>>($"Voter/GetActiveCandidates", HttpMethod.Get, queryString: $"voterId={VoterId}");
         if (candidates.Error == null)
             Candidates = candidates.Data;
         else

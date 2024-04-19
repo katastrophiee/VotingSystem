@@ -13,7 +13,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
     private readonly DBContext _dbContext = dbContext;
     private readonly IStringLocalizer<ElectionProvider> _localizer = localizer;
 
-    public async Task<Response<List<GetElectionResponse>>> GetVoterOngoingElections(int voterId)
+    public async Task<Response<IEnumerable<GetElectionResponse>>> GetVoterOngoingElections(int voterId)
     {
         try
         {
@@ -61,7 +61,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         }
     }
 
-    public async Task<Response<List<GetElectionResponse>>> GetVoterVotedInElections(int voterId)
+    public async Task<Response<IEnumerable<GetElectionResponse>>> GetVoterVotedInElections(int voterId)
     {
         try
         {
@@ -100,7 +100,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         }
     }
 
-    public async Task<Response<List<GetElectionResponse>>> GetRecentlyEndedElections(int voterId)
+    public async Task<Response<IEnumerable<GetElectionResponse>>> GetRecentlyEndedElections(int voterId)
     {
         try
         {
@@ -135,7 +135,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         }
     }
 
-    public async Task<Response<List<GetElectionResponse>>> GetVoterUpcomingElections(int voterId)
+    public async Task<Response<IEnumerable<GetElectionResponse>>> GetVoterUpcomingElections(int voterId)
     {
         try
         {
@@ -218,7 +218,7 @@ public class ElectionProvider(DBContext dbContext, IStringLocalizer<ElectionProv
         }
     }
 
-    public async Task<Response<List<GetElectionResponse>>> GetElections(GetElectionsRequest request)
+    public async Task<Response<IEnumerable<GetElectionResponse>>> GetElections(GetElectionsRequest request)
     {
         try
         {

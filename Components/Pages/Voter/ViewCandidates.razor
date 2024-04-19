@@ -27,7 +27,7 @@ else if (!VoterDetails.IsVerified)
 else
 {
     <h2>@Localizer["CandidatesIn"] @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</h2>
-    @if (Candidates.Count != 0)
+    @if (Candidates.Any())
     {
         <table>
             <tr>

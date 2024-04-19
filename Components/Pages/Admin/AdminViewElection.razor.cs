@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using VotingSystem.API.DTO.ComponentTypes;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
@@ -10,13 +11,8 @@ using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
 
-public partial class AddElection
+public partial class AdminViewElection
 {
-    private AdminAddElectionRequest AddElectionRequest = new([])
-    {
-        StartDate = DateTime.Now,
-        EndDate = DateTime.Now
-    };
 
     [Inject]
     public IApiRequestService ApiRequestService { get; set; }
@@ -28,11 +24,21 @@ public partial class AddElection
     public NavigationManager NavigationManager { get; set; }
 
     [Inject]
-    public IStringLocalizer<AddElection> Localizer { get; set; }
+    public IStringLocalizer<AdminViewElection> Localizer { get; set; }
+
+    [Parameter]
+    public int ElectionId { get; set; }
 
     public List<ErrorResponse> Errors { get; set; } = [];
+    public AdminGetElectionResponse Election { get; set; }
+
+    public List<ElectionOptionWithState> ElectionOptions { get; set; } = [];
+
+    public AdminUpdateElectionRequest UpdateElectionRequest { get; set; } = new();
 
     public int AdminId { get; set; }
+
+    public bool Editable { get; set; } = false;
 
     public bool ShowAddOptionError { get; set; } = false;
 
@@ -45,25 +51,40 @@ public partial class AddElection
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
+
+        await GetElection();
     }
 
-    private async Task HandleValidSubmit()
+    public async Task GetElection()
     {
-        AddElectionRequest.AdminId = AdminId;
+        var getElectionResponse = await ApiRequestService.SendAsync<AdminGetElectionResponse>($"Admin/GetElection", HttpMethod.Get, queryString: $"electionId={ElectionId}&adminId={AdminId}");
+        if (getElectionResponse.Error == null)
+        {
+            Election = getElectionResponse.Data;
+            ElectionOptions = getElectionResponse.Data.ElectionOptions.Select(o => new ElectionOptionWithState(o)).ToList();
+            UpdateElectionRequest = new(getElectionResponse.Data);
+        }
+        else
+            Errors.Add(getElectionResponse.Error);
+    }
 
-        Errors.Clear();
-
+    private async Task UpdateElection()
+    {
         var isValidRequest = ValidateAddElectionRequest();
         if (isValidRequest.Error is null)
-        { 
-            var response = await ApiRequestService.SendAsync<int>("Admin/PostAddElection", HttpMethod.Post, AddElectionRequest);
+        {
+            UpdateElectionRequest.AdminId = AdminId;
 
+            var response = await ApiRequestService.SendAsync<bool>("Admin/PutUpdateElection", HttpMethod.Put, UpdateElectionRequest);
             if (response.Error == null)
             {
-                NavigationManager.NavigateTo("/admin-view-elections");
+                await GetElection();
+                Editable = false;
             }
             else
+            {
                 Errors.Add(response.Error);
+            }
         }
         else
         {
@@ -73,7 +94,7 @@ public partial class AddElection
 
     private Response<bool> ValidateAddElectionRequest()
     {
-        if (string.IsNullOrWhiteSpace(AddElectionRequest.ElectionName))
+        if (string.IsNullOrWhiteSpace(UpdateElectionRequest.ElectionName))
         {
             return new(new ErrorResponse
             {
@@ -83,7 +104,7 @@ public partial class AddElection
             });
         }
 
-        if (string.IsNullOrWhiteSpace(AddElectionRequest.ElectionDescription))
+        if (string.IsNullOrWhiteSpace(UpdateElectionRequest.ElectionDescription))
         {
             return new(new ErrorResponse
             {
@@ -93,7 +114,7 @@ public partial class AddElection
             });
         }
 
-        if (AddElectionRequest.StartDate <= DateTime.Now)
+        if (UpdateElectionRequest.StartDate <= DateTime.Now)
         {
             return new(new ErrorResponse
             {
@@ -103,7 +124,7 @@ public partial class AddElection
             });
         }
 
-        if (AddElectionRequest.EndDate <= DateTime.Now)
+        if (UpdateElectionRequest.EndDate <= DateTime.Now)
         {
             return new(new ErrorResponse
             {
@@ -113,7 +134,7 @@ public partial class AddElection
             });
         }
 
-        if (AddElectionRequest.EndDate < AddElectionRequest.StartDate)
+        if (UpdateElectionRequest.EndDate < UpdateElectionRequest.StartDate)
         {
             return new(new ErrorResponse
             {
@@ -167,21 +188,21 @@ public partial class AddElection
 
         if (candidateExists)
         {
-            if (AddElectionRequest.ElectionOptions.Select(o => o.ElectionId == NewOption.CandidateId).Any())
+            if (UpdateElectionRequest.ElectionOptions.Select(o => o.ElectionId == NewOption.CandidateId).Any())
             {
                 ShowOptionAlreadyAddedError = true;
             }
             else
             {
                 NewOption.OptionId = ElectionOptionId++;
-                AddElectionRequest.ElectionOptions.Add(NewOption);
+                UpdateElectionRequest.ElectionOptions.Add(NewOption);
                 NewOption = new();
             }
         }
         else if (!candidateExists && NewOption.CandidateId is null)
         {
             NewOption.OptionId = ElectionOptionId++;
-            AddElectionRequest.ElectionOptions.Add(NewOption);
+            UpdateElectionRequest.ElectionOptions.Add(NewOption);
             ShowAddOptionError = false;
             ShowOptionAlreadyAddedError = false;
             NewOption = new();
@@ -196,7 +217,7 @@ public partial class AddElection
 
     private void RemoveOption(ElectionOption option)
     {
-        AddElectionRequest.ElectionOptions.Remove(option);
+        UpdateElectionRequest.ElectionOptions.Remove(option);
         ElectionOptionId--;
         NewOption = new();
         StateHasChanged();

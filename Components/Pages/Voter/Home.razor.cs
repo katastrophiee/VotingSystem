@@ -22,8 +22,8 @@ public partial class Home
     public List<ErrorResponse> Errors { get; set; } = [];
     public static int VoterId { get; set; }
     public GetVoterAccountDetailsResponse? VoterDetails { get; set; }
-    public List<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
-    public List<GetElectionResponse> OngoingElections { get; set; } = [];
+    public IEnumerable<GetVotingHistoryResponse> VotingHistory { get; set; } = [];
+    public IEnumerable<GetElectionResponse> OngoingElections { get; set; } = [];
 
     public bool IsAdmin { get; set; } = false;
 
@@ -48,13 +48,13 @@ public partial class Home
             else
                 Errors.Add(voterDetails.Error);
 
-            var votingHistory = await ApiRequestService.SendAsync<List<GetVotingHistoryResponse>>($"Vote/GetVoterVotingHistory", HttpMethod.Get, queryString: $"voterId={VoterId}");
+            var votingHistory = await ApiRequestService.SendAsync<IEnumerable<GetVotingHistoryResponse>>($"Vote/GetVoterVotingHistory", HttpMethod.Get, queryString: $"voterId={VoterId}");
             if (votingHistory.Error == null)
                 VotingHistory = votingHistory.Data;
             else
                 Errors.Add(votingHistory.Error);
 
-            var ongoingElections = await ApiRequestService.SendAsync<List<GetElectionResponse>>($"Election/GetVoterOngoingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
+            var ongoingElections = await ApiRequestService.SendAsync<IEnumerable<GetElectionResponse>>($"Election/GetVoterOngoingElections", HttpMethod.Get, queryString: $"voterId={VoterId}");
             if (ongoingElections.Error == null)
                 OngoingElections = ongoingElections.Data;
             else

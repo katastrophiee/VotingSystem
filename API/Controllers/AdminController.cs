@@ -164,4 +164,48 @@ public class AdminController(IAdminProvider adminProvider) : Controller
             ? Ok(response.Data)
             : BadRequest(response.Error);
     }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpGet]
+    public async Task<ActionResult> GetElections(AdminGetElectionsRequest request)
+    {
+        var response = await _adminProvider.GetElections(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpGet]
+    public async Task<ActionResult> GetElection(int electionId, int adminId)
+    {
+        var response = await _adminProvider.GetElection(electionId, adminId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteElection(int electionId, int adminId)
+    {
+        var response = await _adminProvider.DeleteElection(electionId, adminId);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpPut]
+    public async Task<ActionResult> PutUpdateElection(AdminUpdateElectionRequest request)
+    {
+        var response = await _adminProvider.PutUpdateElection(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
 }

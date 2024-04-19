@@ -1,0 +1,104 @@
+﻿@page "/admin-view-election/electionId={electionId:int}"
+
+@if (Errors.Count() > 0)
+{
+    <ErrorPopup Errors="Errors" />
+}
+else if (Election is null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else
+{
+    <h1>@Localizer["ViewElection"]</h1>
+    <h2>@Localizer["Election"] ID: @Election.ElectionId</h2>
+
+    @if (!Editable)
+    {
+        <div class="content-container profile-data">
+            <div>@Localizer["Name"]: @Election.ElectionName</div>
+            <div>@Localizer["Description"]: @Election.ElectionDescription</div>
+            <div>@Localizer["StartDate"]: @Election.StartDate.FormatDateTime()</div>
+            <div>@Localizer["StartDate"]: @Election.EndDate.FormatDateTime()</div>
+            <div>@Localizer["TaskStatus"]: @Election.Country.LocalisedEnumDisplayName(Localizer)</div>
+            <div>@Localizer["TaskStatus"]: @Election.ElectionType.LocalisedEnumDisplayName(Localizer)</div>
+            <div>@Localizer["ElectionOptions"]:</div>
+            <div>
+                @foreach (var option in Election.ElectionOptions)
+                {
+                    <div>
+                        <p>@option.OptionId</p>
+                        <p>@option.OptionName</p>
+                        <p>@option.OptionDescription</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <button @onclick="() => Editable = true">@Localizer["EditTask"]</button>
+    }
+    else
+    {
+        <div class="content-container">
+            <EditForm Model="UpdateElectionRequest" OnValidSubmit="async () => await UpdateElection()" class="edit-form">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div>
+                    <label for="electionName">@Localizer["ElectionName"]:</label>
+                    <InputText id="electionName" @bind-Value="UpdateElectionRequest.ElectionName" placeholder=@Localizer["ElectionName"] />
+                </div>
+
+                <div>
+                    <label for="electionDescription">@Localizer["Desciption"]:</label>
+                    <InputTextArea id="electionDescription" @bind-Value="UpdateElectionRequest.ElectionDescription" placeholder=@Localizer["Desciption"] />
+                </div>
+
+                <InputDate id="startDate" @bind-Value="UpdateElectionRequest.StartDate" placeholder=@Localizer["StartDate"] />
+                <InputDate id="endDate" @bind-Value="UpdateElectionRequest.EndDate" placeholder=@Localizer["StartDate"] />
+                <InputSelect id="country" @bind-Value="UpdateElectionRequest.Country">
+                    <option value="">@Localizer["SelectACountry"]</option>
+                    @foreach (var country in Enum.GetValues<UserCountry>())
+                    {
+                        <option value="@country">@country.LocalisedEnumDisplayName(Localizer)</option>
+                    }
+                </InputSelect>
+                <InputSelect id="electionType" @bind-Value="UpdateElectionRequest.ElectionType">
+                    <option value="">@Localizer["SelectAnElectionType"]</option>
+                    @foreach (var type in Enum.GetValues<ElectionType>())
+                    {
+                        <option value="@type">@type.LocalisedEnumDisplayName(Localizer)</option>
+                    }
+                </InputSelect>
+
+                <h3>@Localizer["AddElectionOption"]</h3>
+                <div>
+                    <label for="candidateId">@Localizer["Candidate"] ID:</label>
+                    <input type="number" @bind-value="NewOption.CandidateId" @oninput="OnCandidateIdInput" />
+                </div>
+                <InputText id="optionName" @bind-Value="NewOption.OptionName" placeholder=@Localizer["OptionName"] />
+                <InputTextArea id="optionDescription" @bind-Value="NewOption.OptionDescription" placeholder=@Localizer["OptionDescription"] />
+                <button type="button" @onclick="async () => await AddOption()">@Localizer["AddOption"]</button>
+                @if (ShowAddOptionError)
+                {
+                    <div>@Localizer["CannotAddOptionNoCandidate"]</div>
+                }
+                @if (ShowOptionAlreadyAddedError)
+                {
+                    <div>@Localizer["CannotAddOptionAlreadyAdded"]</div>
+                }
+
+                <h3>@Localizer["ElectionOptions"]</h3>
+                @foreach (var option in UpdateElectionRequest.ElectionOptions)
+                {
+                    <div>
+                        <p>@option.OptionName</p>
+                        <button type="button" @onclick="() => RemoveOption(option)">@Localizer["Remove"]</button>
+                    </div>
+                }
+
+                <button type="submit">@Localizer["Submit"]</button>
+            </EditForm>
+        </div>
+    }
+}

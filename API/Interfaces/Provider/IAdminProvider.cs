@@ -6,7 +6,7 @@ namespace VotingSystem.API.Interfaces.Provider;
 
 public interface IAdminProvider
 {
-    Task<Response<List<AdminGetVotersResponse>>> GetVoters(AdminGetVotersRequest request);
+    Task<Response<IEnumerable<AdminGetVotersResponse>>> GetVoters(AdminGetVotersRequest request);
 
     Task<Response<AdminGetVoterResponse>> GetVoterDetails(int voterId, int adminId);
 
@@ -33,4 +33,12 @@ public interface IAdminProvider
     Task<Response<bool>> UpdateTask(AdminUpdateTaskRequest request);
 
     Task<Response<bool>> UpdateVoterDetails(AdminUpdateVoterDetailsRequest request);
+
+    Task<Response<IEnumerable<AdminGetElectionResponse>>> GetElections(AdminGetElectionsRequest request);
+
+    Task<Response<AdminGetElectionResponse>> GetElection(int electionId, int adminId);
+
+    Task<Response<bool>> DeleteElection(int electionId, int adminId);
+
+    Task<Response<bool>> PutUpdateElection(AdminUpdateElectionRequest request);
 }

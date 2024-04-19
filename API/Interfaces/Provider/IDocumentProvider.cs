@@ -7,7 +7,7 @@ public interface IDocumentProvider
 {
     Task<Response<Document?>> GetCurrentVoterDocument(int voterId);
 
-    Task<Response<List<Document>>> GetVoterDocuments(int voterId);
+    Task<Response<IEnumerable<Document>>> GetVoterDocuments(int voterId);
 
     Task<Response<int>> UploadVoterDocument(Document document);
 }

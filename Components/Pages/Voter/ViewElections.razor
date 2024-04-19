@@ -28,7 +28,7 @@ else if (!VoterDetails.IsVerified)
 else
 {
     <h2>@Localizer["OngoingElectionsIn"] @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</h2>
-    @if (OngoingElections.Count != 0)
+    @if (OngoingElections.Any())
     {
         <table>
             <tr>
@@ -71,7 +71,7 @@ else
     }
 
     <h2>@Localizer["UpcomingElections"] @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</h2>
-    @if (UpcomingElections.Count != 0)
+    @if (UpcomingElections.Any())
     {
         <table>
             <tr>
@@ -80,7 +80,6 @@ else
                 <th>@Localizer["ElectionDescription"]</th>
                 <th>@Localizer["StartDate"]</th>
                 <th>@Localizer["EndDate"]</th>
-                <th>@Localizer["Vote"]</th>
             </tr>
             @foreach (var election in UpcomingElections)
             {
@@ -102,7 +101,7 @@ else
     }
 
     <h2>@Localizer["RecentlyEndedElections"] @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</h2>
-    @if (PreviousElections.Count != 0)
+    @if (PreviousElections.Any())
     {
         <table>
             <tr>
@@ -132,7 +131,7 @@ else
     }
 
     <h2>@Localizer["ElectionsYouVotedIn"]</h2>
-    @if (VotedInElections.Count != 0)
+    @if (VotedInElections.Any())
     {
         <table>
             <tr>
