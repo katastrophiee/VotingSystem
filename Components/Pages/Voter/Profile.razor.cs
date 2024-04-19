@@ -41,7 +41,7 @@ public partial class Profile
         await SetCurrentIdDocument();
     }
 
-    public async Task Update()
+    private async Task Update()
     {
         if (UpdateVoterProfileRequest is not null &&
             (UpdateVoterProfileRequest.Email != VoterDetails?.Email ||

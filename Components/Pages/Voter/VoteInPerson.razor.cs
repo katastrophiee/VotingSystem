@@ -27,9 +27,6 @@ public partial class VoteInPerson
 
     public bool VotingEligibility { get; set; } = false;
 
-    //TO DO
-    //make all razor file methods private
-
     private string? qrImage;
     private int timeLeft = 10;
     private bool isTimerRunning = false;
@@ -70,8 +67,6 @@ public partial class VoteInPerson
         isTimerRunning = true;
         await StartTimer();
     }
-
-
 
     private async Task StartTimer()
     {

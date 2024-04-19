@@ -55,7 +55,7 @@ public partial class AdminViewElection
         await GetElection();
     }
 
-    public async Task GetElection()
+    private async Task GetElection()
     {
         var getElectionResponse = await ApiRequestService.SendAsync<AdminGetElectionResponse>($"Admin/GetElection", HttpMethod.Get, queryString: $"electionId={ElectionId}&adminId={AdminId}");
         if (getElectionResponse.Error == null)
