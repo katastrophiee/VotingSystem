@@ -354,7 +354,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         }
     } 
 
-    public async Task<Response<LoginResponse>> PutUpdatePassword(UpdatePasswordRequest request)
+    public async Task<Response<LoginResponse>> UpdatePassword(UpdatePasswordRequest request)
     {
         try
         {

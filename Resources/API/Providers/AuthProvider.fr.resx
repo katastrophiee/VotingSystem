@@ -120,6 +120,9 @@
   <data name="AccountNotActive" xml:space="preserve">
     <value>Votre compte n’est pas actif</value>
   </data>
+  <data name="AndEmail" xml:space="preserve">
+    <value>et l’email</value>
+  </data>
   <data name="CredentialsAlreadyUsed" xml:space="preserve">
     <value>Identifiants Déjà Utilisés</value>
   </data>
@@ -147,6 +150,9 @@
   <data name="InternalServerErrorCreateVoterAccount" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de création de compte pour l’utilisateur</value>
   </data>
+  <data name="InternalServerErrorUpdatePassword" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de mise à jour du mot de passe pour le compte avec le nom d’utilisateur</value>
+  </data>
   <data name="InternalServerErrorVoterLogin" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de connexion pour l’utilisateur</value>
   </data>
@@ -158,6 +164,18 @@
   </data>
   <data name="NoAdminFoundWithId" xml:space="preserve">
     <value>Aucun administrateur n’a été trouvé avec l’id d’administrateur</value>
+  </data>
+  <data name="NoVoterFound" xml:space="preserve">
+    <value>Aucun électeur trouvé</value>
+  </data>
+  <data name="NoVoterFoundWithUsername" xml:space="preserve">
+    <value>Aucun compte n’a été trouvé avec le nom d’utilisateur</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Les mots de passe ne correspondent pas</value>
+  </data>
+  <data name="PasswordsDoNotMatchDescription" xml:space="preserve">
+    <value>Le mot de passe et le mot de passe de confirmation ne correspondent pas</value>
   </data>
   <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>Le nom d’utilisateur ou le mot de passe est incorrect.</value>

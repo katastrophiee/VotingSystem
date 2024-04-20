@@ -174,7 +174,7 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
                 return new(new ErrorResponse()
                 {
                     Title = _localizer["NoNameOrDescriptionProvided"],
-                    Description = $"{_localizer["NoNameOrDescriptionProvidedConvertWithId"]} {request.VoterId}",
+                    Description = $"{_localizer["NoNameOrDescriptionProvidedWithId"]} {request.VoterId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 

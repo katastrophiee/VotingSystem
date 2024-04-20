@@ -162,7 +162,7 @@
   <data name="NoNameOrDescriptionProvided" xml:space="preserve">
     <value>Aucun Nom ou Description Fourni</value>
   </data>
-  <data name="NoNameOrDescriptionProvidedConvertWithId" xml:space="preserve">
+  <data name="NoNameOrDescriptionProvidedWithId" xml:space="preserve">
     <value>Aucun nom ou description de candidat n’a été fourni lors de la tentative de conversion en candidat pour l’id du client</value>
   </data>
   <data name="NoNameOrDescriptionProvidedUpdateWithId" xml:space="preserve">

@@ -1,9 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using VotingSystem.API.DTO.DbModels.Admin;
 using VotingSystem.API.DTO.ErrorHandling;
-using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses.Admin;
 using VotingSystem.Services;

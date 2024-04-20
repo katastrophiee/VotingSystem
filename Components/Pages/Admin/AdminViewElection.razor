@@ -19,8 +19,8 @@ else
             <div>@Localizer["Name"]: @Election.ElectionName</div>
             <div>@Localizer["Description"]: @Election.ElectionDescription</div>
             <div>@Localizer["StartDate"]: @Election.StartDate.FormatDateTime()</div>
-            <div>@Localizer["StartDate"]: @Election.EndDate.FormatDateTime()</div>
-            <div>@Localizer["TaskStatus"]: @Election.Country.LocalisedEnumDisplayName(Localizer)</div>
+            <div>@Localizer["EndDate"]: @Election.EndDate.FormatDateTime()</div>
+            <div>@Localizer["Country"]: @Election.Country.LocalisedEnumDisplayName(Localizer)</div>
             <div>@Localizer["TaskStatus"]: @Election.ElectionType.LocalisedEnumDisplayName(Localizer)</div>
             <div>@Localizer["ElectionOptions"]:</div>
             <div>
@@ -50,12 +50,12 @@ else
                 </div>
 
                 <div>
-                    <label for="electionDescription">@Localizer["Desciption"]:</label>
-                    <InputTextArea id="electionDescription" @bind-Value="UpdateElectionRequest.ElectionDescription" placeholder=@Localizer["Desciption"] />
+                    <label for="electionDescription">@Localizer["Description"]:</label>
+                    <InputTextArea id="electionDescription" @bind-Value="UpdateElectionRequest.ElectionDescription" placeholder=@Localizer["Description"] />
                 </div>
 
                 <InputDate id="startDate" @bind-Value="UpdateElectionRequest.StartDate" placeholder=@Localizer["StartDate"] />
-                <InputDate id="endDate" @bind-Value="UpdateElectionRequest.EndDate" placeholder=@Localizer["StartDate"] />
+                <InputDate id="endDate" @bind-Value="UpdateElectionRequest.EndDate" placeholder=@Localizer["EndDate"] />
                 <InputSelect id="country" @bind-Value="UpdateElectionRequest.Country">
                     <option value="">@Localizer["SelectACountry"]</option>
                     @foreach (var country in Enum.GetValues<UserCountry>())

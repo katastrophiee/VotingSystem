@@ -40,5 +40,5 @@ public interface IAdminProvider
 
     Task<Response<bool>> DeleteElection(int electionId, int adminId);
 
-    Task<Response<bool>> PutUpdateElection(AdminUpdateElectionRequest request);
+    Task<Response<bool>> UpdateElection(AdminUpdateElectionRequest request);
 }

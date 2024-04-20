@@ -126,7 +126,7 @@
   <data name="InternalServerErrorGetVoterDocuments" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar recuperar documentos para el cliente</value>
   </data>
-  <data name="InternalServerErrorPostUploadVoterDocument" xml:space="preserve">
+  <data name="InternalServerErrorUploadVoterDocument" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar subir el documento</value>
   </data>
   <data name="NoDocumentFound" xml:space="preserve">

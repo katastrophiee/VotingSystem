@@ -126,6 +126,9 @@
   <data name="AddTask" xml:space="preserve">
     <value>Ajouter une tâche</value>
   </data>
+  <data name="AssignedAdminId" xml:space="preserve">
+    <value>Id d’administrateur assigné</value>
+  </data>
   <data name="AssignedToAdmin" xml:space="preserve">
     <value>Assigné à l’administrateur</value>
   </data>
@@ -159,6 +162,9 @@
   <data name="LastEdited" xml:space="preserve">
     <value>Dernière édition</value>
   </data>
+  <data name="Me" xml:space="preserve">
+    <value>Moi</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
   </data>
@@ -182,6 +188,12 @@
   </data>
   <data name="TaskStatus" xml:space="preserve">
     <value>Statut de la tâche</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>Non assigné</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Voir</value>
   </data>
   <data name="ViewTasks" xml:space="preserve">
     <value>Voir les tâches</value>

@@ -231,4 +231,19 @@
   <data name="NoCandidateDetailsProvidedWithId" xml:space="preserve">
     <value>Soit le nom du candidat, soit la description n’a pas été fournie lors de la mise à jour de l’électeur</value>
   </data>
+  <data name="InternalServerErrorDeleteElection" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de supprimer une élection pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorGetElection" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’obtenir une élection pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorGetElections" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’obtenir des élections pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorUpdateElection" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de mise à jour d’une élection pour l’id d’administrateur</value>
+  </data>
+  <data name="InternalServerErrorUpdateVoterDetails" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative de mise à jour des détails de l’électeur pour l’id d’administrateur</value>
+  </data>
 </root>

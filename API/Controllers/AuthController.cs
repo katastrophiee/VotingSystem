@@ -56,7 +56,7 @@ public class AuthController(IAuthProvider authProvider) : ControllerBase
     [HttpPut]
     public async Task<ActionResult> PutUpdatePasswordRequest(UpdatePasswordRequest request)
     {
-        var response = await _authProvider.PutUpdatePassword(request);
+        var response = await _authProvider.UpdatePassword(request);
 
         return response.Error is null
             ? Ok(response.Data)

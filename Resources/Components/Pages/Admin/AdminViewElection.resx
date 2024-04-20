@@ -117,70 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdditionalNotes" xml:space="preserve">
-    <value>Notes supplémentaires</value>
+  <data name="AddElectionOption" xml:space="preserve">
+    <value>Add Election Option</value>
   </data>
-  <data name="AssignedToAdminId" xml:space="preserve">
-    <value>Assigné à l’identifiant de l’administrateur</value>
+  <data name="AddOption" xml:space="preserve">
+    <value>Add Option</value>
   </data>
-  <data name="Closed" xml:space="preserve">
-    <value>Fermé</value>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
   </data>
-  <data name="Completed" xml:space="preserve">
-    <value>Terminé</value>
+  <data name="Candidate" xml:space="preserve">
+    <value>Candidate</value>
   </data>
-  <data name="CreatedAt" xml:space="preserve">
-    <value>Créé à</value>
+  <data name="CannotAddOptionAlreadyAdded" xml:space="preserve">
+    <value>Cannot add this candidate as an option as they have already been added</value>
   </data>
-  <data name="CreatedByAdminId" xml:space="preserve">
-    <value>Créé par l’identifiant de l’administrateur</value>
+  <data name="CannotAddOptionNoCandidate" xml:space="preserve">
+    <value>You cannot add an option with a candidate ID when no candidate with that ID exists. Remove the ID and add an option without it if there is no associated candidate</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="EditTask" xml:space="preserve">
-    <value>Modifier la tâche</value>
+    <value>Edit Task</value>
   </data>
-  <data name="ForAdminId" xml:space="preserve">
-    <value>Pour l’identifiant de l’administrateur</value>
+  <data name="Election" xml:space="preserve">
+    <value>Election</value>
   </data>
-  <data name="ForVoterId" xml:space="preserve">
-    <value>Pour l’identifiant de l’électeur</value>
+  <data name="ElectionName" xml:space="preserve">
+    <value>Election Name</value>
   </data>
-  <data name="In Progress" xml:space="preserve">
-    <value>En cours</value>
+  <data name="ElectionOptions" xml:space="preserve">
+    <value>Election Options</value>
   </data>
-  <data name="LastEdited" xml:space="preserve">
-    <value>Dernière édition</value>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="England" xml:space="preserve">
+    <value>England</value>
+  </data>
+  <data name="General Election" xml:space="preserve">
+    <value>General Election</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Ireland</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Chargement...</value>
+    <value>Loading...</value>
   </data>
-  <data name="Me" xml:space="preserve">
-    <value>Moi</value>
+  <data name="Local Government Election" xml:space="preserve">
+    <value>Local Government Election</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Nom</value>
+    <value>Name</value>
   </data>
-  <data name="New" xml:space="preserve">
-    <value>Nouveau</value>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Northern Island</value>
   </data>
-  <data name="NotEdited" xml:space="preserve">
-    <value>Non édité</value>
+  <data name="OptionDescription" xml:space="preserve">
+    <value>Option Description</value>
   </data>
-  <data name="On Hold" xml:space="preserve">
-    <value>En attente</value>
+  <data name="OptionName" xml:space="preserve">
+    <value>Option Name</value>
   </data>
-  <data name="Task" xml:space="preserve">
-    <value>Tâche</value>
+  <data name="Parliamentary Election" xml:space="preserve">
+    <value>Parliamentary Election</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Scotland</value>
+  </data>
+  <data name="SelectACountry" xml:space="preserve">
+    <value>Select A Country</value>
+  </data>
+  <data name="SelectAnElectionType" xml:space="preserve">
+    <value>Select An Election Type</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
   </data>
   <data name="TaskStatus" xml:space="preserve">
-    <value>Statut de la tâche</value>
+    <value>Task Status</value>
   </data>
-  <data name="Unassigned" xml:space="preserve">
-    <value>Non attribué</value>
+  <data name="United States" xml:space="preserve">
+    <value>United States</value>
   </data>
-  <data name="ViewTask" xml:space="preserve">
-    <value>Voir la tâche</value>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ViewElection" xml:space="preserve">
+    <value>View Election</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Wales</value>
   </data>
 </root>

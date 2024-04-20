@@ -13,7 +13,7 @@
     <EditForm Model="GetElectionsRequest" OnValidSubmit="async () => await FetchElections()">
 
         <div>
-            <label for="taskId">@Localizer["ElectionId"]:</label>
+            <label for="taskId">@Localizer["Election"] ID:</label>
             <InputNumber @bind-Value="GetElectionsRequest.ElectionId" id="taskId" />
         </div>
 

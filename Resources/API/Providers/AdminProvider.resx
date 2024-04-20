@@ -231,4 +231,19 @@
   <data name="NoCandidateDetailsProvidedWithId" xml:space="preserve">
     <value>Either the candidate name or description was not provided when trying to update voter </value>
   </data>
+  <data name="InternalServerErrorDeleteElection" xml:space="preserve">
+    <value>An unknown error occured when trying to delete election for admin id</value>
+  </data>
+  <data name="InternalServerErrorGetElection" xml:space="preserve">
+    <value>An unknown error occured when trying to get election for admin id</value>
+  </data>
+  <data name="InternalServerErrorGetElections" xml:space="preserve">
+    <value>An unknown error occured when trying to get elections for admin id</value>
+  </data>
+  <data name="InternalServerErrorUpdateElection" xml:space="preserve">
+    <value>An unknown error occured when trying to update election for admin id</value>
+  </data>
+  <data name="InternalServerErrorUpdateVoterDetails" xml:space="preserve">
+    <value>An unknown error occured when trying to update voter details for admin id</value>
+  </data>
 </root>

@@ -618,7 +618,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                 return new(new ErrorResponse()
                 {
                     Title = _localizer["NoTaskFound"],
-                    Description = $"{_localizer["NoTaskFoundWithId"]} {request.AdminId}",
+                    Description = $"{_localizer["NoTaskFoundWithId"]} {request.TaskId}",
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
@@ -655,7 +655,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorUpdateTask"]} {request.AdminId}",
+                Description = $"{_localizer["InternalServerErrorUpdateTask"]} {request.TaskId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -832,7 +832,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetElections"]} {adminId}",
+                Description = $"{_localizer["InternalServerErrorGetElection"]} {adminId}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });
@@ -878,7 +878,7 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
         }
     }
 
-    public async Task<Response<bool>> PutUpdateElection(AdminUpdateElectionRequest request)
+    public async Task<Response<bool>> UpdateElection(AdminUpdateElectionRequest request)
     {
         try
         {

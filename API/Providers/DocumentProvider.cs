@@ -138,7 +138,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
             return new(new ErrorResponse()
             {
                 Title = _localizer["InternalServerError"],
-                Description = $"{_localizer["InternalServerErrorGetVoterDocuments"]} {document.FileName}",
+                Description = $"{_localizer["InternalServerErrorUploadVoterDocument"]} {document.FileName}",
                 StatusCode = StatusCodes.Status500InternalServerError,
                 AdditionalDetails = ex.Message
             });

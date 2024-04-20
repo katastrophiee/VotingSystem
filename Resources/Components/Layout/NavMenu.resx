@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddElection" xml:space="preserve">
-    <value>Add Election</value>
+  <data name="ViewElections" xml:space="preserve">
+    <value>View Elections</value>
   </data>
   <data name="BecomeACandidate" xml:space="preserve">
     <value>Become A Candidate</value>

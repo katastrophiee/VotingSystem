@@ -14,5 +14,5 @@ public interface IAuthProvider
 
     Task<Response<LoginResponse>> CreateAdminAccount(AdminCreateAdminAccountRequest request);
 
-    Task<Response<LoginResponse>> PutUpdatePassword(UpdatePasswordRequest request);
+    Task<Response<LoginResponse>> UpdatePassword(UpdatePasswordRequest request);
 }

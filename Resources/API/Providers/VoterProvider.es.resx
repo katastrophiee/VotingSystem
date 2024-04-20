@@ -162,7 +162,7 @@
   <data name="NoNameOrDescriptionProvided" xml:space="preserve">
     <value>No Se Proporcionó Nombre o Descripción</value>
   </data>
-  <data name="NoNameOrDescriptionProvidedConvertWithId" xml:space="preserve">
+  <data name="NoNameOrDescriptionProvidedWithId" xml:space="preserve">
     <value>No se proporcionó un nombre o descripción de candidato al intentar convertir al cliente en candidato con el id de cliente</value>
   </data>
   <data name="NoNameOrDescriptionProvidedUpdateWithId" xml:space="preserve">

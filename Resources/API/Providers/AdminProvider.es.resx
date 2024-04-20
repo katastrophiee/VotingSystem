@@ -231,4 +231,19 @@
   <data name="NoCandidateDetailsProvidedWithId" xml:space="preserve">
     <value>Ni el nombre del candidato ni la descripción se proporcionaron al intentar actualizar al votante</value>
   </data>
+  <data name="InternalServerErrorDeleteElection" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar eliminar la elección para la id de administrador</value>
+  </data>
+  <data name="InternalServerErrorGetElection" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar obtener la elección para la id de administrador</value>
+  </data>
+  <data name="InternalServerErrorGetElections" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar obtener las elecciones para la id de administrador</value>
+  </data>
+  <data name="InternalServerErrorUpdateElection" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar actualizar la elección para la id de administrador</value>
+  </data>
+  <data name="InternalServerErrorUpdateVoterDetails" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar actualizar los detalles del votante para la id de administrador</value>
+  </data>
 </root>

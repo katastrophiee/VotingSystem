@@ -120,6 +120,9 @@
   <data name="AccountNotActive" xml:space="preserve">
     <value>Your account is not active</value>
   </data>
+  <data name="AndEmail" xml:space="preserve">
+    <value>and email</value>
+  </data>
   <data name="CredentialsAlreadyUsed" xml:space="preserve">
     <value>Credentials Already Used</value>
   </data>
@@ -147,6 +150,9 @@
   <data name="InternalServerErrorCreateVoterAccount" xml:space="preserve">
     <value>An unknown error occured when trying to create account for user</value>
   </data>
+  <data name="InternalServerErrorUpdatePassword" xml:space="preserve">
+    <value>An unknown error occured when trying to update password for account with the username </value>
+  </data>
   <data name="InternalServerErrorVoterLogin" xml:space="preserve">
     <value>An unknown error occured when trying to login for user</value>
   </data>
@@ -158,6 +164,18 @@
   </data>
   <data name="NoAdminFoundWithId" xml:space="preserve">
     <value>No admin was found with the admin id</value>
+  </data>
+  <data name="NoVoterFound" xml:space="preserve">
+    <value>No Voter Found</value>
+  </data>
+  <data name="NoVoterFoundWithUsername" xml:space="preserve">
+    <value>No account was found with the username</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords Do Not Match</value>
+  </data>
+  <data name="PasswordsDoNotMatchDescription" xml:space="preserve">
+    <value>The password and confirmation password do not match</value>
   </data>
   <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>The username or password is incorrect.</value>

@@ -202,7 +202,7 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     [HttpPut]
     public async Task<ActionResult> PutUpdateElection(AdminUpdateElectionRequest request)
     {
-        var response = await _adminProvider.PutUpdateElection(request);
+        var response = await _adminProvider.UpdateElection(request);
 
         return response.Error is null
             ? Ok(response.Data)

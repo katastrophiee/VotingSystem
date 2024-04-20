@@ -26,7 +26,7 @@ public partial class Profile
     public bool ShowUpdateButton { get; set; } = false;
 
     public GetVoterAccountDetailsResponse? VoterDetails { get; set; }
-    public UpdateVoterProfileRequest? UpdateVoterProfileRequest { get; set; } = new();
+    public UpdateVoterProfileRequest UpdateVoterProfileRequest { get; set; } = new();
     public List<ErrorResponse> Errors { get; set; } = [];
 
     public InputFile UploadedIdDocumentFile;
