@@ -141,6 +141,9 @@
   <data name="GetStarted" xml:space="preserve">
     <value>Get Started</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="IdExpiresInThreeMonths" xml:space="preserve">
     <value>Your ID expires in less than 3 months, go to the profile page to upload a new one.</value>
   </data>

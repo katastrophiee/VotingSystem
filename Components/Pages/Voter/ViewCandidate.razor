@@ -1,6 +1,9 @@
-﻿@page "/view-candidate/candidateId={candidateId:int}"
+﻿<PageTitle>@Localizer["ViewCandidate"]</PageTitle>
+
+@page "/view-candidate/candidateId={candidateId:int}"
 
 <h1>@Localizer["ViewCandidate"]</h1>
+
 @if (Errors.Count() > 0)
 {
     <ErrorPopup Errors="@Errors" />

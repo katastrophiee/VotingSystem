@@ -204,6 +204,9 @@
   <data name="Upload" xml:space="preserve">
     <value>Subir</value>
   </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>Subir archivo</value>
+  </data>
   <data name="UploadNewId" xml:space="preserve">
     <value>¿Quieres subir una nueva identificación? Hazlo aquí:</value>
   </data>

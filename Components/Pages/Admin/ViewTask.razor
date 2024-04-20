@@ -1,4 +1,8 @@
-﻿@page "/view-task/taskId={taskId:int}"
+﻿<PageTitle>@Localizer["ViewTask"]</PageTitle>
+
+@page "/view-task/taskId={taskId:int}"
+
+<h1>@Localizer["ViewTask"]</h1>
 
 @if (Errors.Count() > 0)
 {

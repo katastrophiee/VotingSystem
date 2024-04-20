@@ -204,6 +204,9 @@
   <data name="Upload" xml:space="preserve">
     <value>Télécharger</value>
   </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>Télécharger le fichier</value>
+  </data>
   <data name="UploadNewId" xml:space="preserve">
     <value>Vous voulez télécharger une nouvelle pièce d’identité ? Faites-le ici :</value>
   </data>

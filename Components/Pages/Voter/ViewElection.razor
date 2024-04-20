@@ -1,4 +1,8 @@
-﻿@page "/view-election/electionId={electionId:int}"
+﻿<PageTitle>@Localizer["ViewElection"]</PageTitle>
+
+@page "/view-election/electionId={electionId:int}"
+
+<h1>@Localizer["ViewElection"]</h1>
 
 @if (Errors.Count() > 0)
 {

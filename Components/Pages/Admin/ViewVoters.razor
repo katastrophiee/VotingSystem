@@ -1,6 +1,8 @@
-﻿@page "/view-voters"
+﻿<PageTitle>@Localizer["ViewVoters"]</PageTitle>
 
-<h1>@Localizer["Voters"]</h1>
+@page "/view-voters"
+
+<h1>@Localizer["ViewVoters"]</h1>
 
 @if (Errors.Count() > 0)
 {
@@ -52,7 +54,7 @@ else
         </EditForm>
         <button @onclick=ClearSearch>@Localizer["Clear"]</button>
     </div>
-    @if (VotersResult?.Count != 0)
+    @if (VotersResult is not null && VotersResult.Count != 0)
     {
         <table>
             <tr>

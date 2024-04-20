@@ -1,6 +1,9 @@
-﻿@page "/view-voter/userId={userId:int}"
+﻿<PageTitle>@Localizer["Voter"]</PageTitle>
+
+@page "/view-voter/userId={userId:int}"
 
 <h1>@Localizer["Voter"]</h1>
+
 @if (Errors.Count() > 0)
 {
     <ErrorPopup Errors="@Errors" />

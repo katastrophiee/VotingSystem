@@ -30,9 +30,6 @@ public partial class AdminProfile
 
     public bool Editable { get; set; } = false;
 
-    //TO DO
-    //Check each page either does or doesnt show when errors occur, some should still show and others not
-
     protected override async Task OnInitializedAsync()
     {
         await FetchAdminDetails();

@@ -198,8 +198,8 @@
   <data name="View" xml:space="preserve">
     <value>Ver</value>
   </data>
-  <data name="Voters" xml:space="preserve">
-    <value>Votantes</value>
+  <data name="ViewVoters" xml:space="preserve">
+    <value>Ver los votantes</value>
   </data>
   <data name="Wales" xml:space="preserve">
     <value>Gales</value>

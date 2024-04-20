@@ -126,4 +126,7 @@
   <data name="Submit" xml:space="preserve">
     <value>Soumettre</value>
   </data>
+  <data name="ViewElection" xml:space="preserve">
+    <value>Voir l’élection</value>
+  </data>
 </root>

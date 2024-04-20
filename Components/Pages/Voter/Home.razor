@@ -1,10 +1,12 @@
-﻿@page "/"
+﻿<PageTitle>@Localizer["Home"]</PageTitle>
+
+@page "/"
 @using VotingSystem.Components.Pages.Admin
 
 @* button that runs an async c# method on click and passes a value*@
 @* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
 
-<PageTitle>Home</PageTitle>
+<h1>@Localizer["Home"]</h1>
 
 @* https://www.youtube.com/watch?v=h82U0RQ9jtQ&t=3914s *@
 
@@ -111,8 +113,6 @@
                 </div>
             }
 
-            //TO DO
-            //This string is not being found in the resource file - fix
             <h2>@Localizer["YourVotes"]</h2>
             @if (VotingHistory.Any())
             {

@@ -35,9 +35,6 @@ public partial class ViewAdmin
 
     public bool Editable { get; set; } = false;
 
-    //TO DO
-    //Check each page either does or doesnt show when errors occur, some should still show and others not
-
     protected override async Task OnInitializedAsync()
     {
         CurrentAdminId = await _localStorage.GetItemAsync<int>("adminUserId");

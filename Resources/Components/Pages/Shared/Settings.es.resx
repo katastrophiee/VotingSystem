@@ -120,4 +120,7 @@
   <data name="ChangeLanguage" xml:space="preserve">
     <value>Changer de langue</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Configuraciones</value>
+  </data>
 </root>

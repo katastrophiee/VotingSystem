@@ -1,4 +1,6 @@
-﻿@if (Cultures != null)
+﻿<PageTitle>@Localizer["Login"]</PageTitle>
+
+@if (Cultures != null)
 {
     <h2>@Localizer["ChangeLanguage"]</h2>
     <form class="form-inline">
@@ -51,6 +53,13 @@
     }
     else
     {
+        <div>
+            <button @onclick="() => ChangePassword = false">
+                <i class="arrow left"></i>
+                @Localizer["Return"]
+            </button>
+        </div>
+
         <EditForm Model="UpdatePasswordRequest" OnValidSubmit="async () => await HandleForgotPassword()">
             <DataAnnotationsValidator />
 
@@ -110,4 +119,19 @@ else
         justify-content: center;
         align-items: center;
     }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        border-color: white;
+        display: inline-block;
+        padding: 3px;
+        display: inline-block;
+    }
+
+    .left {
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+    }
+
 </style>

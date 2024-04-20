@@ -195,6 +195,9 @@
   <data name="View" xml:space="preserve">
     <value>View</value>
   </data>
+  <data name="ViewElections" xml:space="preserve">
+    <value>View Elections</value>
+  </data>
   <data name="Wales" xml:space="preserve">
     <value>Wales</value>
   </data>
