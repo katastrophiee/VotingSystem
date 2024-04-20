@@ -23,7 +23,7 @@ public partial class VoteInPerson
 
     public int VoterId { get; set; }
 
-    public List<int> VotedInElectionIds { get; set; } = [];
+    public List<int>? VotedInElectionIds { get; set; }
 
     public bool VotingEligibility { get; set; } = false;
 

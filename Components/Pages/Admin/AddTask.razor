@@ -2,29 +2,40 @@
 
 <h1>@Localizer["AddTask"]</h1>
 
-<div class="content-container">
-    <h1>@Localizer["AddTask"]</h1>
+@if (Errors.Count() > 0)
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (AddTaskRequest == null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else
+{
+    <div class="content-container">
+        <h1>@Localizer["AddTask"]</h1>
 
-    <EditForm Model="AddTaskRequest" OnValidSubmit="async () => await HandleValidSubmit()">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+        <EditForm Model="AddTaskRequest" OnValidSubmit="async () => await HandleValidSubmit()">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-        <div>
-            <InputNumber id="forVoterId" @bind-Value="AddTaskRequest.ForVoterId" class="form-control" placeholder=@Localizer["ForVoterId"] />
-        </div>
+            <div>
+                <InputNumber id="forVoterId" @bind-Value="AddTaskRequest.ForVoterId" class="form-control" placeholder=@Localizer["ForVoterId"] />
+            </div>
 
-        <div>
-            <InputNumber id="forAdminId" @bind-Value="AddTaskRequest.ForAdminId" class="form-control" placeholder=@Localizer["ForAdminId"] />
-        </div
+            <div>
+                <InputNumber id="forAdminId" @bind-Value="AddTaskRequest.ForAdminId" class="form-control" placeholder=@Localizer["ForAdminId"] />
+            </div
 
-        <div>
-            <InputText id="name" @bind-Value="AddTaskRequest.Name" class="form-control" placeholder=@Localizer["Name"] />
-        </div>
+            <div>
+                <InputText id="name" @bind-Value="AddTaskRequest.Name" class="form-control" placeholder=@Localizer["Name"] />
+            </div>
 
-        <div>
-            <InputText id="description" @bind-Value="AddTaskRequest.Description" class="form-control" placeholder=@Localizer["Description"] />
-        </div>
+            <div>
+                <InputText id="description" @bind-Value="AddTaskRequest.Description" class="form-control" placeholder=@Localizer["Description"] />
+            </div>
 
-        <button type="submit" class="btn btn-primary">@Localizer["Add"]</button>
-    </EditForm>
-</div>
+            <button type="submit" class="btn btn-primary">@Localizer["Add"]</button>
+        </EditForm>
+    </div>
+}

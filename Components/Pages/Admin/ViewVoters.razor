@@ -6,9 +6,7 @@
 {
     <ErrorPopup Errors="@Errors" />
 }
-//TO DO
-//CHange this check to be appropriate
-else if (VotersResult == null)
+else if (GetVotersRequest == null)
 {
     <h1><em>@Localizer["Loading"]</em></h1>
 }
@@ -54,7 +52,7 @@ else
         </EditForm>
         <button @onclick=ClearSearch>@Localizer["Clear"]</button>
     </div>
-    @if (VotersResult.Count != 0)
+    @if (VotersResult?.Count != 0)
     {
         <table>
             <tr>
@@ -90,7 +88,7 @@ else
             }
         </table>
     }
-    else
+    else if (VotersResult is not null && VotersResult.Count() == 0)
     {
         <div class="content-container-centered">@Localizer["NoVotersFound"]</div>
     }

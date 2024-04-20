@@ -23,7 +23,7 @@ public partial class ViewVoters
 
     public int AdminId { get; set; }
 
-    public List<AdminGetVotersResponse> VotersResult { get; set; } = [];
+    public List<AdminGetVotersResponse>? VotersResult { get; set; }
 
     public AdminGetVotersRequest GetVotersRequest { get; set; } = new();
 

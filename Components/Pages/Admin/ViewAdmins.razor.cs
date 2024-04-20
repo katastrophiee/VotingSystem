@@ -23,7 +23,7 @@ public partial class ViewAdmins
 
     public int AdminId { get; set; }
 
-    public List<AdminGetAdminResponse> Admins { get; set; } = [];
+    public List<AdminGetAdminResponse>? Admins { get; set; }
     public AdminGetAdminRequest GetAdminRequest { get; set; } = new();
 
     public string IsActiveString { get; set; }
