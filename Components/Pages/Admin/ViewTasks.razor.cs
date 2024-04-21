@@ -69,8 +69,6 @@ public partial class ViewTasks
         Tasks?.Clear();
     }
 
-    //TO DO
-    //Add popups
     private async Task DeleteTask(int taskId)
     {
         var tasks = await ApiRequestService.SendAsync<bool>($"Admin/DeleteTask", HttpMethod.Delete, queryString: $"taskId={taskId}&adminId={AdminId}");

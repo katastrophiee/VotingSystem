@@ -246,4 +246,40 @@
   <data name="InternalServerErrorUpdateVoterDetails" xml:space="preserve">
     <value>Une erreur inconnue s’est produite lors de la tentative de mise à jour des détails de l’électeur pour l’id d’administrateur</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australie</value>
+  </data>
+  <data name="England" xml:space="preserve">
+    <value>Angleterre</value>
+  </data>
+  <data name="InternalServerErrorGetAvailableVotingSystems" xml:space="preserve">
+    <value>Une erreur inconnue s’est produite lors de la tentative d’obtention des types d’élections disponibles pour l’administrateur</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlande</value>
+  </data>
+  <data name="NoCountryFound" xml:space="preserve">
+    <value>Aucun pays trouvé</value>
+  </data>
+  <data name="NoCountryFoundWithId" xml:space="preserve">
+    <value>Aucun pays trouvé lors de l’obtention des élections disponibles pour l’administrateur</value>
+  </data>
+  <data name="NoElectionTypesFound" xml:space="preserve">
+    <value>Aucun type d’élection n’a été trouvé</value>
+  </data>
+  <data name="NoElectionTypesFoundForCountry" xml:space="preserve">
+    <value>Aucun type d’élection disponible n’a été trouvé pour le pays</value>
+  </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlande du Nord</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Écosse</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>États-Unis</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Pays de Galles</value>
+  </data>
 </root>

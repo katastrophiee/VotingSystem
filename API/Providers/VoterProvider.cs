@@ -79,6 +79,8 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
                 voter.Password = pbkdf2HashedPassword;
             }
 
+            voter.IsVerified = false;
+
             _dbContext.Voter.Update(voter);
             await _dbContext.SaveChangesAsync();
 

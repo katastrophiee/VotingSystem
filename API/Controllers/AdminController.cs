@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VotingSystem.API.DTO.Requests.Admin;
+using VotingSystem.API.Enums;
 using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
@@ -203,6 +204,17 @@ public class AdminController(IAdminProvider adminProvider) : Controller
     public async Task<ActionResult> PutUpdateElection(AdminUpdateElectionRequest request)
     {
         var response = await _adminProvider.UpdateElection(request);
+
+        return response.Error is null
+            ? Ok(response.Data)
+            : BadRequest(response.Error);
+    }
+
+    [Authorize(Roles = "Admin, Observer")]
+    [HttpGet]
+    public async Task<ActionResult> GetAvailableVotingSystems(UserCountry country, int adminId)
+    {
+        var response = await _adminProvider.GetAvailableVotingSystems(country, adminId);
 
         return response.Error is null
             ? Ok(response.Data)

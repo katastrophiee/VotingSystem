@@ -123,6 +123,12 @@
   <data name="Loading" xml:space="preserve">
     <value>Chargement…</value>
   </data>
+  <data name="SelectAtleastOneOption" xml:space="preserve">
+    <value>Vous devez sélectionner au moins une option</value>
+  </data>
+  <data name="ShowRankingError" xml:space="preserve">
+    <value>Assurez-vous que l’ordre de classement est séquentiel et qu’il n’y a pas d’écarts</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Soumettre</value>
   </data>

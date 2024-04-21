@@ -148,7 +148,6 @@ th, tr, td {
     transition-duration: 0.25s;
 }
 
-/* TO DO - Change CSS to use more of bootstrap, we have it, might as well use it */
     .edit-form input[type="date"],
     .edit-form select {
         width: 100%;

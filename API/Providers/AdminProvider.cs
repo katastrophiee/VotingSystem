@@ -7,6 +7,7 @@ using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.DTO.Responses.Admin;
+using VotingSystem.API.Enums;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Repository.DBContext;
 
@@ -946,4 +947,63 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             });
         }
     }
+
+    public async Task<Response<IEnumerable<ElectionType>>> GetAvailableVotingSystems(UserCountry country, int adminId)
+    {
+        try
+        {
+            var admin = await _dbContext.Admin.FirstOrDefaultAsync(c => c.Id == adminId);
+            if (admin is null || admin.Id == 0)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoAdminFound"],
+                    Description = $"{_localizer["NoAdminFoundWithId"]} {adminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            if (country == 0 || country == UserCountry.Unknown)
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoCountryFound"],
+                    Description = $"{_localizer["NoCountryFoundWithId"]} {adminId}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+
+            var countryElectionTypes = new Dictionary<UserCountry, List<ElectionType>>
+            {
+                { UserCountry.England, new List<ElectionType> { ElectionType.GeneralElection_FPTP, ElectionType.ParliamentaryElection_FPTP, ElectionType.LocalGovernmentElection_FPTP } },
+                { UserCountry.Wales, new List<ElectionType> { ElectionType.GeneralElection_FPTP, ElectionType.ParliamentaryElection_FPTP, ElectionType.LocalGovernmentElection_FPTP } },
+                { UserCountry.NorthernIreland, new List<ElectionType> { ElectionType.Election_STV } },
+                { UserCountry.Scotland, new List<ElectionType> { ElectionType.Election_STV } },
+                { UserCountry.Australia, new List<ElectionType> { ElectionType.Election_Preferential } },
+                { UserCountry.Ireland, new List<ElectionType> { ElectionType.Election_Preferential } },
+                { UserCountry.UnitedStates, new List<ElectionType> { ElectionType.Election_Preferential } },
+            };
+
+            if (countryElectionTypes.TryGetValue(country, out var electionTypes))
+            {
+                return new Response<IEnumerable<ElectionType>>(electionTypes);
+            }
+            else
+            {
+                return new(new ErrorResponse()
+                {
+                    Title = _localizer["NoElectionTypesFound"],
+                    Description = $"{_localizer["NoElectionTypesFoundForCountry"]} {country.LocalisedEnumDisplayName(_localizer)}",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            return new(new ErrorResponse()
+            {
+                Title = _localizer["InternalServerError"],
+                Description = $"{_localizer["InternalServerErrorGetAvailableVotingSystems"]} {adminId}",
+                StatusCode = StatusCodes.Status500InternalServerError,
+                AdditionalDetails = ex.Message
+            });
+        }
+    }
+
 }

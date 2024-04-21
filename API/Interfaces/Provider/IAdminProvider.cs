@@ -1,6 +1,7 @@
 ﻿using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.DTO.Responses.Admin;
+using VotingSystem.API.Enums;
 
 namespace VotingSystem.API.Interfaces.Provider;
 
@@ -41,4 +42,7 @@ public interface IAdminProvider
     Task<Response<bool>> DeleteElection(int electionId, int adminId);
 
     Task<Response<bool>> UpdateElection(AdminUpdateElectionRequest request);
+
+    Task<Response<IEnumerable<ElectionType>>> GetAvailableVotingSystems(UserCountry country, int adminId);
+
 }

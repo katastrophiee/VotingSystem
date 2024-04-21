@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Text.Json;
 using VotingSystem.API.DTO.DbModels;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests;
 using VotingSystem.API.DTO.Responses;
+using VotingSystem.API.Enums;
 using VotingSystem.API.Interfaces.Provider;
 using VotingSystem.API.Repository.DBContext;
 
@@ -104,16 +106,28 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
                     StatusCode = StatusCodes.Status404NotFound
                 });
 
-            var voteDetails = new VoteDetails()
+            if (election.ElectionType == ElectionType.Election_STV || election.ElectionType == ElectionType.Election_Preferential && !string.IsNullOrEmpty(request.ElectionTypeAdditionalInfo))
             {
-                VoteId = addedVote.Id,
-                ElectionType = election.ElectionType,
-                Choices = request.Choices,
-                ElectionTypeAdditionalInfo = request.ElectionTypeAdditionalInfo
-            };
+                var details = JsonSerializer.Deserialize<VoteDetails>(request.ElectionTypeAdditionalInfo);
+                if (details is not null)
+                {
+                    details.VoteId = addedVote.Id;
 
-            _dbContext.VoteDetails.Add(voteDetails);
-            await _dbContext.SaveChangesAsync();
+                    _dbContext.VoteDetails.Add(details);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                var voteDetails = new VoteDetails()
+                {
+                    VoteId = addedVote.Id,
+                    ElectionType = election.ElectionType,
+                    Choices = request.Choices,
+                    ElectionTypeAdditionalInfo = request.ElectionTypeAdditionalInfo
+                };
+
+                _dbContext.VoteDetails.Add(voteDetails);
+                await _dbContext.SaveChangesAsync();
+            }
 
             return new(addedVote.Id);
         }

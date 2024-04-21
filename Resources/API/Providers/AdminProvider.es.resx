@@ -246,4 +246,40 @@
   <data name="InternalServerErrorUpdateVoterDetails" xml:space="preserve">
     <value>Ocurrió un error desconocido al intentar actualizar los detalles del votante para la id de administrador</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
+  <data name="England" xml:space="preserve">
+    <value>Inglaterra</value>
+  </data>
+  <data name="InternalServerErrorGetAvailableVotingSystems" xml:space="preserve">
+    <value>Ocurrió un error desconocido al intentar obtener los tipos de elecciones disponibles para el administrador</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Irlanda</value>
+  </data>
+  <data name="NoCountryFound" xml:space="preserve">
+    <value>No se encontró ningún país</value>
+  </data>
+  <data name="NoCountryFoundWithId" xml:space="preserve">
+    <value>No se encontró ningún país al obtener las elecciones disponibles para el administrador</value>
+  </data>
+  <data name="NoElectionTypesFound" xml:space="preserve">
+    <value>No se encontraron tipos de elecciones</value>
+  </data>
+  <data name="NoElectionTypesFoundForCountry" xml:space="preserve">
+    <value>No se encontraron tipos de elecciones disponibles para el país</value>
+  </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Irlanda del Norte</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Escocia</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>Estados Unidos</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Gales</value>
+  </data>
 </root>

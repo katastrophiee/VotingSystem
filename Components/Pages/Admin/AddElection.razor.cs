@@ -6,6 +6,7 @@ using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
 using VotingSystem.API.DTO.Responses.Admin;
+using VotingSystem.API.Enums;
 using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
@@ -41,6 +42,8 @@ public partial class AddElection
     public int ElectionOptionId { get; set; } = 1;
 
     private ElectionOption NewOption = new();
+
+    public List<ElectionType> AvailableElectionTypes { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -201,4 +204,31 @@ public partial class AddElection
         NewOption = new();
         StateHasChanged();
     }
+
+    private async Task GetAvailableElectionTypes(ChangeEventArgs e)
+    {
+        AvailableElectionTypes = [];
+
+        if (e.Value is string countryString && !string.IsNullOrEmpty(countryString))
+        {
+            if (Enum.TryParse(typeof(UserCountry), countryString.Replace(" ", ""), out var countryValue))
+            {
+                var country = (UserCountry)countryValue;
+
+                if (country != UserCountry.Unknown)
+                {
+                    var electionTypes = await ApiRequestService.SendAsync<List<ElectionType>>($"Admin/GetAvailableVotingSystems", HttpMethod.Get, queryString: $"country={country}&adminId={AdminId}");
+                    if (electionTypes.Error == null)
+                    {
+                        AvailableElectionTypes = electionTypes.Data;
+                    }
+                    else
+                    {
+                        Errors.Add(electionTypes.Error);
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -50,8 +50,6 @@ public partial class ViewVoter
         await FetchVoterDetails();
     }
 
-    //TO DO
-    //Check all api methods return the right error codes
     private async Task VerifyId()
     {
         VerifyIdRequest.AdminId = AdminId;

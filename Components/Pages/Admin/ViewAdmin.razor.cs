@@ -24,9 +24,6 @@ public partial class ViewAdmin
 
     public List<ErrorResponse> Errors { get; set; } = [];
 
-    //TO DO
-    //Move page properties to a seperate class
-
     public int CurrentAdminId { get; set; }
 
     public AdminGetAdminResponse? GetAdminResponse { get; set; }

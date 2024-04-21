@@ -19,6 +19,8 @@ public class GetElectionResponse
     
     public UserCountry Country { get; set; }
 
+    public ElectionType ElectionType { get; set; }
+
     public List<ElectionOption> ElectionOptions { get; set; }
 
     public GetElectionResponse()
@@ -33,6 +35,7 @@ public class GetElectionResponse
         StartDate = election.StartDate;
         EndDate = election.EndDate;
         Country = election.Country;
+        ElectionType = election.ElectionType;
         ElectionOptions = election.ElectionOptions;
     }
 }

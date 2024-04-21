@@ -14,8 +14,6 @@ else if (Election == null)
 }
 else
 {
-    //TO DO
-    // Add different voting system in, try do 2
     <h1>@Localizer["Election"] ID @Election.ElectionId</h1>
 
     <div class="content-container">
@@ -27,13 +25,61 @@ else
             <p>@Election.ElectionDescription</p>
             <p>@Election.StartDate</p>
             <p>@Election.EndDate</p>
+            <p>@Election.ElectionType.LocalisedEnumDisplayName(Localizer)</p>
             @if (Election.HasVoted is not null && Election.HasVoted == false)
             {
-                foreach (var option in ElectionOptions)
+                switch (Election.ElectionType)
                 {
-                    <div>
-                        <InputCheckbox @bind-Value="option.IsChecked" /> @option.OptionName
-                    </div>
+                    case ElectionType.GeneralElection_FPTP:
+                    case ElectionType.ParliamentaryElection_FPTP:
+                    case ElectionType.LocalGovernmentElection_FPTP:
+                        <InputRadioGroup id="electionOptions" @bind-Value="SelectedOptionId">
+                            @foreach (var option in ElectionOptionsChecked)
+                            {
+                                <InputRadio Value="@option.OptionId" />
+
+                                <span>@option.OptionName</span>
+                            }
+                        </InputRadioGroup>
+                        break;
+
+                    case ElectionType.Election_STV:
+                        int rank = 1;
+                        foreach (var option in ElectionOptionsRanked)
+                        {
+                            <div>
+                                <InputNumber @bind-Value="option.Rank" min="1" max="@ElectionOptionsRanked.Count()" /> @rank. @option.OptionName
+                            </div>
+                            rank++;
+                        }
+                        if (ShowNoOptionsRankedError)
+                        {
+                            <div>@Localizer["SelectAtleastOneOption"]</div>
+                        }
+                        if (ShowRankingError)
+                        {
+                            <div>@Localizer["ShowRankingError"]</div>
+                        }
+                        break;
+
+                    case ElectionType.Election_Preferential:
+                        int preference = 1;
+                        foreach (var option in ElectionOptionsRanked)
+                        {
+                            <div>
+                                <InputNumber @bind-Value="option.Rank" min="1" max="@ElectionOptionsRanked.Count()" /> @preference. @option.OptionName
+                            </div>
+                            preference++;
+                        }
+                        if (ShowNoOptionsRankedError)
+                        {
+                            <div>@Localizer["SelectAtleastOneOption"]</div>
+                        }
+                        if (ShowRankingError)
+                        {
+                            <div>@Localizer["ShowRankingError"]</div>
+                        }
+                        break;
                 }
                 <button type="submit">@Localizer["Submit"]</button>
             }

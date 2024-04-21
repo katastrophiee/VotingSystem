@@ -16,7 +16,6 @@
             @foreach (var culture in Cultures)
             {
                 <option value="@culture.Key">@culture.Value</option>
-                //TO DO - add localisation for culture values
             }
         </select>
         <button @onclick="() => ChangeCulture(SelectedCulture)">@Localizer["ChangeLanguage"]</button>

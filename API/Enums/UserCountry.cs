@@ -2,8 +2,6 @@
 
 namespace VotingSystem.API.Enums;
 
-//TO DO
-//Add other voting systems
 public enum UserCountry
 {
     //First past the post

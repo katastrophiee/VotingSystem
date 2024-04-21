@@ -246,4 +246,40 @@
   <data name="InternalServerErrorUpdateVoterDetails" xml:space="preserve">
     <value>An unknown error occured when trying to update voter details for admin id</value>
   </data>
+  <data name="Australia" xml:space="preserve">
+    <value>Australia</value>
+  </data>
+  <data name="England" xml:space="preserve">
+    <value>England</value>
+  </data>
+  <data name="InternalServerErrorGetAvailableVotingSystems" xml:space="preserve">
+    <value>An unknown error occured when trying to get available election types for admin</value>
+  </data>
+  <data name="Ireland" xml:space="preserve">
+    <value>Ireland</value>
+  </data>
+  <data name="NoCountryFound" xml:space="preserve">
+    <value>No Country Found</value>
+  </data>
+  <data name="NoCountryFoundWithId" xml:space="preserve">
+    <value>No country found when getting available elections for admin</value>
+  </data>
+  <data name="NoElectionTypesFound" xml:space="preserve">
+    <value>No Election Types Found</value>
+  </data>
+  <data name="NoElectionTypesFoundForCountry" xml:space="preserve">
+    <value>No available election types found for country </value>
+  </data>
+  <data name="Northern Island" xml:space="preserve">
+    <value>Northern Island</value>
+  </data>
+  <data name="Scotland" xml:space="preserve">
+    <value>Scotland</value>
+  </data>
+  <data name="United States" xml:space="preserve">
+    <value>United States</value>
+  </data>
+  <data name="Wales" xml:space="preserve">
+    <value>Wales</value>
+  </data>
 </root>
