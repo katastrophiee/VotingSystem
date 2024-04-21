@@ -40,17 +40,7 @@ public partial class Settings
 
             var query = $"?culture={Uri.EscapeDataString(SelectedCulture)}&redirectUri={Uri.EscapeDataString(uri)}";
 
-            //var authToken = await _localStorage.GetItemAsync<string>("authToken");
-            //var isAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
-
-            //var voterId = isAdmin 
-            //    ? await _localStorage.GetItemAsync<int>("adminUserId") 
-            //    : await _localStorage.GetItemAsync<int>("currentVoterId");
-
             NavigationManager.NavigateTo($"api/Culture/SetCulture" + query, forceLoad: true);
-
-            //logs out the user for some reason
-            //NavigationManager.NavigateTo("settings");
         }
     }
 }

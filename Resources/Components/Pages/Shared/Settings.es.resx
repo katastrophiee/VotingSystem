@@ -123,4 +123,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Configuraciones</value>
   </data>
+  <data name="WillBeLoggedOutError" xml:space="preserve">
+    <value>Si cambias el idioma, tendrás que volver a iniciar sesión</value>
+  </data>
 </root>

@@ -14,9 +14,6 @@
 }
 else
 {
-    // TO DO
-    // allow admins to mark voters/candidates as inactive and state they are not eligble to vote + i.e reason, dont allow them to vote or make QR codes then
-
     @if (!IsEditable)
     {
         <div class="content-container profile-data">
@@ -109,7 +106,6 @@ else
                     <InputText id="firstName" @bind-Value="UpdateVoterDetailsRequest.FirstName" />
                 </div>
 
-                @* TO DO - Add form group to seperate on all edit forms *@
                 <div class="form-group">
                     <label for="firstName">@Localizer["LastName"]:</label>
                     <InputText id="firstName" @bind-Value="UpdateVoterDetailsRequest.LastName" />

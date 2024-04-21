@@ -39,6 +39,8 @@ public partial class AdminLoginPage
 
     public bool ShowLoading { get; set; } = false;
 
+    public bool ShowLoggingOutWarning { get; set; } = false;
+
     public string SelectedCulture = Thread.CurrentThread.CurrentCulture.Name;
     private Dictionary<string, string?> Cultures;
 
@@ -80,21 +82,7 @@ public partial class AdminLoginPage
 
             var query = $"?culture={Uri.EscapeDataString(SelectedCulture)}&redirectUri={Uri.EscapeDataString(uri)}";
 
-            //TO DO
-            // Fix the loging out issye for when users change their language, or add a warning that they will be logged out, i dont care at this point
-            //Ensure its also added to the other places ChangeCulture is added
-
-            //var authToken = await _localStorage.GetItemAsync<string>("authToken");
-            //var isAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
-
-            //var voterId = isAdmin 
-            //    ? await _localStorage.GetItemAsync<int>("adminUserId") 
-            //    : await _localStorage.GetItemAsync<int>("currentVoterId");
-
             NavigationManager.NavigateTo($"api/Culture/SetCulture" + query, forceLoad: true);
-
-            //logs out the user for some reason
-            //NavigationManager.NavigateTo("settings");
         }
     }
 }
