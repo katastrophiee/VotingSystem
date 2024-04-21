@@ -25,6 +25,7 @@ else
             <div>@Localizer["Email"]: @VoterDetails.Email</div>
             <div>@Localizer["Country"]: @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</div>
             <div>@Localizer["IsCandidate"]: @VoterDetails.IsCandidate</div>
+            <div>@Localizer["IsActive"]: @VoterDetails.IsActive</div>
             @if (VoterDetails.IsCandidate)
             {
                 <div>@Localizer["CandidateName"]: @VoterDetails.CandidateName</div>
@@ -145,6 +146,15 @@ else
                 <div>
                     <label for="isVerified">@Localizer["IsCandidate"]:</label>
                     <InputSelect @bind-Value="IsCandidateString" id="isVerified">
+                        <option value="">-- @Localizer["Select"] --</option>
+                        <option value="true">@Localizer["True"]</option>
+                        <option value="false">@Localizer["False"]</option>
+                    </InputSelect>
+                </div>
+
+                <div>
+                    <label for="isActive">@Localizer["IsActive"]:</label>
+                    <InputSelect @bind-Value="IsActiveString" id="isActive">
                         <option value="">-- @Localizer["Select"] --</option>
                         <option value="true">@Localizer["True"]</option>
                         <option value="false">@Localizer["False"]</option>

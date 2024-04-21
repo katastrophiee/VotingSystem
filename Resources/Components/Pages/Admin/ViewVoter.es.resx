@@ -156,6 +156,9 @@
   <data name="Ireland" xml:space="preserve">
     <value>Irlanda</value>
   </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Está Activa</value>
+  </data>
   <data name="IsCandidate" xml:space="preserve">
     <value>Es Candidato</value>
   </data>

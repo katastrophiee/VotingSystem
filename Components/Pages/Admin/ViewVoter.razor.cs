@@ -43,6 +43,9 @@ public partial class ViewVoter
 
     public string IsCandidateString { get; set; } = "";
 
+    public string IsActiveString { get; set; } = "";
+
+
     protected override async Task OnInitializedAsync()
     {
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
@@ -82,6 +85,7 @@ public partial class ViewVoter
             NewUserString = voterDetails.Data.NewUser.ToString().ToLower();
             IsVerifiedString = voterDetails.Data.IsVerified.ToString().ToLower();
             IsCandidateString = voterDetails.Data.IsCandidate.ToString().ToLower();
+            IsActiveString = voterDetails.Data.IsActive.ToString().ToLower();
         }
         else
             Errors.Add(voterDetails.Error);
@@ -96,6 +100,7 @@ public partial class ViewVoter
         UpdateVoterDetailsRequest.NewUser = NewUserString.StringToNullableBool();
         UpdateVoterDetailsRequest.IsVerified = IsVerifiedString.StringToNullableBool();
         UpdateVoterDetailsRequest.IsCandidate = IsCandidateString.StringToNullableBool();
+        UpdateVoterDetailsRequest.IsActive = IsActiveString.StringToNullableBool();
 
         var response = await ApiRequestService.SendAsync<bool>($"Admin/PutUpdateVoterDetails", HttpMethod.Put, UpdateVoterDetailsRequest);
         if (response.Error == null)

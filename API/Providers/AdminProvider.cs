@@ -738,6 +738,9 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
 
             }
 
+            if (request.IsActive != null)
+                voter.IsActive = request.IsActive.Value;
+
             _dbContext.Voter.Update(voter);
             await _dbContext.SaveChangesAsync();
 

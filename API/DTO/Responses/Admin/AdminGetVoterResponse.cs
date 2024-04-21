@@ -19,6 +19,8 @@ public class AdminGetVoterResponse
 
     public bool IsVerified { get; set; }
 
+    public bool IsActive { get; set; }
+
     public Document CurrentIdDocument { get; set; }
 
     public bool IsCandidate { get; set; }
@@ -40,6 +42,7 @@ public class AdminGetVoterResponse
         Country = voter.Country;
         NewUser = voter.NewUser;
         IsVerified = voter.IsVerified;
+        IsActive = voter.IsActive;
         IsCandidate = voter.IsCandidate;
         CandidateName = voter.CandidateName;
         CandidateDescription = voter.CandidateDescription;

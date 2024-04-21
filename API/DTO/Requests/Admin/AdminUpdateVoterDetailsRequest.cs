@@ -27,6 +27,8 @@ public class AdminUpdateVoterDetailsRequest
 
     public bool? IsCandidate { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public string? CandidateName { get; set; }
 
     public string? CandidateDescription { get; set; }
