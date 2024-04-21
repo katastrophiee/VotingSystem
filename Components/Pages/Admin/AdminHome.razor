@@ -1,5 +1,58 @@
 ﻿<PageTitle>@Localizer["Home"]</PageTitle>
 
-@* TO DO - add admin home page *@
-
 <h1>@Localizer["Welcome"] Admin!</h1>
+
+@if (Errors.Count() > 0)
+{
+    <ErrorPopup Errors="@Errors" />
+}
+else if (AdminTasks == null)
+{
+    <h1><em>@Localizer["Loading"]</em></h1>
+}
+else
+{
+    <h1>@Localizer["YourTasks"]</h1>
+    @if (AdminTasks is not null && AdminTasks.Count() != 0)
+    {
+        <table>
+            <tr>
+                <th>@Localizer["Task"] ID</th>
+                <th>@Localizer["ForVoter"]</th>
+                <th>@Localizer["ForAdmin"]</th>
+                <th>@Localizer["Name"]</th>
+                <th>@Localizer["Description"]</th>
+                <th>@Localizer["TaskStatus"]</th>
+                <th>@Localizer["CreatedAt"]</th>
+                <th>@Localizer["LastEdited"]</th>
+                <th>@Localizer["AdditionalNotes"]</th>
+                <th>@Localizer["Action"]</th>
+            </tr>
+            @foreach (var task in AdminTasks)
+            {
+                <tr>
+                    <td>@task.Id</td>
+                    <td>@task.ForVoterId</td>
+                    <td>@task.ForAdminId</td>
+                    <td>@task.Name</td>
+                    <td>@task.Description</td>
+                    <td>@task.TaskStatus.LocalisedEnumDisplayName(Localizer)</td>
+                    <td>@task.CreatedAt</td>
+                    <td>@task.LastEdited</td>
+                    <td>@task.AdditionalNotes</td>
+                    <td>
+                        <NavLink class="button-styled-nav-link" href="@($"view-task/taskId={task.Id}")">
+                            <span>@Localizer["View"]</span>
+                        </NavLink>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else if (AdminTasks is not null && AdminTasks.Count() == 0)
+    {
+        <div class="content-container">
+            @Localizer["NoTasksFound"]
+        </div>
+    }
+}
