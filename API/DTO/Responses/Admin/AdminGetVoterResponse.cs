@@ -15,6 +15,8 @@ public class AdminGetVoterResponse
 
     public string Address { get; set; }
 
+    public DateTime DateOfBirth { get; set; }
+
     public UserCountry Country { get; set; }
 
     public bool NewUser { get; set; }
@@ -42,6 +44,7 @@ public class AdminGetVoterResponse
         FirstName = voter.FirstName;
         LastName = voter.LastName;
         Address = voter.Address;
+        DateOfBirth = voter.DateOfBirth;
         Country = voter.Country;
         NewUser = voter.NewUser;
         IsVerified = voter.IsVerified;

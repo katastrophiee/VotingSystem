@@ -12,6 +12,8 @@ public class UpdateVoterProfileRequest
 
     public string Address { get; set; }
 
+    public DateTime DateOfBirth { get; set; }
+
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
@@ -30,6 +32,7 @@ public class UpdateVoterProfileRequest
         VoterId = voterDetails.VoterId;
         Email = voterDetails.Email;
         Address = voterDetails.Address;
+        DateOfBirth = voterDetails.DateOfBirth;
         FirstName = voterDetails.FirstName;
         LastName = voterDetails.LastName;
         Country = voterDetails.Country;

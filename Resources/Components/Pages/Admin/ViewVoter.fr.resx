@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
   <data name="Australia" xml:space="preserve">
     <value>Australie</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="Country" xml:space="preserve">
     <value>Pays</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Date de naissance</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Modifier</value>

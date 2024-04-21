@@ -21,6 +21,7 @@ else
             <div>@Localizer["Name"]: @VoterDetails.FirstName @VoterDetails.LastName</div>
             <div>@Localizer["Email"]: @VoterDetails.Email</div>
             <div>@Localizer["Address"]: @VoterDetails.Address</div>
+            <div>@Localizer["DateOfBirth"]: @VoterDetails.DateOfBirth</div>
             <div>@Localizer["Country"]: @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</div>
             <div>@Localizer["IsCandidate"]: @VoterDetails.IsCandidate</div>
             <div>@Localizer["IsActive"]: @VoterDetails.IsActive</div>
@@ -100,6 +101,11 @@ else
                 <div class="form-group">
                     <label for="address">@Localizer["Address"]:</label>
                     <InputText id="address" @bind-Value="UpdateVoterDetailsRequest.Address" />
+                </div>
+
+                <div class="form-group">
+                    <label for="dateOfBirth">@Localizer["DateOfBirth"]:</label>
+                    <InputDate id="dateOfBirth" @bind-Value="UpdateVoterDetailsRequest.DateOfBirth" placeholder=@Localizer["StartDate"] />
                 </div>
 
                 <div class="form-group">

@@ -14,6 +14,8 @@ public class AdminUpdateVoterDetailsRequest
 
     public string? Address { get; set; }
 
+    public DateTime? DateOfBirth { get; set; }
+
     [PasswordRules]
     public string? Password { get; set; }
 
@@ -45,6 +47,7 @@ public class AdminUpdateVoterDetailsRequest
         FirstName = voterDetails.FirstName;
         LastName = voterDetails.LastName;
         Address = voterDetails.Address;
+        DateOfBirth = voterDetails.DateOfBirth;
         Country = voterDetails.Country;
         NewUser = voterDetails.NewUser;
         IsVerified = voterDetails.IsVerified;

@@ -15,6 +15,8 @@ public class AdminGetCandidateResponse
 
     public string Address { get; set; }
 
+    public DateTime DateOfBirth { get; set; }
+
     public string Description { get; set; }
 
     public UserCountry Country { get; set; }
@@ -42,6 +44,7 @@ public class AdminGetCandidateResponse
         FirstName = candidate.FirstName;
         LastName = candidate.LastName;
         Address = candidate.Address;
+        DateOfBirth = candidate.DateOfBirth;
         Description = candidate.CandidateDescription ?? "Unknown";
         Country = candidate.Country;
         StartDateOfCandidacy = candidate.DateOfCandidacy ?? DateTime.MaxValue;

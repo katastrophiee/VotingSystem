@@ -8,6 +8,8 @@ public class Voter : User
 
     public string Address { get; set; }
 
+    public DateTime DateOfBirth { get; set; }
+
     public bool NewUser { get; set; }
 
     public bool IsCandidate { get; set; }

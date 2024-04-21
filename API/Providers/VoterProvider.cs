@@ -69,6 +69,9 @@ public class VoterProvider(DBContext dbContext, IStringLocalizer<VoterProvider> 
             if (!string.IsNullOrEmpty(request.Address))
                 voter.Address = request.Address;
 
+            if (request.DateOfBirth != new DateTime())
+                voter.DateOfBirth = request.DateOfBirth;
+
             if (request.Country is not null)
                 voter.Country = request.Country.Value;
 

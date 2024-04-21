@@ -48,6 +48,7 @@ public partial class Profile
             UpdateVoterProfileRequest.FirstName != VoterDetails?.FirstName ||
             UpdateVoterProfileRequest.LastName != VoterDetails?.LastName ||
             UpdateVoterProfileRequest.Address != VoterDetails?.Address ||
+            UpdateVoterProfileRequest.DateOfBirth != VoterDetails?.DateOfBirth ||
             UpdateVoterProfileRequest.Country != VoterDetails?.Country ||
             UpdateVoterProfileRequest.Password is not null))
         {
