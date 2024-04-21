@@ -13,6 +13,8 @@ public class AdminGetCandidateResponse
 
     public string LastName { get; set; }
 
+    public string Address { get; set; }
+
     public string Description { get; set; }
 
     public UserCountry Country { get; set; }
@@ -37,6 +39,9 @@ public class AdminGetCandidateResponse
     {
         CandidateId = candidate.Id;
         CandidateName = candidate.CandidateName ?? "";
+        FirstName = candidate.FirstName;
+        LastName = candidate.LastName;
+        Address = candidate.Address;
         Description = candidate.CandidateDescription ?? "Unknown";
         Country = candidate.Country;
         StartDateOfCandidacy = candidate.DateOfCandidacy ?? DateTime.MaxValue;

@@ -27,6 +27,7 @@ else
         <div class="content-container profile-data">
             <div>@Localizer["Name"]: @VoterDetails.FirstName @VoterDetails.LastName</div>
             <div>@Localizer["Email"]: @VoterDetails.Email</div>
+            <div>@Localizer["Address"]: @VoterDetails.Address</div>
             <div>@Localizer["Country"]: @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</div>
             @if (CurrentIdDocument is null)
             {
@@ -98,6 +99,11 @@ else
                 <div class="form-group">
                     <label for="lastName">@Localizer["LastName"]:</label>
                     <InputText id="lastName" @bind-Value="UpdateVoterProfileRequest.LastName" />
+                </div>
+
+                <div class="form-group">
+                    <label for="address">@Localizer["Address"]:</label>
+                    <InputText id="address" @bind-Value="UpdateVoterProfileRequest.Address" />
                 </div>
 
                 <div class="form-group">

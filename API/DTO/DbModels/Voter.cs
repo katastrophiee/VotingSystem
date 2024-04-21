@@ -6,6 +6,8 @@ public class Voter : User
 
     public string LastName { get; set; }
 
+    public string Address { get; set; }
+
     public bool NewUser { get; set; }
 
     public bool IsCandidate { get; set; }

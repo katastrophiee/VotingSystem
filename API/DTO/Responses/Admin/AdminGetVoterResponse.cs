@@ -13,6 +13,8 @@ public class AdminGetVoterResponse
 
     public string LastName { get; set; }
 
+    public string Address { get; set; }
+
     public UserCountry Country { get; set; }
 
     public bool NewUser { get; set; }
@@ -39,6 +41,7 @@ public class AdminGetVoterResponse
         Email = voter.Email;
         FirstName = voter.FirstName;
         LastName = voter.LastName;
+        Address = voter.Address;
         Country = voter.Country;
         NewUser = voter.NewUser;
         IsVerified = voter.IsVerified;

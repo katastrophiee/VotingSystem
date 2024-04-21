@@ -9,6 +9,8 @@ public class GetVoterAccountDetailsResponse
 
     public string Email { get; set; }
 
+    public string Address { get; set; }
+
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
@@ -29,6 +31,7 @@ public class GetVoterAccountDetailsResponse
     {
         VoterId = voter.Id;
         Email = voter.Email;
+        Address = voter.Address;
         FirstName = voter.FirstName;
         LastName = voter.LastName;
         Country = voter.Country;

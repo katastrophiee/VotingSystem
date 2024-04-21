@@ -704,6 +704,9 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
             if (request.LastName != null)
                 voter.LastName = request.LastName;
 
+            if (request.Address != null)
+                voter.Address = request.Address;
+
             if (request.Country != null)
                 voter.Country = request.Country.Value;
 
