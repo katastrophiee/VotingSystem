@@ -89,7 +89,7 @@ else
     {
         <div class="content-container profile-data">
             <h2>@Localizer["Voter"] ID: @UserId</h2>
-            <EditForm Model=UpdateVoterDetailsRequest OnValidSubmit="async () => await UpdateVoterDetails()">
+            <EditForm Model=UpdateVoterDetailsRequest OnValidSubmit="async () => await HandleUpdateVoterDetails()">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 

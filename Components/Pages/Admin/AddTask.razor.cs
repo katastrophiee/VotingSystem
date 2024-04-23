@@ -32,7 +32,7 @@ public partial class AddTask
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleAddTask()
     {
         AddTaskRequest.AdminId = AdminId;
         var response = await ApiRequestService.SendAsync<int>("Admin/PostAddTask", HttpMethod.Post, AddTaskRequest);

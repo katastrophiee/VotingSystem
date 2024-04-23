@@ -27,7 +27,7 @@ else
     else
     {
         <div class="content-container profile-data">
-            <EditForm Model="@UpdateAdminRequest" OnValidSubmit="async () => await Update()">
+            <EditForm Model="@UpdateAdminRequest" OnValidSubmit="async () => await HandleUpdateAdmin()">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 

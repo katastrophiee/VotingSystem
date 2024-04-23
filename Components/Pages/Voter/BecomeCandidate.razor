@@ -48,10 +48,10 @@ else if (VoterDetails.IsCandidate)
     </EditForm>
 
     <div>@Localizer["WantToRevokeCandidacy"]</div>
-    <button @onclick="async () => await WithdrawCandidacy()" class="withdraw-button">@Localizer["Withdraw"]</button>
+    <button @onclick="async () => await HandleWithdrawCandidacy()" class="withdraw-button">@Localizer["Withdraw"]</button>
 }
 else {
-    <EditForm Model="BecomeCandidateRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
+    <EditForm Model="BecomeCandidateRequest" OnValidSubmit="async () => await HandleMakeVoterCandidate()" class="edit-form">
         <DataAnnotationsValidator />
         <ValidationSummary />
 

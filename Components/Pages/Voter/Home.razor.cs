@@ -29,12 +29,6 @@ public partial class Home
 
     public DateTime? IdExpireyDate { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-
-        StateHasChanged();
-    }
-
     protected override async Task OnInitializedAsync()
     {
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
@@ -60,7 +54,7 @@ public partial class Home
             else
                 Errors.Add(ongoingElections.Error);
 
-            var currentIdDocument = await ApiRequestService.SendAsync<Document?>($"Document/GetCurrentVoterDocument", HttpMethod.Get, queryString: $"voterId={VoterId}");
+            var currentIdDocument = await ApiRequestService.SendAsync<Document?>($"Document/GetCurrentVoterDocument", HttpMethod.Get, queryString: $"voterId={VoterId}", isNullable: true);
             if (currentIdDocument.Error == null)
             {
                 if (currentIdDocument.Data is not null)

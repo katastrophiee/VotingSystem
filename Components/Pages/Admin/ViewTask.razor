@@ -2,8 +2,6 @@
 
 @page "/view-task/taskId={taskId:int}"
 
-<h1>@Localizer["ViewTask"]</h1>
-
 @if (Errors.Count() > 0)
 {
     <ErrorPopup Errors="Errors" />
@@ -30,7 +28,7 @@ else
             <div>@(Localizer["AssignedToAdminId"] + ": " + (Task.AssignedToAdminId != null ? Task.AssignedToAdminId.ToString() : Localizer["Unassigned"]))</div>
             <div>@(Localizer["CreatedByAdminId"] + ": " + (Task.CreatedByAdminId != null ? Task.CreatedByAdminId.ToString() : Localizer["NotCreatedByAdmin"]))</div>
             <div>@Localizer["AdditionalNotes"]:</div>
-            <textarea readonly class="mb-2" style="width:100%; border:none; background-color:transparent;">
+            <textarea readonly class="mb-2">
                 @Task.AdditionalNotes
             </textarea>
         </div>
@@ -40,7 +38,7 @@ else
     else
     {
         <div class="content-container">
-            <EditForm Model="UpdateTaskRequest" OnValidSubmit="async () => await HandleValidSubmit()">
+            <EditForm Model="UpdateTaskRequest" OnValidSubmit="async () => await HandleUpdateTask()">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 
@@ -65,7 +63,7 @@ else
                     <InputSelect @bind-Value="UpdateTaskRequest.TaskStatus" id="taskStatus" class="form-control">
                         @foreach (var status in Enum.GetValues<API.Enums.TaskStatus>())
                         {
-                            <option value="@status">@status</option>
+                            <option value="@status">@status.LocalisedEnumDisplayName(Localizer)</option>
                         }
                     </InputSelect>
                 </div>
@@ -89,7 +87,8 @@ else
                     <InputTextArea @bind-Value="NewAdditionalNote" id="additionalNotes" class="form-control" />
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button @onclick="() => Editable = false">@Localizer["Cancel"]</button>
+                <button type="submit">Submit</button>
             </EditForm>
         </div>
     }

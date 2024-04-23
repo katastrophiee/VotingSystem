@@ -56,7 +56,7 @@ public partial class ViewTask
             Errors.Add(admins.Error);
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleUpdateTask()
     {
         UpdateTaskRequest.AdminId = AdminId;
         UpdateTaskRequest.AssignedToAdminId = int.TryParse(AssignedAdminIdString, out int assignedToAdminId) ? assignedToAdminId : null;

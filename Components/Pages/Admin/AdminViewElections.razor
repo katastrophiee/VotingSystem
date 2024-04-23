@@ -96,7 +96,7 @@ else
                             <span>@Localizer["View"]</span>
                         </NavLink>
 
-                        <button class="button-styled-nav-link" @onclick="async () => await DeleteTask(election.ElectionId)">
+                        <button class="button-styled-nav-link" @onclick="async () => await HandleDeleteTask(election.ElectionId)">
                             <span>@Localizer["Delete"]</span>
                         </button>
                     </td>

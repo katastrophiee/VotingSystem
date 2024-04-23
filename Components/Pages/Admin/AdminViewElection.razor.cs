@@ -68,7 +68,7 @@ public partial class AdminViewElection
             Errors.Add(getElectionResponse.Error);
     }
 
-    private async Task UpdateElection()
+    private async Task HandleUpdateElection()
     {
         var isValidRequest = ValidateAddElectionRequest();
         if (isValidRequest.Error is null)

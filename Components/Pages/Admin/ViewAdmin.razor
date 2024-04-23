@@ -29,7 +29,7 @@ else
     else
     {
         <div class="content-container">
-            <EditForm Model="@UpdateAdminRequest" OnValidSubmit="async () => await Update()">
+            <EditForm Model="@UpdateAdminRequest" OnValidSubmit="async () => await HandleUpdateAdmin()">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 

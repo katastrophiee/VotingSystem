@@ -14,7 +14,7 @@ else if (AddElectionRequest == null)
 else
 {
     <div class="content-container">
-        <EditForm Model="AddElectionRequest" OnValidSubmit="async () => await HandleValidSubmit()" class="edit-form">
+        <EditForm Model="AddElectionRequest" OnValidSubmit="async () => await HandleAddElection()" class="edit-form">
             <DataAnnotationsValidator />
             <ValidationSummary />
 

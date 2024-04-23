@@ -165,6 +165,9 @@
   <data name="New" xml:space="preserve">
     <value>Nuevo</value>
   </data>
+  <data name="NotCreatedByAdmin" xml:space="preserve">
+    <value>No creado por el administrador</value>
+  </data>
   <data name="NotEdited" xml:space="preserve">
     <value>No editado</value>
   </data>

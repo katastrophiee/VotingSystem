@@ -91,7 +91,7 @@ public partial class ViewVoter
             Errors.Add(voterDetails.Error);
     }
 
-    private async Task UpdateVoterDetails()
+    private async Task HandleUpdateVoterDetails()
     {
         Errors.Clear();
 

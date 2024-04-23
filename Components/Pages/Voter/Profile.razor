@@ -88,7 +88,7 @@ else
     else
     {
          <div class="content-container profile-data">
-            <EditForm Model="@UpdateVoterProfileRequest" OnValidSubmit="async () => await Update()">
+            <EditForm Model="@UpdateVoterProfileRequest" OnValidSubmit="async () => await HandleUpdateVoterProfile()">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 

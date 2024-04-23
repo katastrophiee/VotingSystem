@@ -5,7 +5,6 @@ using VotingSystem.API.DTO.DbModels.Admin;
 using VotingSystem.API.DTO.ErrorHandling;
 using VotingSystem.API.DTO.Requests.Admin;
 using VotingSystem.API.DTO.Responses;
-using VotingSystem.Components.Pages.Voter;
 using VotingSystem.Services;
 
 namespace VotingSystem.Components.Pages.Admin;
@@ -35,7 +34,7 @@ public partial class AddAdmin
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
     }
 
-    private async Task HandleValidSubmit()
+    public async Task HandleCreateAdminAccount()
     {
         AddAdminRequest.RequestingAdminId = AdminId;
 

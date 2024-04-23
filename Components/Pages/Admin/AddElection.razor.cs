@@ -50,7 +50,7 @@ public partial class AddElection
         AdminId = await _localStorage.GetItemAsync<int>("adminUserId");
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleAddElection()
     {
         AddElectionRequest.AdminId = AdminId;
 

@@ -121,6 +121,8 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
                 PasswordSalt = passwordSalt,
                 FirstName = "",
                 LastName = "",
+                Address = "",
+                DateOfBirth = DateTime.UtcNow,
                 Country = UserCountry.Unknown,
                 NewUser = true,
                 IsCandidate = false,

@@ -88,7 +88,7 @@ public partial class ViewElection
             Errors.Add(getElectionResponse.Error);
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleAddingVote()
     {
         Errors.Clear();
         ShowNoOptionsRankedError = false;
@@ -114,7 +114,7 @@ public partial class ViewElection
                     ShowNoOptionsRankedError = true;
                     return;
                 }
-                if (!ValidateRanking(orderedRankedOptions))
+                if (!ValidateOptionRanking(orderedRankedOptions))
                 {
                     ShowRankingError = true;
                     return;
@@ -142,7 +142,7 @@ public partial class ViewElection
             Errors.Add(addVoterVoteResponse.Error);
     }
 
-    private static bool ValidateRanking(List<ElectionOptionWithRank> options)
+    private static bool ValidateOptionRanking(List<ElectionOptionWithRank> options)
     {
         for (int i = 0; i < options.Count; i++)
         {

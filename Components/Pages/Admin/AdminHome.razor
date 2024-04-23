@@ -6,14 +6,14 @@
 {
     <ErrorPopup Errors="@Errors" />
 }
-else if (AdminTasks == null)
+else if (UnseenAdminTasks == null)
 {
     <h1><em>@Localizer["Loading"]</em></h1>
 }
 else
 {
     <h1>@Localizer["YourTasks"]</h1>
-    @if (AdminTasks is not null && AdminTasks.Count() != 0)
+    @if (UnseenAdminTasks is not null && UnseenAdminTasks.Count() != 0)
     {
         <table>
             <tr>
@@ -28,7 +28,7 @@ else
                 <th>@Localizer["AdditionalNotes"]</th>
                 <th>@Localizer["Action"]</th>
             </tr>
-            @foreach (var task in AdminTasks)
+            @foreach (var task in UnseenAdminTasks)
             {
                 <tr>
                     <td>@task.Id</td>
@@ -49,7 +49,7 @@ else
             }
         </table>
     }
-    else if (AdminTasks is not null && AdminTasks.Count() == 0)
+    else if (UnseenAdminTasks is not null && UnseenAdminTasks.Count() == 0)
     {
         <div class="content-container">
             @Localizer["NoTasksFound"]

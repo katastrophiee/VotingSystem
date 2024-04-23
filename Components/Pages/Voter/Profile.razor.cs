@@ -41,7 +41,7 @@ public partial class Profile
         await SetCurrentIdDocument();
     }
 
-    private async Task Update()
+    private async Task HandleUpdateVoterProfile()
     {
         if (UpdateVoterProfileRequest is not null &&
             (UpdateVoterProfileRequest.Email != VoterDetails?.Email ||
@@ -126,7 +126,7 @@ public partial class Profile
 
     private async Task SetCurrentIdDocument()
     {
-        var document = await ApiRequestService.SendAsync<Document?>($"Document/GetCurrentVoterDocument", HttpMethod.Get, queryString: $"voterId={UserId}");
+        var document = await ApiRequestService.SendAsync<Document?>($"Document/GetCurrentVoterDocument", HttpMethod.Get, queryString: $"voterId={UserId}", isNullable: true);
         if (document.Error == null)
         {
             if (document.Data is not null)

@@ -17,7 +17,7 @@ else
     <h1>@Localizer["Election"] ID @Election.ElectionId</h1>
 
     <div class="content-container">
-        <EditForm Model="AddVoterVoteRequest" OnValidSubmit="async () => await HandleValidSubmit()">
+        <EditForm Model="AddVoterVoteRequest" OnValidSubmit="async () => await HandleAddingVote()">
             <DataAnnotationsValidator />
             <ValidationSummary />
 

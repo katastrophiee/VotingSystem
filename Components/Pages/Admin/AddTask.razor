@@ -17,7 +17,7 @@ else
     <div class="content-container">
         <h1>@Localizer["AddTask"]</h1>
 
-        <EditForm Model="AddTaskRequest" OnValidSubmit="async () => await HandleValidSubmit()">
+        <EditForm Model="AddTaskRequest" OnValidSubmit="async () => await HandleAddTask()">
             <DataAnnotationsValidator />
             <ValidationSummary />
 
@@ -37,7 +37,7 @@ else
                 <InputText id="description" @bind-Value="AddTaskRequest.Description" class="form-control" placeholder=@Localizer["Description"] />
             </div>
 
-            <button type="submit" class="btn btn-primary">@Localizer["Add"]</button>
+            <button type="submit">@Localizer["Add"]</button>
         </EditForm>
     </div>
 }

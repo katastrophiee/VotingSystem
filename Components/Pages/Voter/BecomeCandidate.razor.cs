@@ -79,7 +79,7 @@ public partial class BecomeCandidate
         }
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleMakeVoterCandidate()
     {
         var response = await ApiRequestService.SendAsync<bool>("Voter/PutMakeVoterACandidate", HttpMethod.Put, BecomeCandidateRequest);
         if (response.Error == null)
@@ -97,7 +97,7 @@ public partial class BecomeCandidate
             Errors.Add(response.Error);
     }
 
-    private async Task WithdrawCandidacy()
+    private async Task HandleWithdrawCandidacy()
     {
         var response = await ApiRequestService.SendAsync<bool>("Voter/PutRevokeCandidacy", HttpMethod.Put, queryString: $"candidateId={VoterId}");
         if (response.Error == null)

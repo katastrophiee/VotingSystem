@@ -52,7 +52,7 @@ public partial class AdminProfile
         }
     }
 
-    private async Task Update()
+    private async Task HandleUpdateAdmin()
     {
         if (UpdateAdminRequest is not null &&
             (UpdateAdminRequest.Email != GetAdminResponse?.Email ||

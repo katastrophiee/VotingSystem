@@ -123,6 +123,9 @@
   <data name="AssignedToAdminId" xml:space="preserve">
     <value>Assigned To Admin Id</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Closed" xml:space="preserve">
     <value>Closed</value>
   </data>
@@ -147,7 +150,7 @@
   <data name="ForVoterId" xml:space="preserve">
     <value>For Voter Id</value>
   </data>
-  <data name="In Progress" xml:space="preserve">
+  <data name="InProgress" xml:space="preserve">
     <value>In Progress</value>
   </data>
   <data name="LastEdited" xml:space="preserve">
@@ -165,10 +168,13 @@
   <data name="New" xml:space="preserve">
     <value>New</value>
   </data>
+  <data name="NotCreatedByAdmin" xml:space="preserve">
+    <value>Not Created By Admin</value>
+  </data>
   <data name="NotEdited" xml:space="preserve">
     <value>Not Edited</value>
   </data>
-  <data name="On Hold" xml:space="preserve">
+  <data name="OnHold" xml:space="preserve">
     <value>On Hold</value>
   </data>
   <data name="Task" xml:space="preserve">

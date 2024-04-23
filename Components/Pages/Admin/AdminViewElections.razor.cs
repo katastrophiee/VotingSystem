@@ -55,7 +55,7 @@ public partial class AdminViewElections
         Elections = null;
     }
 
-    private async Task DeleteTask(int electionId)
+    private async Task HandleDeleteTask(int electionId)
     {
         Errors.Clear();
 

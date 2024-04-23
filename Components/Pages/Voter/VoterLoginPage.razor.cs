@@ -68,7 +68,7 @@ public partial class VoterLoginPage
         }
     }
 
-    private async Task HandleRegister(CreateVoterAccountRequest request)
+    private async Task HandleCreateVoterAccount(CreateVoterAccountRequest request)
     {
         Errors.Clear();
         var createAccountResponse = await ApiRequestService.SendAsync<LoginResponse>("Auth/PostCreateVoterAccount", HttpMethod.Post, request);

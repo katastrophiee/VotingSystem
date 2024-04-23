@@ -42,7 +42,7 @@ else
     else
     {
         <div class="content-container">
-            <EditForm Model="UpdateElectionRequest" OnValidSubmit="async () => await UpdateElection()" class="edit-form">
+            <EditForm Model="UpdateElectionRequest" OnValidSubmit="async () => await HandleUpdateElection()" class="edit-form">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
 

@@ -57,7 +57,7 @@ public partial class ViewAdmin
         }
     }
 
-    private async Task Update()
+    private async Task HandleUpdateAdmin()
     {
         if (UpdateAdminRequest is not null &&
             (UpdateAdminRequest.Email != GetAdminResponse?.Email ||

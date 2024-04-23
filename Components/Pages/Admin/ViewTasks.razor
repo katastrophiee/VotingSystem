@@ -81,7 +81,6 @@ else
                 <th>@Localizer["CreatedAt"]</th>
                 <th>@Localizer["LastEdited"]</th>
                 <th>@Localizer["AssignedToAdmin"]</th>
-                <th>@Localizer["AdditionalNotes"]</th>
                 <th>@Localizer["Action"]</th>
             </tr>
             @foreach (var task in Tasks)
@@ -96,7 +95,6 @@ else
                     <td>@task.CreatedAt</td>
                     <td>@task.LastEdited</td>
                     <td>@task.AssignedToAdminId</td>
-                    <td>@task.AdditionalNotes</td>
                     <td>
                         <NavLink class="button-styled-nav-link" href="@($"view-task/taskId={task.Id}")">
                             <span>@Localizer["View"]</span>
