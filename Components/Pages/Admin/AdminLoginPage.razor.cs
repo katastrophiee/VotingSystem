@@ -29,6 +29,9 @@ public partial class AdminLoginPage
     public LoginResponse LoginResult { get; set; }
     public List<ErrorResponse> Errors { get; set; } = [];
 
+    // I used this when adding event callbacks 
+    //https://stackoverflow.com/questions/76864163/subscribe-to-an-eventcallback-from-a-layout-when-using-router
+
     [Parameter]
     public EventCallback<int> OnLogin { get; set; }
 

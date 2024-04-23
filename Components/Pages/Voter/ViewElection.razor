@@ -28,6 +28,9 @@ else
             <p>@Election.ElectionType.LocalisedEnumDisplayName(Localizer)</p>
             @if (Election.HasVoted is not null && Election.HasVoted == false)
             {
+                @* I used this video to help me with the addition of the radio buttons *@
+                @* https://www.youtube.com/watch?v=sijbArzZqMk&t=422s *@
+
                 switch (Election.ElectionType)
                 {
                     case ElectionType.GeneralElection_FPTP:

@@ -3,11 +3,15 @@
 @page "/"
 @using VotingSystem.Components.Pages.Admin
 
-@* https://stackoverflow.com/questions/55497072/execute-async-method-on-button-click-in-blazor *@
-
 <h1>@Localizer["Home"]</h1>
 
+@* I followed this video to add the implementation of localisation for translations, I made it my own by doing seperate resource files for each page rather than one file for all as the video describes *@
 @* https://www.youtube.com/watch?v=h82U0RQ9jtQ *@
+@* As well as this video *@
+@* https://www.youtube.com/watch?v=PJ7GASSmtTM&t=418s *@
+
+@* I used this website when starting out to learn the blazor components *@
+@* https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components?view=aspnetcore-8.0 *@
 
 @if (!IsAdmin)
 {
@@ -69,6 +73,8 @@
                 }
             </div>
 
+            // I used this when trying to add localisation to the display name of enums
+            // https://stackoverflow.com/questions/356464/localization-of-displaynameattribute
             <h2>@Localizer["OngoingElectionsIn"] @VoterDetails.Country.LocalisedEnumDisplayName(Localizer)</h2>
             @if (OngoingElections.Any())
             {

@@ -12,7 +12,9 @@ namespace VotingSystem.Components.Pages.Voter;
 
 public partial class Profile
 {
+    // I used this link to help me implement the passing of data between pages, I adapted it and added a identifier to the parameter
     // https://stackoverflow.com/questions/51226405/net-core-blazor-app-how-to-pass-data-between-pages 
+
     [Parameter]
     public int UserId { get; set; }
 

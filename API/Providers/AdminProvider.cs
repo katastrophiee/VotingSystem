@@ -142,7 +142,9 @@ public class AdminProvider(DBContext dbContext, IStringLocalizer<AdminProvider> 
                     });
 
                 voter.IsVerified = true;
+                voter.NewUser = false;
                 _dbContext.Voter.Update(voter);
+                await _dbContext.SaveChangesAsync();
             }
             else
             {

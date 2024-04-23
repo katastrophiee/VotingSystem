@@ -61,6 +61,8 @@ public static class Helpers
         return $"{years} {localizer["YearsAnd"]} {months} {localizer["Months"]}";
     }
 
+    // I used this to help with creating a salted password
+    //https://stackoverflow.com/questions/3063116/how-to-easily-salt-a-password-in-a-c-sharp-windows-form-application
 
     public static string Pbkdf2HashString(this string password, ref string salt)
     {

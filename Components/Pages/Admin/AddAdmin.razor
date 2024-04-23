@@ -14,6 +14,9 @@ else if (AddAdminRequest == null)
 }
 else
 {
+    @* I learnt about the EditForm component from this video *@
+    @* https://www.youtube.com/watch?v=PgDEpkWbsew&t=137s *@
+
     <div class="content-container">
         <EditForm Model="@AddAdminRequest" OnValidSubmit="async () => await HandleCreateAdminAccount()">
             <DataAnnotationsValidator />

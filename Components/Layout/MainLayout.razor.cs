@@ -37,6 +37,9 @@ public partial class MainLayout
                 LoggedIn = false;
             }
 
+            // I used this when trying to force a re-render of the component
+            //https://stackoverflow.com/questions/56839527/how-to-force-blazor-to-re-render-a-component
+
             StateHasChanged();
         }
         else

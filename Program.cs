@@ -33,6 +33,9 @@ RequestLocalizationOptions GetLocalizationOptions()
     return localizationOptions;
 }
 
+// I used this when trying to add the accessing of config values
+//https://stackoverflow.com/questions/10766654/appsettings-get-value-from-config-file
+
 builder.Services.AddSingleton(builder.Configuration.GetSection("Jwt"));
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
@@ -43,6 +46,7 @@ builder.Services.AddScoped<IElectionProvider, ElectionProvider>();
 builder.Services.AddScoped<IVoteProvider, VoteProvider>();
 
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("VotingSystem")));
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -62,6 +66,11 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
         };
     });
+
+// I used this value to help me set up my http client
+// https://www.youtube.com/watch?v=ufHlJLPK5CA&t=293s
+// And this
+// https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api?view=aspnetcore-8.0
 
 builder.Services.AddHttpClient<IApiRequestService, ApiRequestService>(client =>
 {
@@ -90,6 +99,10 @@ app.UseAntiforgery();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRequestLocalization(GetLocalizationOptions());
+
+//I used this video to help me set up my controllers
+//https://www.youtube.com/watch?v=0yh07Dzqk8c&t=77s
+
 app.MapControllers();
 
 app.MapRazorComponents<App>()

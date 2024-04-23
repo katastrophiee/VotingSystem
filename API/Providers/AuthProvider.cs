@@ -17,8 +17,8 @@ using VotingSystem.API.Repository.DBContext;
 
 namespace VotingSystem.API.Providers;
 
-//https://learn.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
-//https://learn.microsoft.com/en-us/aspnet/aspnet/overview/owin-and-katana/an-overview-of-project-katana
+// I used this value to help me set up authentication
+//https://www.youtube.com/watch?v=OclPAk50n6A
 
 public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> localizer, IConfigurationSection jwtValues) : IAuthProvider
 {
@@ -167,6 +167,9 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         }
     }
 
+    // I used this video to help me add my tokens and use them
+    // https://www.youtube.com/watch?v=7kyIEnQ8kF4&t=240s
+
     private async Task<string> GenerateAccessToken(int userId, bool isAdmin)
     {
         var claims = new List<Claim>
@@ -176,6 +179,9 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
         };
 
         var userRoles = await _dbContext.UserRole.Where(r => r.UserId == userId && r.IsAdmin == isAdmin).FirstOrDefaultAsync();
+
+        // I used this page when trying to add roles to my token
+        // https://stackoverflow.com/questions/943398/get-int-value-from-enum-in-c-sharp
 
         foreach (var role in userRoles.RoleIds)
         {

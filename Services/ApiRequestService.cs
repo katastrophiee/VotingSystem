@@ -41,6 +41,9 @@ public class ApiRequestService(
 
             if (response.IsSuccessStatusCode)
             {
+                // I used this when trying to allow for nullable types to be returned
+                // https://stackoverflow.com/questions/6428781/how-to-check-if-a-generic-type-parameter-is-nullable
+
                 if ((int)response.StatusCode == StatusCodes.Status204NoContent && isNullable)
                     return new(null);
 

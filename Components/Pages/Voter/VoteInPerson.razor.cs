@@ -50,6 +50,9 @@ public partial class VoteInPerson
 
     private async Task GenerateQRCode()
     {
+        // I used this link to help with the addition of the QR code generator
+        //https://www.nuget.org/packages/QRCoder/
+
         //Used to make each QR code unique
         var randomNumber = new Random().Next(100000, 999999);
 

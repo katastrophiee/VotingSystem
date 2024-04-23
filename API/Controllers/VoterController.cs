@@ -5,7 +5,6 @@ using VotingSystem.API.Interfaces.Provider;
 
 namespace VotingSystem.API.Controllers;
 
-//https://localhost:44389/api/Voter/ name of method
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class VoterController(IVoterProvider voterProvider) : ControllerBase

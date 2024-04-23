@@ -31,6 +31,9 @@ public partial class Home
 
     protected override async Task OnInitializedAsync()
     {
+        // I used this video to help with the addition of local storage
+        // https://www.youtube.com/watch?v=jSs5DUHAvBc&t=390s
+
         VoterId = await _localStorage.GetItemAsync<int>("currentVoterId");
         IsAdmin = await _localStorage.GetItemAsync<bool>("isAdmin");
 

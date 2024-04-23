@@ -5,6 +5,11 @@ using VotingSystem.API.Repository.EntityTypeConfiguration;
 
 namespace VotingSystem.API.Repository.DBContext;
 
+// I used this video to help me set up my db context and entity framework
+//https://www.youtube.com/watch?v=AdpMd29cIzg&t=146s
+// And this
+// https://learn.microsoft.com/en-us/ef/core/get-started/overview/first-app?tabs=netcore-cli
+
 public class DBContext(DbContextOptions<DBContext> options) : DbContext(options)
 {
     public DbSet<Voter> Voter { get; set; }

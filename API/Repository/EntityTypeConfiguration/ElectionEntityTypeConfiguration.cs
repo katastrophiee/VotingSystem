@@ -16,6 +16,9 @@ namespace VotingSystem.API.Repository.EntityTypeConfiguration
 
             builder.Property(e => e.ElectionType).HasConversion(dbIn => (byte)dbIn, dbOut => (ElectionType)dbOut);
 
+            //Uses this plus knowledge from work to add json serialization to db
+            //https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/deserialization
+
             builder.Property(e => e.ElectionOptions).HasConversion(dbIn => JsonSerializer.Serialize(dbIn, (JsonSerializerOptions)null), dbOut => JsonSerializer.Deserialize<List<ElectionOption>>(dbOut, (JsonSerializerOptions)null));
         }
     }

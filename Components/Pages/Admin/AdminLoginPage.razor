@@ -1,5 +1,8 @@
 ﻿<PageTitle>@Localizer["AdminLogin"]</PageTitle>
 
+@* I used this for the addition of the arrow on the return button *@
+@* https://www.w3schools.com/howto/howto_css_arrows.asp *@
+
 <div>
     <button @onclick="() => Return.InvokeAsync(true)">
         <i class="arrow left"></i>
@@ -11,7 +14,6 @@
 {
     <h2>@Localizer["ChangeLanguage"]</h2>
     <form class="form-inline">
-        @* mr-2 is bootstrap class for margin right 2 px *@
         <select class="form-control mr-2" @bind="SelectedCulture">
             @foreach (var culture in Cultures)
             {
