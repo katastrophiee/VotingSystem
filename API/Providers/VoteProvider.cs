@@ -31,7 +31,7 @@ public class VoteProvider(DBContext dbContext, IStringLocalizer<VoteProvider> lo
 
             var votes = await _dbContext.Vote
                .Where(v => v.VoterId == voterId)
-               .ToListAsync();
+               .ToListAsync() ?? [];
 
             var response = new List<GetVotingHistoryResponse>();
             votes?.ForEach(vote => response.Add(new(vote)));
