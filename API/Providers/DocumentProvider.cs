@@ -60,7 +60,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
 
             var documents = await _dbContext.Document
               .Where(v => v.VoterId == voterId)
-              .ToListAsync();
+              .ToListAsync() ?? [];
 
             return new(documents);
         }
@@ -116,7 +116,7 @@ public class DocumentProvider(DBContext dbContext, IStringLocalizer<DocumentProv
                     StatusCode = StatusCodes.Status500InternalServerError
                 });
 
-            var oldTasks = await _dbContext.AdminTask.Where(c => c.ForVoterId == voter.Id && c.Name == "Verify Voter ID").ToListAsync();
+            var oldTasks = await _dbContext.AdminTask.Where(c => c.ForVoterId == voter.Id && c.Name == "Verify Voter ID").ToListAsync() ?? [];
             _dbContext.AdminTask.RemoveRange(oldTasks);
 
             var task = new AdminTask()

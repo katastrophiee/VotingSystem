@@ -284,7 +284,7 @@ public class AuthProvider(DBContext dbContext, IStringLocalizer<AuthProvider> lo
 
             var existingAdmin = await _dbContext.Admin
               .Where(v => v.Username == request.Username || v.Email == request.Email)
-              .ToListAsync();
+              .ToListAsync() ?? [];
 
             if (existingAdmin.Count != 0)
             {
